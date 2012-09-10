@@ -1,4 +1,4 @@
-package org.sergut.diceroller;
+package org.sergut.diceroller.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import org.sergut.diceroller.DiceRoller;
 
 public class SavageWorldsDiceRollerFrame extends JFrame {
 

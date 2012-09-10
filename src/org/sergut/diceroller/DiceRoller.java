@@ -10,6 +10,7 @@ import org.sergut.diceroller.adt.ContainerNode;
 import org.sergut.diceroller.adt.DieNode;
 import org.sergut.diceroller.adt.DieType;
 import org.sergut.diceroller.adt.Node;
+import org.sergut.diceroller.ui.SavageWorldsDiceRollerFrame;
 
 public class DiceRoller {
 
