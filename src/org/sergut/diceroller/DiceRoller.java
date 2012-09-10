@@ -10,7 +10,7 @@ import org.sergut.diceroller.adt.ContainerNode;
 import org.sergut.diceroller.adt.DieNode;
 import org.sergut.diceroller.adt.DieType;
 import org.sergut.diceroller.adt.Node;
-import org.sergut.diceroller.ui.SavageWorldsDiceRollerFrame;
+import org.sergut.diceroller.ui.DiceRollerFrame;
 
 public class DiceRoller {
 
@@ -32,11 +32,13 @@ public class DiceRoller {
      * @param diceDescription a string like "2d10", "1d6!+1d8!", or "2d8!+1"
      * 
      * @return the result of the roll
+     * 
+     * @throws IllegalArgumentException if the argument is not a valid string
      */
     /*
      * This method (with the adt package) is the main reusable part of this class/project.
      */
-    public int rollDice(String diceDescription) {
+    public int rollDice(String diceDescription) throws IllegalArgumentException {
 	ContainerNode diceTree = diceBagMap.get(diceDescription);
 	if (diceTree == null)
 	    diceTree = createNewDiceTree(diceDescription);
@@ -44,6 +46,7 @@ public class DiceRoller {
     }
     
     private ContainerNode createNewDiceTree(String diceDescription) {
+	// TODO: parse parallel rolls, e.g. b[1d6!, 1d8!] 
 	// parse addition
 	ContainerNode additionNode = new AdditionNode();
 	String[] tokens = diceDescription.split("\\+");
@@ -97,7 +100,7 @@ public class DiceRoller {
     }
     
     public static void main(String args[]) {
-	JFrame mainFrame = new SavageWorldsDiceRollerFrame();
+	JFrame mainFrame = new DiceRollerFrame();
 	mainFrame.setVisible(true);
     }
 }

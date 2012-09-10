@@ -71,7 +71,7 @@ public class SavageWorldsDiceRollerFrame extends JFrame {
 	this.add(dicePane);
 	this.add(difficultyPane);
 	this.pack();
-	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	this.setResizable(false);
     }
     
     private JPanel getDicePanel() {
