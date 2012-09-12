@@ -19,7 +19,7 @@ public class DiceRollerFrame extends JFrame {
 	mainPane.setLayout(new GridLayout(0,1));
 	JButton savageButton = new JButton("Savage Worlds");
 	savageButton.setToolTipText("Montecarlo simultator for attack and damage");
-	initButton(savageButton, new SavageWorldsDiceRollerFrame());
+	initButton(savageButton, new SavageWorldsFrame());
 	mainPane.add(savageButton);
 	JButton exitButton = new JButton("Exit");
 	exitButton.setToolTipText("Exit");

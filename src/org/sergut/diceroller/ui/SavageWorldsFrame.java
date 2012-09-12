@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 
 import org.sergut.diceroller.DiceRoller;
 
-public class SavageWorldsDiceRollerFrame extends JFrame {
+public class SavageWorldsFrame extends JFrame {
 
     private static final long serialVersionUID = 12872389749812789L;
     
@@ -63,7 +63,7 @@ public class SavageWorldsDiceRollerFrame extends JFrame {
 
     private boolean isWildCard = false;
     
-    public SavageWorldsDiceRollerFrame() {
+    public SavageWorldsFrame() {
 	setButtonBehaviours();
 	JPanel dicePane = getDicePanel();
 	JPanel difficultyPane = getSecondPanel();
