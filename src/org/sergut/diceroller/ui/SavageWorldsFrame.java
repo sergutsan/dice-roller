@@ -202,10 +202,10 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     private void showResultsForWildCard(DamageCounter damageCounter, int maxRolls) {
-	int wound1Ratio = getSimpleRate(damageCounter.wound1, maxRolls);
-	int wound2Ratio = getSimpleRate(damageCounter.wound2, maxRolls);
-	int wound3Ratio = getSimpleRate(damageCounter.wound3m, maxRolls);
-	int shakenRatio = getSimpleRate(damageCounter.shaken, maxRolls);
+	int wound1Ratio = DiceRoller.getSimpleRate(damageCounter.wound1, maxRolls);
+	int wound2Ratio = DiceRoller.getSimpleRate(damageCounter.wound2, maxRolls);
+	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3m, maxRolls);
+	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, maxRolls);
 	String s = "Shaken ratio: " + shakenRatio + "% "
 	    	+ "1 wound: " + wound1Ratio + "% " 
 	    	+ "2 wounds: " + wound2Ratio + "% " 
@@ -215,8 +215,8 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     private void showResultsForExtra(DamageCounter damageCounter, int maxRolls) {
-	int killRatio = getSimpleRate(damageCounter.getWounds(), maxRolls);
-	int shakenRatio = getSimpleRate(damageCounter.shaken, maxRolls);
+	int killRatio = DiceRoller.getSimpleRate(damageCounter.getWounds(), maxRolls);
+	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, maxRolls);
 	String s = "Kill ratio: " + killRatio + "%  Shaken ratio: " + shakenRatio + "%";
 	System.out.println(damageCounter);
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
@@ -267,28 +267,6 @@ public class SavageWorldsFrame extends JFrame {
 	n = parseTextFieldAsInteger(damageD12Field);
 	result += n + "d12!+";
 	return result.substring(0, result.length()-1); // Remove trailing "+"
-    }
-
-    /**
-     * Gets two numbers and returns a (rounded) integer percentage.
-     * 
-     * Examples: 
-     *   (123, 345)    ->  36
-     *   (908, 67765)  ->   1
-     *   (34,35)       ->  97
-     *   (110,111)     ->  99
-     *   (11110,11111) -> 100
-     * 
-     * @param n numerator
-     * @param d denominator
-     * @return a percentage
-     */
-    private static int getSimpleRate(int n, int d) {
-	if (n > d)
-	    throw new IllegalArgumentException("Numerator bigger than denominator: " + n + ">" + d);
-	int result = 1000 * n/ d;
-	result = (result + 5) / 10;
-	return result;
     }
 
     private int parseTextFieldAsInteger(JTextField field) {

@@ -99,6 +99,28 @@ public class DiceRoller {
 	return result;
     }
     
+    /**
+     * Gets two numbers and returns a (rounded) integer percentage.
+     * 
+     * Examples: 
+     *   (123, 345)    ->  36
+     *   (908, 67765)  ->   1
+     *   (34,35)       ->  97
+     *   (110,111)     ->  99
+     *   (11110,11111) -> 100
+     * 
+     * @param n numerator
+     * @param d denominator
+     * @return a percentage
+     */
+    public static int getSimpleRate(int n, int d) {
+	if (n > d)
+	    throw new IllegalArgumentException("Numerator bigger than denominator: " + n + ">" + d);
+	int result = 1000 * n/ d;
+	result = (result + 5) / 10;
+	return result;
+    }
+
     public static void main(String args[]) {
 	JFrame mainFrame = new DiceRollerFrame();
 	mainFrame.setVisible(true);
