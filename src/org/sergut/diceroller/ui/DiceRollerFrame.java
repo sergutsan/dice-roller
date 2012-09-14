@@ -18,10 +18,15 @@ public class DiceRollerFrame extends JFrame {
 	JPanel mainPane = new JPanel();
 	mainPane.setLayout(new GridLayout(0,1));
 	
-	JButton simpleButton = new JButton("Simple simulator");
-	simpleButton.setToolTipText("Simple Montecarlo simulator");
-	initButton(simpleButton, new SimpleMontecarloFrame());
+	JButton simpleButton = new JButton("Simple roller");
+	simpleButton.setToolTipText("Simple dice roller");
+	initButton(simpleButton, new SimpleDieRollFrame());
 	mainPane.add(simpleButton);
+
+	JButton simpleMontecarloButton = new JButton("Simple simulator");
+	simpleMontecarloButton.setToolTipText("Simple Montecarlo simulator");
+	initButton(simpleMontecarloButton, new SimpleMontecarloFrame());
+	mainPane.add(simpleMontecarloButton);
 
 	JButton savageButton = new JButton("Savage Worlds");
 	savageButton.setToolTipText("Simulator for attack and damage in Savage Worlds");
