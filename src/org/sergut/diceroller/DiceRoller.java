@@ -47,6 +47,7 @@ public class DiceRoller {
     
     private ContainerNode createNewDiceTree(String diceDescription) {
 	// TODO: parse parallel rolls, e.g. b[1d6!, 1d8!] 
+	// ...
 	// parse addition
 	ContainerNode additionNode = new AdditionNode();
 	String[] tokens = diceDescription.split("\\+");
@@ -92,6 +93,9 @@ public class DiceRoller {
      * Gets something like "D20" and returns "1d20".
      */
     private static String regulariseDiceExpression(String s) {
+	if (s.length() == 0)
+	    throw new IllegalArgumentException("Empty string.");
+	
 	String result = new String(s);
 	result = result.replace('D', 'd');
 	if (result.charAt(0) == 'd') 
