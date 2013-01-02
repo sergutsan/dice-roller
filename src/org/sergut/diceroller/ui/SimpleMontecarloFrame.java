@@ -26,8 +26,8 @@ public class SimpleMontecarloFrame extends JFrame {
     private JButton calculateButton = new JButton("Calculate!");
 
     private JLabel diceLabel = new JLabel("Dice expression");
-    private JTextField diceField = new JTextField("                     ");
-    private JTextField targetField = new JTextField("    ");
+    private JTextField diceField = new JTextField(10);
+    private JTextField targetField = new JTextField(3);
 
     private String[] operators = {">=", ">", "<=", "<", "="};
 

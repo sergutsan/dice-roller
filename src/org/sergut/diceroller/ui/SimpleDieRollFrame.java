@@ -28,7 +28,7 @@ public class SimpleDieRollFrame extends JFrame {
 	private JButton rollButton = new JButton("Roll!");
 
 	private JLabel diceLabel = new JLabel("Dice expression");
-	private JTextField diceField = new JTextField("                     ");
+	private JTextField diceField = new JTextField(10);
 
 	public SimpleDieRollFrame() {
 		JPanel dicePane = new JPanel();
@@ -72,5 +72,5 @@ public class SimpleDieRollFrame extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	
 }
