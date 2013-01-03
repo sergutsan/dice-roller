@@ -54,9 +54,16 @@ public class SimpleDieRollFrame extends JFrame {
 		rollButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+			    	resetEmptyFields();
 				rollDice();
 			}
 		});
+	}
+
+	protected void resetEmptyFields() {
+	    if ("".equals(diceField.getText().trim())) {
+		diceField.setText("0");
+	    }
 	}
 
 	private void rollDice() {
