@@ -46,8 +46,9 @@ public class DiceRoller {
     }
     
     private ContainerNode createNewDiceTree(String diceDescription) {
-	// TODO: parse parallel rolls, e.g. b[1d6!, 1d8!] 
-	// ...
+	// TODO: 
+	// parse parallel rolls, e.g. b[1d6!, 1d8!] 
+	// parse subtraction signs
 	// parse addition
 	ContainerNode additionNode = new AdditionNode();
 	String[] tokens = diceDescription.split("\\+");
