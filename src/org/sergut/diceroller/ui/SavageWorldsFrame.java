@@ -96,6 +96,7 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(attackPane);
 	result.add(damagePane);
 	this.setTitle("Savage Worlds: Kill chances");
+	this.setLocation(100, 100);
 	return result;
     }
 

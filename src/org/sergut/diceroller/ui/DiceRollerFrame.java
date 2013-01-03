@@ -39,6 +39,7 @@ public class DiceRollerFrame extends JFrame {
 	mainPane.add(exitButton);
 	this.add(mainPane);
 	this.pack();
+	this.setLocation(100, 100);
 	this.setTitle("Dice Roller");
 	this.setResizable(false);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

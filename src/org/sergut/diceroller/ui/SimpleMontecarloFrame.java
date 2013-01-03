@@ -56,6 +56,7 @@ public class SimpleMontecarloFrame extends JFrame {
 
 	this.add(mainPane);
 	this.pack();
+	this.setLocation(100, 100);
 	this.setResizable(false);
 	this.setTitle("Simple dice simulator");
     }
