@@ -10,31 +10,34 @@ public class DiceRollerTest {
     private DiceRoller diceRoller = new DiceRoller();
     
     @Test
-    public void invalidLettersRaiseException() {
-	String[] invalidLetterDice = 
-		{
-		"2e10", 
-		"3r40",
-		"r",
-		"dd",
-		"2Dd5",
+    public void testsValidExpressions() {
+	String[] diceDescriptions = {
+		"1d6!+1d4!",
+		"1+1d6",
+		"2+3d4+4d6!+6d8",
+		"1+1d6",
+		"2d5",
+		"2D100",
+		"1d6!-2",
 		};
-	testDiceDescriptionsRaiseIllegalArgumentException(invalidLetterDice);
+	for (String diceDescription : diceDescriptions) {
+	    diceRoller.rollDice(diceDescription);
+	}	
     }
 
     @Test
-    public void tooManyValidLettersRaiseException() {
-	String[] tooManyValidLettersDice = 
-		{
-		"2dd10", 
-		"3d40d",
-		"d2d5",
+    public void testsRaiseException() {
+	String[] diceDescriptions = {
+		"2e10",   // invalid letter 'e'
+		"3r40",   // invalid letter 'r'
+		"r",      // no numbers
+		"dd",     // no numbers
+		"2Dd5",   // two d's
+		"2dd10",  // two d's
+		"3d40d",  // two d's
+		"d2d5",   // two d's
 		};
-	testDiceDescriptionsRaiseIllegalArgumentException(tooManyValidLettersDice);
-    }
-
-    private void testDiceDescriptionsRaiseIllegalArgumentException(String[] descriptions) {
-	for (String diceDescription : descriptions) {
+	for (String diceDescription : diceDescriptions) {
 	    try { 
 		diceRoller.rollDice(diceDescription);
 		fail("Expression " + diceDescription + " was not rejected but should.");
