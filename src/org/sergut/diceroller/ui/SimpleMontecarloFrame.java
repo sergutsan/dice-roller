@@ -25,11 +25,11 @@ public class SimpleMontecarloFrame extends JFrame {
 
     private JButton calculateButton = new JButton("Calculate!");
 
-    private JLabel diceLabel = new JLabel("Dice expression");
+    private JLabel diceLabel = new JLabel("Dice expressions: ");
     private JTextField diceField = new JTextField(10);
-    private JTextField targetField = new JTextField(3);
+    private JTextField targetField = new JTextField(10);
 
-    private String[] operators = {">=", ">", "<=", "<", "="};
+    private final String[] operators = {">=", ">", "<=", "<", "="};
 
     private JComboBox operatorCombobox = new JComboBox(operators);
     
@@ -64,8 +64,18 @@ public class SimpleMontecarloFrame extends JFrame {
 	calculateButton.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
+		resetEmptyFields();
 		simulateDice();
 	    }});
+    }
+
+    protected void resetEmptyFields() {
+	if ("".equals(diceField.getText().trim())) {
+	    diceField.setText("0");
+	}
+	if ("".equals(targetField.getText().trim())) {
+	    targetField.setText("0");
+	}
     }
 
     private void simulateDice() {
@@ -74,10 +84,11 @@ public class SimpleMontecarloFrame extends JFrame {
 	    int maxRolls = Integer.parseInt(iterationsField.getText().trim());
 	    DiceRoller diceRoller = new DiceRoller();
 	    String operator = (String) operatorCombobox.getSelectedItem();
-	    int target = Integer.parseInt(targetField.getText().trim());
+	    String targetDice = targetField.getText().trim();
 	    int success = 0;
 	    for (int i = 0; i < maxRolls; ++i) {
 		int result = diceRoller.rollDice(dice);
+		int target = diceRoller.rollDice(targetDice);
 		// FIXME: do this smartly with an enum
 		if (">".equals(operator)) {
 		    if (result > target) 

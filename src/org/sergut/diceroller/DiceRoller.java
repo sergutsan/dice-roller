@@ -72,7 +72,11 @@ public class DiceRoller {
     private static Node parseAdditionOperands(String diceExpression) {
 	String dice = regulariseDiceExpression(diceExpression);
 	if (!diceExpression.contains("d")) {
-	    return new ConstantNode(Integer.parseInt(diceExpression));
+	    if ("".equals(diceExpression)) {
+		return new ConstantNode(0);
+	    } else {
+		return new ConstantNode(Integer.parseInt(diceExpression));
+	    }
 	}
 	DieType dieType = DieType.REGULAR;
 	if (dice.endsWith("!")) {
@@ -94,7 +98,7 @@ public class DiceRoller {
      */
     private static String regulariseDiceExpression(String s) {
 	if (s.length() == 0)
-	    throw new IllegalArgumentException("Empty string.");
+	    return "0";
 	
 	String result = new String(s);
 	result = result.replace('D', 'd');
