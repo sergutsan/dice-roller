@@ -12,6 +12,7 @@ import org.sergut.diceroller.adt.dice.RegularDie;
  */
 public class DieNode implements Node {
 
+    private int sign = 1;
     private Die die;
     private int dieCount;    
     private DieType dieType;
@@ -27,6 +28,12 @@ public class DieNode implements Node {
 	}
     }
 
+    public DieNode(int dieCount, int sideCount, DieType dieType, Sign sign) {
+	this(dieCount, sideCount, dieType);
+	if (sign == Sign.MINUS) 
+	    this.sign = -1;
+    }
+
     public int getDiceCount() {
 	return dieCount;
     }
@@ -36,12 +43,14 @@ public class DieNode implements Node {
 	int result = 0;
 	for (int i = 0; i < dieCount; i++)
 	    result += die.roll();
-	return result;
+	return sign * result;
     }
 
     @Override
     public String toString() {
 	String result = dieCount + "d" + die.getSideCount();
+	if (sign == -1) 
+	    result = "-" + result;   
 	if (dieType == DieType.EXPLODING)
 	    result += "!";
 	return result;	

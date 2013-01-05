@@ -1,6 +1,8 @@
 package org.sergut.diceroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -10,10 +12,36 @@ import org.sergut.diceroller.adt.ContainerNode;
 import org.sergut.diceroller.adt.DieNode;
 import org.sergut.diceroller.adt.DieType;
 import org.sergut.diceroller.adt.Node;
+import org.sergut.diceroller.adt.Sign;
 import org.sergut.diceroller.ui.DiceRollerFrame;
 
 public class DiceRoller {
 
+/* Expression
+ * E := E+E
+ * E := E-E
+ * E := D
+ * E := B
+ * E := n
+ * 
+ * Best/worst expression
+ * B := b[E,L]
+ * B := w[E,L]
+ * 
+ * List
+ * L := E,L
+ * L := \
+ * 
+ * Dice Expression
+ * D := ndnx
+ * 
+ * Numeral
+ * n := num
+ * 
+ * Descriptor
+ * x := !
+ * x := \    
+ */
     /**
      * A cache of already parsed expressions into dice trees. 
      * 
@@ -46,19 +74,48 @@ public class DiceRoller {
     }
     
     private ContainerNode createNewDiceTree(String diceDescription) {
+	try {
+	    checkCommonErrors(diceDescription);
 	// TODO: 
-	// parse parallel rolls, e.g. b[1d6!, 1d8!] 
-	// parse subtraction signs
-	// parse addition
-	ContainerNode additionNode = new AdditionNode();
-	String[] tokens = diceDescription.split("\\+");
-	for (String s : tokens) {
-	    // parse dice and constants
-	    additionNode.addChild(parseAdditionOperands(s));
+	// - parse parallel rolls, e.g. b[1d6!, 1d8!] 
+	// - parse subtraction signs
+	// ...
+	    // parse addition
+	    ContainerNode additionNode = new AdditionNode();
+	    // String[] tokens = diceDescription.split("\\+");
+	    List<String> additionOperands = getAdditionOperands(diceDescription);
+	    for (String s : additionOperands) {
+    		// parse dice and constants
+		additionNode.addChild(parseDice(s));
+	    }
+	    additionNode.clean();
+	    addToCache(diceDescription, additionNode);
+	    return additionNode;
+	} catch (RuntimeException e) {
+	    throw new IllegalDiceExpressionException(diceDescription, e);
 	}
-	additionNode.clean();
-	addToCache(diceDescription, additionNode);
-	return additionNode;
+    }
+
+    /** 
+     * Gets something like xxx+yyy-zzz and returns xxx,yyy,-zzz
+     */
+    private List<String> getAdditionOperands(String s) {
+	List<String> result = new ArrayList<String>();
+	String currentToken = "";
+	for (int i = 0; i < s.length(); i++) {
+	    char c = s.charAt(i);
+	    if (c == '+') {
+		result.add(currentToken);
+		currentToken = "";
+	    } else if (c == '-') {
+		result.add(currentToken);
+		currentToken = "-";		
+	    } else {
+		currentToken += c;
+	    }
+	}
+	result.add(currentToken);
+	return result;
     }
 
     private void addToCache(String diceDescription, ContainerNode additionNode) {
@@ -67,10 +124,10 @@ public class DiceRoller {
 
     /**
      * 
-     * @param dice something like "5", "3d6", "2d6!" or "d20" 
+     * @param dice something like "5", "3d6", "-2d6!" or "d20" 
      * @return
      */
-    private static Node parseAdditionOperands(String diceExpression) {
+    private static Node parseDice(String diceExpression) {
 	String dice = regulariseDiceExpression(diceExpression);
 	if (!dice.contains("d")) {
 	    if ("".equals(dice)) {
@@ -78,6 +135,11 @@ public class DiceRoller {
 	    } else {
 		return new ConstantNode(Integer.parseInt(dice));
 	    }
+	}
+	Sign sign = Sign.PLUS;
+	if (dice.charAt(0) == '-') {
+	    sign = Sign.MINUS;
+	    dice = dice.substring(1);
 	}
 	DieType dieType = DieType.REGULAR;
 	if (dice.endsWith("!")) {
@@ -91,7 +153,7 @@ public class DiceRoller {
 	    throw new IllegalArgumentException("Wrong dice expression: " + diceExpression);
 	int diceCount = Integer.parseInt(tokens[0]);
 	int sideCount = Integer.parseInt(tokens[1]);
-	return new DieNode(diceCount, sideCount, dieType);
+	return new DieNode(diceCount, sideCount, dieType, sign);
     }
 
     /**
@@ -134,4 +196,17 @@ public class DiceRoller {
 	JFrame mainFrame = new DiceRollerFrame();
 	mainFrame.setVisible(true);
     }
+
+    /*
+     * Convenience methods that checks for several heuristics
+     */
+    private void checkCommonErrors(String diceDescription) {
+	if (diceDescription.contains("++") ||
+	    diceDescription.contains("--") ||
+	    diceDescription.endsWith("+")  ||
+	    diceDescription.endsWith("-")  )
+	    	throw new IllegalArgumentException();
+    }
+
 }
+

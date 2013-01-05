@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.sergut.diceroller.DiceRoller;
+import org.sergut.diceroller.IllegalDiceExpressionException;
 
 public class DiceRollerTest {
     
@@ -19,6 +20,7 @@ public class DiceRollerTest {
 		"2d5",
 		"2D100",
 		"1d6!-2",
+		"1d6!-1d100+3d4",
 		};
 	for (String diceDescription : diceDescriptions) {
 	    diceRoller.rollDice(diceDescription);
@@ -36,12 +38,17 @@ public class DiceRollerTest {
 		"2dd10",  // two d's
 		"3d40d",  // two d's
 		"d2d5",   // two d's
+		"--2",    // two -
+		"++2",    // two +
+		"10!",    // exploding constant
+		"1d10-",  // incomplete expression
+		"1d8!+",  // incomplete expression
 		};
 	for (String diceDescription : diceDescriptions) {
 	    try { 
 		diceRoller.rollDice(diceDescription);
 		fail("Expression " + diceDescription + " was not rejected but should.");
-	    } catch (IllegalArgumentException e) {
+	    } catch (IllegalDiceExpressionException e) {
 		// right behaviour, moving on...
 	    }
 	}	

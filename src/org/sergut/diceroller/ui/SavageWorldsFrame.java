@@ -16,6 +16,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.sergut.diceroller.DiceRoller;
+import org.sergut.diceroller.IllegalDiceExpressionException;
 
 public class SavageWorldsFrame extends JFrame {
 
@@ -195,10 +196,10 @@ public class SavageWorldsFrame extends JFrame {
 		showResultsForWildCard(damageCounter, maxRolls);
 	    else
 		showResultsForExtra(damageCounter, maxRolls);
-	} catch (NumberFormatException ex) {
-	    String s = "There is an error with one of the numbers";
+	} catch (IllegalDiceExpressionException ex) {
+	    String s = "Invalid expression: " + ex.getExpression();
 	    ex.printStackTrace();
-	    JOptionPane.showMessageDialog(this, s, "Invalid number", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(this, s, "Invalid expression", JOptionPane.ERROR_MESSAGE);
 	}
     }
 

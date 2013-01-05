@@ -46,7 +46,7 @@ public class AdditionNode implements ContainerNode {
     public String toString() {
 	String result = "";
 	for (Node child : children) {
-	    result += child.toString() + "+";
+	    result += "(" + child.toString() + ")+";
 	}
 	return result.substring(0, result.length()-1); // remove trailing +
     }

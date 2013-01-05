@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.sergut.diceroller.DiceRoller;
+import org.sergut.diceroller.IllegalDiceExpressionException;
 
 public class SimpleMontecarloFrame extends JFrame {
 
@@ -115,6 +116,10 @@ public class SimpleMontecarloFrame extends JFrame {
 	    String s = "There is an error with one of the numbers";
 	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, s, "Invalid number", JOptionPane.ERROR_MESSAGE);
+	} catch (IllegalDiceExpressionException ex) {
+	    String s = "Invalid expression: " + ex.getExpression();
+	    ex.printStackTrace();
+	    JOptionPane.showMessageDialog(this, s, "Invalid expression", JOptionPane.ERROR_MESSAGE);
 	}
     }
 
