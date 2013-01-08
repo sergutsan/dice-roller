@@ -208,10 +208,10 @@ public class SavageWorldsFrame extends JFrame {
 	int wound2Ratio = DiceRoller.getSimpleRate(damageCounter.wound2, maxRolls);
 	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3m, maxRolls);
 	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, maxRolls);
-	String s = "Shaken ratio: " + shakenRatio + "% "
-	    	+ "1 wound: " + wound1Ratio + "% " 
-	    	+ "2 wounds: " + wound2Ratio + "% " 
-	    	+ "3+ wounds: " + wound3Ratio + "% "; 
+	String s = "Shaken  ratio: " + shakenRatio + "% \n"
+	    	+  "1 wound  ratio: " + wound1Ratio + "% \n" 
+	    	+  "2 wounds ratio: " + wound2Ratio + "% \n" 
+	    	+  "3+ wounds ratio: " + wound3Ratio + "% "; 
 	System.out.println(damageCounter);
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
