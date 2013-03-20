@@ -180,8 +180,10 @@ public class SavageWorldsFrame extends JFrame {
 		}
 		int damage = diceRoller.rollDice(damageDiceCopy);
 		int success = damage - toughness;
-		if (success >= 12) {
-		    damageCounter.wound3m++;
+		if (success >= 16) {
+		    damageCounter.wound4m++;
+		} else if (success >= 12) {
+		    damageCounter.wound3++;
 		} else if (success >= 8) {
 		    damageCounter.wound2++;
 		} else if (success >= 4) {
@@ -206,12 +208,14 @@ public class SavageWorldsFrame extends JFrame {
     private void showResultsForWildCard(DamageCounter damageCounter, int maxRolls) {
 	int wound1Ratio = DiceRoller.getSimpleRate(damageCounter.wound1, maxRolls);
 	int wound2Ratio = DiceRoller.getSimpleRate(damageCounter.wound2, maxRolls);
-	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3m, maxRolls);
+	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3, maxRolls);
+	int wound4Ratio = DiceRoller.getSimpleRate(damageCounter.wound4m, maxRolls);
 	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, maxRolls);
 	String s = "Shaken  ratio: " + shakenRatio + "% \n"
 	    	+  "1 wound  ratio: " + wound1Ratio + "% \n" 
 	    	+  "2 wounds ratio: " + wound2Ratio + "% \n" 
-	    	+  "3+ wounds ratio: " + wound3Ratio + "% "; 
+	    	+  "3 wounds ratio: " + wound3Ratio + "% \n" 
+	    	+  "4+ wounds ratio: " + wound4Ratio + "% "; 
 	System.out.println(damageCounter);
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -289,18 +293,19 @@ public class SavageWorldsFrame extends JFrame {
 	int shaken  = 0;
 	int wound1  = 0;
 	int wound2  = 0;
-	int wound3m = 0; // 3 or more
+	int wound3  = 0; 
+	int wound4m = 0; // 4 or more
 	@Override public String toString() {
 	    return "Nothing:" + nothing + 
 	    	", Shaken:" + shaken +
 	    	", 1 wound:" + wound1 +
 	    	", 2 wounds: " + wound2 +
-	    	", 3 wounds or more:" + wound3m;
+	    	", 3 wounds: " + wound3 +
+	    	", 4 wounds or more:" + wound4m;
 	}
 	// convenience
 	public int getWounds() {
-	    return wound1 + wound2 + wound3m;
+	    return wound1 + wound2 + wound3 + wound4m;
 	}
     }
-    
 }
