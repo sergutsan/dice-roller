@@ -83,10 +83,10 @@ public class SimpleMontecarloFrame extends JFrame {
     private void simulateDice() {
 	try {
 	    String dice = diceField.getText().trim();
+	    String targetDice = targetField.getText().trim();
 	    int maxRolls = Integer.parseInt(iterationsField.getText().trim());
 	    DiceRoller diceRoller = new DiceRoller();
 	    String operator = (String) operatorCombobox.getSelectedItem();
-	    String targetDice = targetField.getText().trim();
 	    int success = 0;
 	    for (int i = 0; i < maxRolls; ++i) {
 		int result = diceRoller.rollDice(dice);
