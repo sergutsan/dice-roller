@@ -27,7 +27,7 @@ public class Simulator {
 	try {
 	    MontecarloSimulator simulator = MontecarloSimulator.getInstance();
 	    DiceResult result = simulator.simulateDice(testDice, op, goalDice, maxRolls);
-	    showResults(result);
+	    showResults(testDice, op, goalDice, result);
 	} catch (NumberFormatException ex) {
 	    System.out.println("There is an error with one of the numbers");
 	} catch (IllegalDiceExpressionException ex) {
@@ -35,9 +35,9 @@ public class Simulator {
 	}
     }
 
-    private void showResults(DiceResult result) {
+    private void showResults(String testDice, String op, String goalDice, DiceResult result) {
 	double ratio = 100.0 * result.successRolls / result.totalRolls;
-	System.out.printf("%2.2f%%\n", ratio);
+	System.out.printf("%s %s %s : %2.2f%%\n", testDice, op, goalDice, ratio);
     }
 
 }
