@@ -1,9 +1,10 @@
 package org.sergut.diceroller.montecarlo.test;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.sergut.diceroller.IllegalDiceExpressionException;
+import org.sergut.diceroller.montecarlo.DiceResult;
 import org.sergut.diceroller.montecarlo.MontecarloSimulator;
 
 
@@ -29,21 +30,39 @@ public class MontecarloSimulatorTest {
 	    String validDice = "1d4";
 	    String operator = ">=";
 	    int maxRolls = 1;
+	    MontecarloSimulator simulator = MontecarloSimulator.getInstance();
 	    try { 
-		MontecarloSimulator simulator = MontecarloSimulator.getInstance();
 		simulator.simulateDice(invalidDice, operator, validDice, maxRolls);
 		fail("Expression " + invalidDice + " was not rejected as test-dice but should.");
 	    } catch (IllegalDiceExpressionException e) {
 		// right behaviour, moving on...
 	    }
 	    try { 
-		MontecarloSimulator simulator = MontecarloSimulator.getInstance();
 		simulator.simulateDice(validDice, operator, invalidDice, maxRolls);
 		fail("Expression " + invalidDice  + " was not rejected as goal-dice but should.");
 	    } catch (IllegalDiceExpressionException e) {
 		// right behaviour, moving on...
 	    }
-	}	
-
+	}
+    }
+    
+    @Test
+    public void returnsRightResult() {
+	int maxRolls = 100000;
+	returnRightResultInThisCase("1d10",  ">", "5",   maxRolls / 2, maxRolls);	
+	returnRightResultInThisCase("1d4+4", ">", "1d4", maxRolls,     maxRolls);	
+	returnRightResultInThisCase("1d4+4", "<", "1d4", 0,            maxRolls);
+    }
+    
+    public void returnRightResultInThisCase(String testDice, 
+	    				String op, 
+	    				String targetDice, 
+	    				int expectedSuccess, 
+	    				int maxRolls) {
+	MontecarloSimulator simulator = MontecarloSimulator.getInstance();
+	int tolerance = maxRolls / 10; // 10%
+	DiceResult result = simulator.simulateDice(testDice, op, targetDice, maxRolls);
+	assertTrue(result.totalRolls == maxRolls);
+	assertTrue(Math.abs(result.successRolls - expectedSuccess) < tolerance);	
     }
 }
