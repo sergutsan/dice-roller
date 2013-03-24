@@ -92,11 +92,11 @@ public class SimpleMontecarloFrame extends JFrame {
 		int result = diceRoller.rollDice(dice);
 		int target = diceRoller.rollDice(targetDice);
 		// FIXME: do this smartly with an enum
-		if (">".equals(operator)) {
-		    if (result > target) 
-			success++;
-		} else if (">=".equals(operator)) {
+		if (">=".equals(operator)) {
 		    if (result >= target) 
+			success++;
+		} else if (">".equals(operator)) {
+		    if (result > target) 
 			success++;
 		} else if ("=".equals(operator)) {
 		    if (result == target) 
