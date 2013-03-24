@@ -12,7 +12,16 @@ public class MontecarloSimulator {
 	}
 	return INSTANCE;
     }
-    
+
+    /**
+     * Simulate n dice rolls and return an account of successes. 
+     * 
+     * @param testDice something like "1d10!+2"
+     * @param operator something like ">" or ">="
+     * @param targetDice something like "1d10!+2"
+     * @param maxRolls max number of rolls
+     * @return a tuple with successful rolls and total rolls
+     */
     public DiceResult simulateDice(String testDice, String operator, String targetDice, int maxRolls) {
 	DiceRoller diceRoller = new DiceRoller();
 	int success = 0;
