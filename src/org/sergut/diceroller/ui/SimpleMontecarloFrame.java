@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 
 import org.sergut.diceroller.DiceRoller;
 import org.sergut.diceroller.IllegalDiceExpressionException;
+import org.sergut.diceroller.montecarlo.DiceResult;
+import org.sergut.diceroller.montecarlo.MontecarloSimulator;
 
 public class SimpleMontecarloFrame extends JFrame {
 
@@ -82,36 +84,13 @@ public class SimpleMontecarloFrame extends JFrame {
 
     private void simulateDice() {
 	try {
-	    String dice = diceField.getText().trim();
-	    String targetDice = targetField.getText().trim();
+	    String testDice = diceField.getText().trim();
+	    String goalDice = targetField.getText().trim();
 	    int maxRolls = Integer.parseInt(iterationsField.getText().trim());
-	    DiceRoller diceRoller = new DiceRoller();
 	    String operator = (String) operatorCombobox.getSelectedItem();
-	    int success = 0;
-	    for (int i = 0; i < maxRolls; ++i) {
-		int result = diceRoller.rollDice(dice);
-		int target = diceRoller.rollDice(targetDice);
-		// FIXME: do this smartly with an enum
-		if (">=".equals(operator)) {
-		    if (result >= target) 
-			success++;
-		} else if (">".equals(operator)) {
-		    if (result > target) 
-			success++;
-		} else if ("=".equals(operator)) {
-		    if (result == target) 
-			success++;		    
-		} else if ("<=".equals(operator)) {
-		    if (result <= target) 
-			success++;
-		} else if ("<".equals(operator)) {
-		    if (result < target)  
-			success++;
-		} else {
-		    throw new IllegalStateException("Invalid operator: '" + operator + "'");
-		}
-	    }
-	    showResultsForExtra(success, maxRolls);
+	    MontecarloSimulator simulator = MontecarloSimulator.getInstance();
+	    DiceResult result = simulator.simulateDice(testDice, operator, goalDice, maxRolls);
+	    showResultsForExtra(result.successRolls, result.totalRolls);
 	} catch (NumberFormatException ex) {
 	    String s = "There is an error with one of the numbers";
 	    ex.printStackTrace();
