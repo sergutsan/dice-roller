@@ -244,19 +244,19 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     private String collectAttackDice() {
-	String result = "";
+	String result = "b[";
 	int n;
 	n = parseTextFieldAsInteger(attackD4Field);
-	result += n + "d4!+";
+	result += n + "d4!,";
 	n = parseTextFieldAsInteger(attackD6Field);
-	result += n + "d6!+";
+	result += n + "d6!,";
 	n = parseTextFieldAsInteger(attackD8Field);
-	result += n + "d8!+";
+	result += n + "d8!,";
 	n = parseTextFieldAsInteger(attackD10Field);
-	result += n + "d10!+";
+	result += n + "d10!,";
 	n = parseTextFieldAsInteger(attackD12Field);
-	result += n + "d12!+";
-	return result.substring(0, result.length()-1); // Remove trailing "+"
+	result += n + "d12!,";
+	return result.substring(0, result.length()-1); // Remove trailing ","
     }
 
     private String collectDamageDice() {
