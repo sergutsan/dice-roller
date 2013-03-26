@@ -21,6 +21,9 @@ public class DiceRollerTest {
 		"2D100",
 		"1d6!-2",
 		"1d6!-1d100+3d4",
+		"b[1d6!-1d100+3d4,1d4!]",
+		"b[1d6!,1d4!]",
+		"w[1d6!,1d4-1d100,3d4,1d10!+2]",
 		};
 	for (String diceDescription : diceDescriptions) {
 	    diceRoller.rollDice(diceDescription);
@@ -43,6 +46,11 @@ public class DiceRollerTest {
 		"10!",    // exploding constant
 		"1d10-",  // incomplete expression
 		"1d8!+",  // incomplete expression
+		"b[[1d6!-1d100+3d4,1d4!]",
+		"w[1d6!,1d4-1d100,3d4]]",
+		"w[1d6!,[1d4-1d100,3d4]]",
+		"w[1d6!,[1d4-1d100,3d4]]",
+		"w[1d6!,[1d4-1d100,3d4]",
 		};
 	for (String diceDescription : diceDescriptions) {
 	    try { 
