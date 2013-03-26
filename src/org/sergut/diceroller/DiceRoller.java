@@ -7,12 +7,14 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.sergut.diceroller.adt.AdditionNode;
+import org.sergut.diceroller.adt.ComparisonNode;
 import org.sergut.diceroller.adt.ConstantNode;
 import org.sergut.diceroller.adt.ContainerNode;
 import org.sergut.diceroller.adt.DieNode;
 import org.sergut.diceroller.adt.DieType;
 import org.sergut.diceroller.adt.Node;
 import org.sergut.diceroller.adt.Sign;
+import org.sergut.diceroller.adt.ComparisonNode.Choosing;
 import org.sergut.diceroller.ui.DiceRollerFrame;
 
 public class DiceRoller {
@@ -77,23 +79,77 @@ public class DiceRoller {
 	try {
 	    checkCommonErrors(diceDescription);
 	// TODO: 
-	// - parse parallel rolls, e.g. b[1d6!, 1d8!] 
 	// - parse subtraction signs
 	// ...
-	    // parse addition
-	    ContainerNode additionNode = new AdditionNode();
-	    // String[] tokens = diceDescription.split("\\+");
-	    List<String> additionOperands = getAdditionOperands(diceDescription);
-	    for (String s : additionOperands) {
-    		// parse dice and constants
-		additionNode.addChild(parseDice(s));
+	    // parse parallel rolls, e.g. b[1d6!, 1d8!] 
+	    Choosing bestOrWorst = getBestOrWorst(diceDescription);
+	    ContainerNode comparisonNode = new ComparisonNode(bestOrWorst);
+	    List<String> comparisonOperands = getComparisonOperands(diceDescription);
+	    for (String s1 : comparisonOperands) {
+		// parse addition
+		ContainerNode additionNode = new AdditionNode();
+		List<String> additionOperands = getAdditionOperands(s1);
+		for (String s2 : additionOperands) {
+		    // parse dice and constants
+			additionNode.addChild(parseDice(s2));
+		}
+		additionNode.clean();
+		comparisonNode.addChild(additionNode);
 	    }
-	    additionNode.clean();
-	    addToCache(diceDescription, additionNode);
-	    return additionNode;
+	    comparisonNode.clean();
+	    addToCache(diceDescription, comparisonNode);
+	    return comparisonNode;
 	} catch (RuntimeException e) {
 	    throw new IllegalDiceExpressionException(diceDescription, e);
 	}
+    }
+
+    private Choosing getBestOrWorst(String s) {
+	if (!s.contains("[") && !s.contains("]"))
+	    return Choosing.BEST;
+	else if (!s.contains("[") || !s.contains("]"))
+	    throw new IllegalDiceExpressionException("Illegal expression: " + s);
+
+	if (s.startsWith("b"))
+	    return Choosing.BEST;
+	else if (s.startsWith("w"))
+	    return Choosing.BEST;
+	else if (Character.isLetter(s.charAt(0)))
+	    throw new IllegalDiceExpressionException("Illegal expression: " + s);
+	else
+	    return Choosing.BEST;
+    }
+
+    /** 
+     * Gets something like b[xxx+yyy-zzz, ttt] and returns xxx+yyy-zzz, ttt  
+     */
+    private List<String> getComparisonOperands(final String s) {
+	List<String> result = new ArrayList<String>();
+	if (!s.contains("[") && !s.contains("]")) {
+	    result.add(s);
+	    return result;
+	} else if (!s.contains("[") || !s.contains("]")) {
+	    throw new IllegalDiceExpressionException("Illegal expression (brackets): " + s);
+	} else if (!s.startsWith("b") && !s.startsWith("w")) {
+	    System.out.println(s.charAt(0));
+	    throw new IllegalDiceExpressionException("Illegal expression (initial letter): " + s);
+	}
+
+	// cleanString has the initial letter and brackets removed, 
+	// leaving just the comma-separated arguments
+	String cleanString = s.substring(2, s.length() - 1);
+	String currentToken = "";
+	for (int i = 0; i < cleanString.length(); i++) {
+	    char c = cleanString.charAt(i);
+	    if (c == ',') {
+		result.add(currentToken);
+		currentToken = "";
+	    } else {
+		currentToken += c;
+	    }
+	}
+	result.add(currentToken);
+	return result;
     }
 
     /** 
@@ -198,15 +254,29 @@ public class DiceRoller {
     }
 
     /*
-     * Convenience methods that checks for several heuristics
+     * Convenience method that checks for several heuristics
      */
     private void checkCommonErrors(String diceDescription) {
 	if (diceDescription.contains("++") ||
 	    diceDescription.contains("--") ||
 	    diceDescription.endsWith("+")  ||
 	    diceDescription.endsWith("-")  )
-	    	throw new IllegalArgumentException();
+	    	throw new IllegalArgumentException("Illegal expression (operands): " + diceDescription);
+	int leftBracketCount = countChar(diceDescription, '[');
+	int rightBracketCount = countChar(diceDescription, ']');
+	if ((leftBracketCount != rightBracketCount) ||
+	    leftBracketCount > 1 ||
+	    rightBracketCount > 1)
+	    	throw new IllegalArgumentException("Illegal expression (brackets): " + diceDescription);    
     }
 
+    private int countChar(String s, char c) {
+	int result = 0;
+	for (int i = 0; i < s.length(); i++) {
+	    if (s.charAt(i) == c)
+		result++;
+	}
+	return result;
+    }
 }
 
