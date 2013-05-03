@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,6 +28,10 @@ public class SavageWorldsFrame extends JFrame {
     // TODO: develop a general reusable way of creating labels and fields for dice
     //   based on a text description, maybe partially based on roll20 syntax
     
+    private final String[] attackDice = {"d4", "d6", "d8", "d10", "d12"};
+
+    private JComboBox attackDiceCombobox = new JComboBox(attackDice);
+
     private JLabel attackD4Label = new JLabel(" d4");
     private JLabel attackD6Label = new JLabel(" d6");
     private JLabel attackD8Label = new JLabel(" d8");
@@ -66,25 +71,25 @@ public class SavageWorldsFrame extends JFrame {
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
-	JPanel dicePane = getNorthPanel();
-	JPanel difficultyPane = getSouthPanel();
+	JPanel westPane = getWestPanel();
+	JPanel eastPane = getEastPanel();	
+	JPanel northPane = new JPanel();	
+	northPane.setLayout(new GridLayout(1,0));
+	northPane.add(westPane);
+	northPane.add(eastPane);
+	JPanel southPane = getSouthPanel();	
 	this.setLayout(new GridLayout(0,1));
-	this.add(dicePane);
-	this.add(difficultyPane);
+	this.add(northPane);
 	this.pack();
-	this.setResizable(false);
+	this.add(southPane);
+	this.pack();
+	this.setTitle("Savage Worlds: Kill chances");
+	this.setLocation(100, 100);
+	//this.setResizable(false);
     }
     
-    private JPanel getNorthPanel() {
+    private JPanel getEastPanel() {
 	JPanel result = new JPanel();
-	JPanel attackPane = new JPanel();
-	attackPane.setLayout(new GridLayout(0,1));
-	attackPane.add(new JLabel("Attack dice"));
-	attackPane.add(packLabelAndTextField(attackD4Label, attackD4Field), BorderLayout.CENTER);
-	attackPane.add(packLabelAndTextField(attackD6Label, attackD6Field), BorderLayout.CENTER);
-	attackPane.add(packLabelAndTextField(attackD8Label, attackD8Field), BorderLayout.CENTER);
-	attackPane.add(packLabelAndTextField(attackD10Label, attackD10Field), BorderLayout.CENTER);
-	attackPane.add(packLabelAndTextField(attackD12Label, attackD12Field), BorderLayout.CENTER);
 	JPanel damagePane = new JPanel();
 	damagePane.setLayout(new GridLayout(0,1));
 	damagePane.add(new JLabel("Damage dice"));
@@ -93,32 +98,49 @@ public class SavageWorldsFrame extends JFrame {
 	damagePane.add(packLabelAndTextField(damageD8Label, damageD8Field), BorderLayout.CENTER);
 	damagePane.add(packLabelAndTextField(damageD10Label, damageD10Field), BorderLayout.CENTER);
 	damagePane.add(packLabelAndTextField(damageD12Label, damageD12Field), BorderLayout.CENTER);
-	result.setLayout(new GridLayout(0,2));
-	result.add(attackPane);
+	JPanel enemyPane = new JPanel();
+	enemyPane.setLayout(new GridLayout(0,1));
+	JPanel parryPane = new JPanel();
+	parryPane.setLayout(new FlowLayout());
+	parryPane.add(parryLabel);
+	parryPane.add(parryField);
+	enemyPane.add(parryPane);
+	JPanel toughnessPane = new JPanel();
+	toughnessPane.setLayout(new FlowLayout());
+	toughnessPane.add(toughnessLabel);
+	toughnessPane.add(toughnessField);
+	enemyPane.add(toughnessPane);
+	enemyPane.add(getWildCardRadioButtons());
+	result.setLayout(new GridLayout(0,1));
 	result.add(damagePane);
-	this.setTitle("Savage Worlds: Kill chances");
-	this.setLocation(100, 100);
+	result.add(enemyPane);
+	return result;
+    }
+    
+    private JPanel getWestPanel() {
+	JPanel result = new JPanel();
+	result.add(attackDiceCombobox);
+	// TODO: all the options of wild attack, double attack, etc
+//	JPanel attackPane = new JPanel();
+//	attackPane.setLayout(new GridLayout(0,1));
+//	attackPane.add(new JLabel("Attack dice"));
+//	attackPane.add(packLabelAndTextField(attackD4Label, attackD4Field), BorderLayout.CENTER);
+//	attackPane.add(packLabelAndTextField(attackD6Label, attackD6Field), BorderLayout.CENTER);
+//	attackPane.add(packLabelAndTextField(attackD8Label, attackD8Field), BorderLayout.CENTER);
+//	attackPane.add(packLabelAndTextField(attackD10Label, attackD10Field), BorderLayout.CENTER);
+//	attackPane.add(packLabelAndTextField(attackD12Label, attackD12Field), BorderLayout.CENTER);
+//	result.setLayout(new GridLayout(0,2));
+//	result.add(attackPane);
 	return result;
     }
 
     private JPanel getSouthPanel() {
 	JPanel result = new JPanel();
 	result.setLayout(new GridLayout(0,1));
-	JPanel parryPane = new JPanel();
-	parryPane.setLayout(new FlowLayout());
-	parryPane.add(parryLabel);
-	parryPane.add(parryField);
-	result.add(parryPane);
-	JPanel toughnessPane = new JPanel();
-	toughnessPane.setLayout(new FlowLayout());
-	toughnessPane.add(toughnessLabel);
-	toughnessPane.add(toughnessField);
-	result.add(toughnessPane);
 	JPanel iterationsPane = new JPanel();
 	iterationsPane.setLayout(new FlowLayout());
 	iterationsPane.add(iterationsLabel);
 	iterationsPane.add(iterationsField);
-	result.add(getWildCardRadioButtons());
 	result.add(iterationsPane);
 	result.add(calculateButton);
 	return result;
@@ -244,18 +266,9 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     private String collectAttackDice() {
-	String result = "b[";
-	int n;
-	n = parseTextFieldAsInteger(attackD4Field);
-	result += n + "d4!,";
-	n = parseTextFieldAsInteger(attackD6Field);
-	result += n + "d6!,";
-	n = parseTextFieldAsInteger(attackD8Field);
-	result += n + "d8!,";
-	n = parseTextFieldAsInteger(attackD10Field);
-	result += n + "d10!,";
-	n = parseTextFieldAsInteger(attackD12Field);
-	result += n + "d12!,";
+	String result = "b[" + (String) attackDiceCombobox.getSelectedItem() + "!";
+	// TODO: add ,1d6! if wildcard
+	result += "]";
 	return result.substring(0, result.length()-1); // Remove trailing ","
     }
 
