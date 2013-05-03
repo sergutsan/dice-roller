@@ -256,7 +256,8 @@ public class SavageWorldsOldFrame extends JFrame {
 	result += n + "d10!,";
 	n = parseTextFieldAsInteger(attackD12Field);
 	result += n + "d12!,";
-	return result.substring(0, result.length()-1); // Remove trailing ","
+	result = result.substring(0, result.length()-1); // Remove trailing ","
+	return result + "]";
     }
 
     private String collectDamageDice() {
