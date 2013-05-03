@@ -20,18 +20,23 @@ public class DiceRollerFrame extends JFrame {
 	
 	JButton simpleButton = new JButton("Simple roller");
 	simpleButton.setToolTipText("Simple dice roller");
-	initButton(simpleButton, new SimpleDieRollFrame());
+	prepareButton(simpleButton, new SimpleDieRollFrame());
 	mainPane.add(simpleButton);
 
 	JButton simpleMontecarloButton = new JButton("Simple simulator");
 	simpleMontecarloButton.setToolTipText("Simple Montecarlo simulator");
-	initButton(simpleMontecarloButton, new SimpleMontecarloFrame());
+	prepareButton(simpleMontecarloButton, new SimpleMontecarloFrame());
 	mainPane.add(simpleMontecarloButton);
 
 	JButton savageButton = new JButton("Savage Worlds");
 	savageButton.setToolTipText("Simulator for attack and damage in Savage Worlds");
-	initButton(savageButton, new SavageWorldsFrame());
+	prepareButton(savageButton, new SavageWorldsFrame());
 	mainPane.add(savageButton);
+
+	JButton oldSavageButton = new JButton("Savage Worlds (old)");
+	oldSavageButton.setToolTipText("Simulator for attack and damage in Savage Worlds (old version)");
+	prepareButton(oldSavageButton, new SavageWorldsOldFrame());
+	mainPane.add(oldSavageButton);
 
 	JButton exitButton = new JButton("Exit");
 	exitButton.setToolTipText("Exit");
@@ -45,7 +50,7 @@ public class DiceRollerFrame extends JFrame {
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-    private void initButton(JButton button, final JFrame frame) {
+    private void prepareButton(JButton button, final JFrame frame) {
 	button.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
