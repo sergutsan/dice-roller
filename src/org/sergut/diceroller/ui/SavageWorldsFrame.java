@@ -66,8 +66,8 @@ public class SavageWorldsFrame extends JFrame {
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
-	JPanel dicePane = getDicePanel();
-	JPanel difficultyPane = getSecondPanel();
+	JPanel dicePane = getNorthPanel();
+	JPanel difficultyPane = getSouthPanel();
 	this.setLayout(new GridLayout(0,1));
 	this.add(dicePane);
 	this.add(difficultyPane);
@@ -75,7 +75,7 @@ public class SavageWorldsFrame extends JFrame {
 	this.setResizable(false);
     }
     
-    private JPanel getDicePanel() {
+    private JPanel getNorthPanel() {
 	JPanel result = new JPanel();
 	JPanel attackPane = new JPanel();
 	attackPane.setLayout(new GridLayout(0,1));
@@ -101,7 +101,7 @@ public class SavageWorldsFrame extends JFrame {
 	return result;
     }
 
-    private JPanel getSecondPanel() {
+    private JPanel getSouthPanel() {
 	JPanel result = new JPanel();
 	result.setLayout(new GridLayout(0,1));
 	JPanel parryPane = new JPanel();
