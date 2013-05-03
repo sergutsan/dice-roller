@@ -269,7 +269,6 @@ public class SavageWorldsFrame extends JFrame {
     private String collectAttackDice() {
 	String result = "b[" + (String) attackDiceCombobox.getSelectedItem() + "!";
 	// TODO: add ,1d6! if wildcard
-	result = result.substring(0, result.length()-1); // Remove trailing ","
 	return result + "]";
     }
 
