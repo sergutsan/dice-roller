@@ -165,6 +165,7 @@ public class SavageWorldsOldFrame extends JFrame {
 	try {
 	    String attackDice = collectAttackDice();
 	    String damageDice = collectDamageDice();
+	    System.out.println(attackDice + "   " + damageDice);
 	    int maxRolls = getMaxIterations();
 	    int parry = getParry();
 	    int toughness = getToughness();

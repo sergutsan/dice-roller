@@ -187,6 +187,7 @@ public class SavageWorldsFrame extends JFrame {
 	try {
 	    String attackDice = collectAttackDice();
 	    String damageDice = collectDamageDice();
+	    System.out.println(attackDice + "   " + damageDice);
 	    int maxRolls = getMaxIterations();
 	    int parry = getParry();
 	    int toughness = getToughness();
@@ -301,7 +302,7 @@ public class SavageWorldsFrame extends JFrame {
      * 
      * @author sergut
      */
-    class DamageCounter {
+    private class DamageCounter {
 	int nothing = 0;
 	int shaken  = 0;
 	int wound1  = 0;
