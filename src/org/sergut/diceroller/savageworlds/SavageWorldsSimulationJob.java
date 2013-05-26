@@ -11,6 +11,10 @@ public class SavageWorldsSimulationJob {
     private int maxIterations;
 
     public SavageWorldsSimulationJob(String attackDice, String damageDice, int parry, int toughness, int maxIter) {
+	this(attackDice, damageDice, parry, toughness, false, maxIter);
+    }
+
+    public SavageWorldsSimulationJob(String attackDice, String damageDice, int parry, int toughness, boolean shaken, int maxIter) {
 	this.attackDice = attackDice;
 	this.damageDice = damageDice;
 	this.defenderParry = parry;
