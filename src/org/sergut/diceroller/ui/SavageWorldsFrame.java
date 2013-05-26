@@ -32,18 +32,6 @@ public class SavageWorldsFrame extends JFrame {
 
     private JComboBox attackDiceCombobox = new JComboBox(attackDice);
 
-    private JLabel attackD4Label = new JLabel(" d4");
-    private JLabel attackD6Label = new JLabel(" d6");
-    private JLabel attackD8Label = new JLabel(" d8");
-    private JLabel attackD10Label = new JLabel("d10");
-    private JLabel attackD12Label = new JLabel("d12");
-
-    private JTextField attackD4Field = new JTextField(FIELD_LENGTH);
-    private JTextField attackD6Field = new JTextField(FIELD_LENGTH);
-    private JTextField attackD8Field = new JTextField(FIELD_LENGTH);
-    private JTextField attackD10Field = new JTextField(FIELD_LENGTH);
-    private JTextField attackD12Field = new JTextField(FIELD_LENGTH);
-
     private JLabel damageD4Label = new JLabel(" d4");
     private JLabel damageD6Label = new JLabel(" d6");
     private JLabel damageD8Label = new JLabel(" d8");
