@@ -70,7 +70,7 @@ public class SavageWorldsSimulationJob {
 		result.wound3++;
 	    } else if (success >= 8) {
 		result.wound2++;
-	    } else if (success >= 4 || (success >= 0 && defenderShaken)) {
+	    } else if (success >= 4 || (defenderShaken && success >= 0)) {
 		result.wound1++;
 	    } else if (success >= 0) {
 		result.shaken++;
