@@ -108,7 +108,9 @@ public class SavageWorldsFrame extends JFrame {
     
     private JPanel getWestPanel() {
 	JPanel result = new JPanel();
+	result.setLayout(new BoxLayout(result, BoxLayout.Y_AXIS));
 	result.add(attackDiceCombobox);
+	result.add(attackerWildCardPanel);
 	// TODO: all the options of wild attack, double attack, etc
 	return result;
     }
@@ -132,29 +134,6 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(field);
 	return result;
     }
-
-//    private WildCardChoicePanel getWildCardRadioButtons(String title) {
-//	final WildCardChoicePanel resultPane = new WildCardChoicePanel();
-//	resultPane.setLayout(new FlowLayout());
-//	JLabel label = new JLabel(title);
-//	resultPane.add(label);
-//	ButtonGroup buttonGroup = new ButtonGroup();
-//	JRadioButton extraButton = new JRadioButton("Extra", true);
-//	buttonGroup.add(extraButton);
-//	resultPane.add(extraButton);
-//	extraButton.addActionListener(new ActionListener() {
-//	    @Override public void actionPerformed(ActionEvent e) {
-//		resultPane.isWildCard = false;
-//	    }});
-//	JRadioButton wildCardButton = new JRadioButton("Wild Card", false);
-//	buttonGroup.add(wildCardButton);
-//	resultPane.add(wildCardButton);
-//	wildCardButton.addActionListener(new ActionListener() {
-//	    @Override public void actionPerformed(ActionEvent e) {
-//		resultPane.isWildCard = true;
-//	    }});
-//	return resultPane;
-//    }
 
     private void setButtonBehaviours() {
 	calculateButton.addActionListener(new ActionListener() {
@@ -198,7 +177,7 @@ public class SavageWorldsFrame extends JFrame {
 		   damageCounter.nothing++; 
 		}
 	    }
-	    if (defenderWildCardPanel.isWildCard) { 
+	    if (defenderWildCardPanel.isWildCard()) { 
 		showResultsForWildCard(damageCounter, maxRolls);
 	    } else {
 		showResultsForExtra(damageCounter, maxRolls);
@@ -333,5 +312,11 @@ public class SavageWorldsFrame extends JFrame {
 	public boolean isWildCard() {
 	    return isWildCard;
 	}
+    }
+    
+    public static void main(String... args) {
+	SavageWorldsFrame frame = new SavageWorldsFrame();
+	frame.setVisible(true);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
     }
 }
