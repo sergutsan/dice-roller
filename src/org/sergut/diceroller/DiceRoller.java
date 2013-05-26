@@ -78,9 +78,6 @@ public class DiceRoller {
     private ContainerNode createNewDiceTree(String diceDescription) {
 	try {
 	    checkCommonErrors(diceDescription);
-	// TODO: 
-	// - parse subtraction signs
-	// ...
 	    // parse parallel rolls, e.g. b[1d6!, 1d8!] 
 	    Choosing bestOrWorst = getBestOrWorst(diceDescription);
 	    ContainerNode comparisonNode = new ComparisonNode(bestOrWorst);
