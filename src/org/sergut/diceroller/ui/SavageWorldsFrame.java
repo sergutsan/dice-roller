@@ -74,7 +74,6 @@ public class SavageWorldsFrame extends JFrame {
 	this.pack();
 	this.setTitle("Savage Worlds: Kill chances");
 	this.setLocation(100, 100);
-	//this.setResizable(false);
     }
     
     private JPanel getEastPanel() {
