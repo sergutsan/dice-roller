@@ -51,7 +51,7 @@ public class SavageWorldsSimulationJob {
 	    if (attack >= defenderParry + 4) {
 		actualDamageDice += "+1d6!";
 	    } else if (attack < defenderParry) {
-		actualDamageDice = "0";
+		actualDamageDice = "-100";
 	    }
 	    int damage = diceRoller.rollDice(actualDamageDice);
 	    switch (aimOpn) {
