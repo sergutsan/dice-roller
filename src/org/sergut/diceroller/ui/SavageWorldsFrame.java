@@ -116,7 +116,13 @@ public class SavageWorldsFrame extends JFrame {
 	attackDiePanel.add(attackDiceCombobox);
 	result.add(attackDiePanel);
 	result.add(attackerWildCardPanel);
-	// TODO: all the options of wild attack, double attack, etc
+	// TODO: more options
+	//   - 2 weapons
+	//      - two-fisted
+	//      - ambidextrous
+	//   - trademark weapon
+	//   - gang-up bonus ____
+	//   - magic bonus   ____
 	return result;
     }
 
