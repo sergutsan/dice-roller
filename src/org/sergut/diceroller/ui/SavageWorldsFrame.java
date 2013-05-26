@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import org.sergut.diceroller.DiceRoller;
 import org.sergut.diceroller.IllegalDiceExpressionException;
 import org.sergut.diceroller.savageworlds.SavageWorldsDamageCounter;
+import org.sergut.diceroller.savageworlds.SavageWorldsSimulationJob;
+import org.sergut.diceroller.savageworlds.SavageWorldsSimulationResult;
 
 public class SavageWorldsFrame extends JFrame {
 
@@ -154,32 +156,9 @@ public class SavageWorldsFrame extends JFrame {
 	    int maxRolls = getMaxIterations();
 	    int parry = getParry();
 	    int toughness = getToughness();
-	    DiceRoller diceRoller = new DiceRoller();
-	    SavageWorldsDamageCounter damageCounter = new SavageWorldsDamageCounter();
-	    for (int i = 0; i < maxRolls; ++i) {
-		String damageDiceCopy = new String(damageDice);
-		int attack = diceRoller.rollDice(attackDice);
-		if (attack >= parry + 4) {
-		    damageDiceCopy += "+1d6!";
-		} else if (attack < parry) {
-		    damageDiceCopy = "0";
-		}
-		int damage = diceRoller.rollDice(damageDiceCopy);
-		int success = damage - toughness;
-		if (success >= 16) {
-		    damageCounter.wound4m++;
-		} else if (success >= 12) {
-		    damageCounter.wound3++;
-		} else if (success >= 8) {
-		    damageCounter.wound2++;
-		} else if (success >= 4) {
-		    damageCounter.wound1++;
-		} else if (success >= 0) {
-		    damageCounter.shaken++;
-		} else {
-		   damageCounter.nothing++; 
-		}
-	    }
+	    SavageWorldsSimulationJob simulation = new SavageWorldsSimulationJob(attackDice, damageDice, parry, toughness, maxRolls);
+	    SavageWorldsSimulationResult result = simulation.simulate();
+	    SavageWorldsDamageCounter damageCounter = result.getResult();
 	    if (defenderWildCardPanel.isWildCard()) { 
 		showResultsForWildCard(damageCounter, maxRolls);
 	    } else {
