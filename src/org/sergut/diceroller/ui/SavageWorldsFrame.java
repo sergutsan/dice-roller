@@ -56,8 +56,10 @@ public class SavageWorldsFrame extends JFrame {
 
     private JButton calculateButton = new JButton("Calculate!");
 
-    private boolean isAttackerWildCard = false;
-    private boolean isDefenderWildCard = false;    
+    private WildCardChoicePanel attackerWildCardPanel;
+    private WildCardChoicePanel defenderWildCardPanel;
+    //private boolean isAttackerWildCard = false;
+    //private boolean isDefenderWildCard = false;    
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
@@ -99,7 +101,8 @@ public class SavageWorldsFrame extends JFrame {
 	toughnessPane.add(toughnessLabel);
 	toughnessPane.add(toughnessField);
 	enemyPane.add(toughnessPane);
-	enemyPane.add(getWildCardRadioButtons());
+	defenderWildCardPanel = getWildCardRadioButtons("Defender"); 
+	enemyPane.add(defenderWildCardPanel);
 	result.setLayout(new GridLayout(0,1));
 	result.add(damagePane);
 	result.add(enemyPane);
@@ -110,16 +113,6 @@ public class SavageWorldsFrame extends JFrame {
 	JPanel result = new JPanel();
 	result.add(attackDiceCombobox);
 	// TODO: all the options of wild attack, double attack, etc
-//	JPanel attackPane = new JPanel();
-//	attackPane.setLayout(new GridLayout(0,1));
-//	attackPane.add(new JLabel("Attack dice"));
-//	attackPane.add(packLabelAndTextField(attackD4Label, attackD4Field), BorderLayout.CENTER);
-//	attackPane.add(packLabelAndTextField(attackD6Label, attackD6Field), BorderLayout.CENTER);
-//	attackPane.add(packLabelAndTextField(attackD8Label, attackD8Field), BorderLayout.CENTER);
-//	attackPane.add(packLabelAndTextField(attackD10Label, attackD10Field), BorderLayout.CENTER);
-//	attackPane.add(packLabelAndTextField(attackD12Label, attackD12Field), BorderLayout.CENTER);
-//	result.setLayout(new GridLayout(0,2));
-//	result.add(attackPane);
 	return result;
     }
 
@@ -143,23 +136,25 @@ public class SavageWorldsFrame extends JFrame {
 	return result;
     }
 
-    private JPanel getWildCardRadioButtons() {
-	JPanel resultPane = new JPanel();
+    private WildCardChoicePanel getWildCardRadioButtons(String title) {
+	final WildCardChoicePanel resultPane = new WildCardChoicePanel();
 	resultPane.setLayout(new FlowLayout());
+	JLabel label = new JLabel(title);
+	resultPane.add(label);
 	ButtonGroup buttonGroup = new ButtonGroup();
 	JRadioButton extraButton = new JRadioButton("Extra", true);
 	buttonGroup.add(extraButton);
 	resultPane.add(extraButton);
 	extraButton.addActionListener(new ActionListener() {
 	    @Override public void actionPerformed(ActionEvent e) {
-		isDefenderWildCard = false;
+		resultPane.isWildCard = false;
 	    }});
 	JRadioButton wildCardButton = new JRadioButton("Wild Card", false);
 	buttonGroup.add(wildCardButton);
 	resultPane.add(wildCardButton);
 	wildCardButton.addActionListener(new ActionListener() {
 	    @Override public void actionPerformed(ActionEvent e) {
-		isDefenderWildCard = true;
+		resultPane.isWildCard = true;
 	    }});
 	return resultPane;
     }
@@ -206,10 +201,11 @@ public class SavageWorldsFrame extends JFrame {
 		   damageCounter.nothing++; 
 		}
 	    }
-	    if (isDefenderWildCard) 
+	    if (defenderWildCardPanel.isWildCard) { 
 		showResultsForWildCard(damageCounter, maxRolls);
-	    else
+	    } else {
 		showResultsForExtra(damageCounter, maxRolls);
+	    }
 	} catch (IllegalDiceExpressionException ex) {
 	    String s = "Invalid expression: " + ex.getExpression();
 	    ex.printStackTrace();
@@ -287,8 +283,6 @@ public class SavageWorldsFrame extends JFrame {
     
     /**
      * A simple counter for several damage-related concepts in Savage Worlds
-     * 
-     * @author sergut
      */
     private class DamageCounter {
 	int nothing = 0;
@@ -309,5 +303,13 @@ public class SavageWorldsFrame extends JFrame {
 	public int getWounds() {
 	    return wound1 + wound2 + wound3 + wound4m;
 	}
+    }
+
+    /**
+     * A panel with a boolean flag
+     */
+    private class WildCardChoicePanel extends JPanel {
+	private static final long serialVersionUID = 111111L;
+	private boolean isWildCard = false;
     }
 }
