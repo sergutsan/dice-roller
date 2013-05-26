@@ -1,29 +1,20 @@
 package org.sergut.diceroller.savageworlds;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Stores the results for the different attack options
  */
 public class SavageWorldsSimulationResult {
-    enum AttackOptions {
-	NORMAL,
-	WILD,
-	RAPID,
+    private Map<String, SavageWorldsDamageCounter> resultMap = new HashMap<String, SavageWorldsDamageCounter>();
+    
+    public void setResult(String key, SavageWorldsDamageCounter result) {
+	this.resultMap.put(key, result);
     }
     
-    enum AimOptions {
-	BODY, 
-	ARM,
-	HEAD,
-    }
-    
-    private SavageWorldsDamageCounter result;
-    
-    public void setResult(SavageWorldsDamageCounter result) {
-	this.result = result;
-    }
-    
-    public SavageWorldsDamageCounter getResult() {
-	return this.result;
+    public SavageWorldsDamageCounter getResult(String key) {
+	return this.resultMap.get(key);
     }
     
 }

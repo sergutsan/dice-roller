@@ -158,7 +158,7 @@ public class SavageWorldsFrame extends JFrame {
 	    int toughness = getToughness();
 	    SavageWorldsSimulationJob simulation = new SavageWorldsSimulationJob(attackDice, damageDice, parry, toughness, maxRolls);
 	    SavageWorldsSimulationResult result = simulation.simulate();
-	    SavageWorldsDamageCounter damageCounter = result.getResult();
+	    SavageWorldsDamageCounter damageCounter = result.getResult("Normal, body");
 	    if (defenderWildCardPanel.isWildCard()) { 
 		showResultsForWildCard(damageCounter, maxRolls);
 	    } else {

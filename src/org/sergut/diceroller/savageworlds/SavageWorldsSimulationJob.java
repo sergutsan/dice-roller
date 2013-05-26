@@ -49,7 +49,7 @@ public class SavageWorldsSimulationJob {
 		damageCounter.nothing++; 
 	    }
 	}
-	result.setResult(damageCounter);
+	result.setResult("Normal, body", damageCounter);
 	return result;
     }
 
