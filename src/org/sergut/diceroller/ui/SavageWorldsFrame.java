@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -62,6 +63,8 @@ public class SavageWorldsFrame extends JFrame {
     private WildCardChoicePanel attackerWildCardPanel = new WildCardChoicePanel("Attacker");
     private WildCardChoicePanel defenderWildCardPanel = new WildCardChoicePanel("Defender");
     
+    private CheckPanel defenderShakenPanel = new CheckPanel("Defender already shaken?");
+    
     public SavageWorldsFrame() {
 	setButtonBehaviours();
 	JPanel westPane = getWestPanel();
@@ -102,6 +105,7 @@ public class SavageWorldsFrame extends JFrame {
 	toughnessPane.add(toughnessField);
 	enemyPane.add(toughnessPane);
 	enemyPane.add(defenderWildCardPanel);
+	enemyPane.add(defenderShakenPanel);
 	result.setLayout(new GridLayout(0,1));
 	result.add(damagePane);
 	result.add(enemyPane);
@@ -277,6 +281,24 @@ public class SavageWorldsFrame extends JFrame {
 	
 	public boolean isWildCard() {
 	    return isWildCard;
+	}
+    }
+    
+    /**
+     * A panel to check or uncheck some property
+     */
+    private class CheckPanel extends JPanel {
+	private static final long serialVersionUID = 111113L;
+	private JCheckBox box = new JCheckBox();
+	
+	public CheckPanel(String text) {
+	    this.setLayout(new FlowLayout());
+	    this.add(new JLabel(text));    
+	    this.add(box);
+	}
+	
+	public boolean isChecked() {
+	    return box.isSelected();
 	}
     }
     
