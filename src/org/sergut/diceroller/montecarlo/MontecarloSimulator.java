@@ -2,6 +2,10 @@ package org.sergut.diceroller.montecarlo;
 
 import org.sergut.diceroller.DiceRoller;
 
+/**
+ * A simulator that receives two dice expression and an operand, rolls the dice 
+ * n times, and then returns a success ratio. 
+ */
 public class MontecarloSimulator {
     
     private static MontecarloSimulator INSTANCE = null;
