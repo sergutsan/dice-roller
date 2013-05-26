@@ -144,15 +144,15 @@ public class SavageWorldsFrame extends JFrame {
 	calculateButton.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		simulateDice();
+		runSimulation();
 	    }});
     }
 
-    private void simulateDice() {
+    private void runSimulation() {
 	try {
 	    String attackDice = collectAttackDice();
 	    String damageDice = collectDamageDice();
-	    System.out.println(attackDice + "   " + damageDice);
+	    System.out.println("Simulating att:" + attackDice + ", dmg:" + damageDice);
 	    int maxRolls = getMaxIterations();
 	    int parry = getParry();
 	    int toughness = getToughness();
