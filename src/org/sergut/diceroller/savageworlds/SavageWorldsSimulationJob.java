@@ -18,6 +18,10 @@ public class SavageWorldsSimulationJob {
     }
 
     public SavageWorldsSimulationResult simulate() {
+	return runNormalAttackBody();
+    }
+    
+    public SavageWorldsSimulationResult runNormalAttackBody() {
 	SavageWorldsSimulationResult result = new SavageWorldsSimulationResult();
 	DiceRoller diceRoller = new DiceRoller();
 	SavageWorldsDamageCounter damageCounter = new SavageWorldsDamageCounter();
