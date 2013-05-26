@@ -56,7 +56,8 @@ public class SavageWorldsFrame extends JFrame {
 
     private JButton calculateButton = new JButton("Calculate!");
 
-    private boolean isWildCard = false;
+    private boolean isAttackerWildCard = false;
+    private boolean isDefenderWildCard = false;    
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
@@ -151,14 +152,14 @@ public class SavageWorldsFrame extends JFrame {
 	resultPane.add(extraButton);
 	extraButton.addActionListener(new ActionListener() {
 	    @Override public void actionPerformed(ActionEvent e) {
-		isWildCard = false;
+		isDefenderWildCard = false;
 	    }});
 	JRadioButton wildCardButton = new JRadioButton("Wild Card", false);
 	buttonGroup.add(wildCardButton);
 	resultPane.add(wildCardButton);
 	wildCardButton.addActionListener(new ActionListener() {
 	    @Override public void actionPerformed(ActionEvent e) {
-		isWildCard = true;
+		isDefenderWildCard = true;
 	    }});
 	return resultPane;
     }
@@ -205,7 +206,7 @@ public class SavageWorldsFrame extends JFrame {
 		   damageCounter.nothing++; 
 		}
 	    }
-	    if (isWildCard) 
+	    if (isDefenderWildCard) 
 		showResultsForWildCard(damageCounter, maxRolls);
 	    else
 		showResultsForExtra(damageCounter, maxRolls);
