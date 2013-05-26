@@ -108,7 +108,10 @@ public class SavageWorldsFrame extends JFrame {
     private JPanel getWestPanel() {
 	JPanel result = new JPanel();
 	result.setLayout(new BoxLayout(result, BoxLayout.Y_AXIS));
-	result.add(attackDiceCombobox);
+	JPanel attackDiePanel = new JPanel();
+	attackDiePanel.add(new JLabel("Attack die: "));
+	attackDiePanel.add(attackDiceCombobox);
+	result.add(attackDiePanel);
 	result.add(attackerWildCardPanel);
 	// TODO: all the options of wild attack, double attack, etc
 	return result;
@@ -312,6 +315,7 @@ public class SavageWorldsFrame extends JFrame {
 	    return isWildCard;
 	}
     }
+    
     
     public static void main(String... args) {
 	SavageWorldsFrame frame = new SavageWorldsFrame();
