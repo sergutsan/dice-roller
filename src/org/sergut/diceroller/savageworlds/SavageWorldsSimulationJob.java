@@ -19,6 +19,7 @@ public class SavageWorldsSimulationJob {
 	this.damageDice = damageDice;
 	this.defenderParry = parry;
 	this.defenderToughness = toughness;
+	this.defenderShaken = shaken;
 	this.maxIterations = maxIter;
     }
 
