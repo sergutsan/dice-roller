@@ -7,6 +7,7 @@ public class SavageWorldsSimulationJob {
     private String damageDice;
     private int defenderParry;
     private int defenderToughness;
+    private boolean defenderShaken = false;
     private int maxIterations;
 
     public SavageWorldsSimulationJob(String attackDice, String damageDice, int parry, int toughness, int maxIter) {
@@ -18,38 +19,60 @@ public class SavageWorldsSimulationJob {
     }
 
     public SavageWorldsSimulationResult simulate() {
-	return runNormalAttackBody();
+	DiceRoller diceRoller = new DiceRoller();
+	SavageWorldsSimulationResult result = new SavageWorldsSimulationResult();
+	result.setResult("Normal, body", runSingleAttack(AimOption.BODY, AttackOption.NORMAL, diceRoller));
+	result.setResult("Normal, head", runSingleAttack(AimOption.HEAD, AttackOption.NORMAL, diceRoller));
+	result.setResult("Wild, body", runSingleAttack(AimOption.BODY, AttackOption.WILD, diceRoller));
+	result.setResult("Wild, head", runSingleAttack(AimOption.HEAD, AttackOption.WILD, diceRoller));
+	return result;
     }
     
-    public SavageWorldsSimulationResult runNormalAttackBody() {
-	SavageWorldsSimulationResult result = new SavageWorldsSimulationResult();
-	DiceRoller diceRoller = new DiceRoller();
-	SavageWorldsDamageCounter damageCounter = new SavageWorldsDamageCounter();
+    private SavageWorldsDamageCounter runSingleAttack(AimOption aimOpn, AttackOption attackOpn, DiceRoller diceRoller) {
+	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < maxIterations; ++i) {
+	    String actualAttackDice = new String(attackDice);
 	    String actualDamageDice = new String(damageDice);
-	    int attack = diceRoller.rollDice(attackDice);
+	    int attack = diceRoller.rollDice(actualAttackDice);
+	    switch (aimOpn) {
+	    case BODY: break;
+	    case ARM:  attack -= 2; break;
+	    case HEAD: attack -= 4; break;
+	    }
+	    switch (attackOpn) {
+	    case NORMAL: break;
+	    case WILD:   attack += 2; break;
+	    }
 	    if (attack >= defenderParry + 4) {
 		actualDamageDice += "+1d6!";
 	    } else if (attack < defenderParry) {
 		actualDamageDice = "0";
 	    }
 	    int damage = diceRoller.rollDice(actualDamageDice);
+	    switch (aimOpn) {
+	    case BODY: break;
+	    case ARM:  break;
+	    case HEAD: attack += 4; break;
+	    }
+	    switch (attackOpn) {
+	    case NORMAL: break;
+	    case WILD:   attack += 2; break;
+	    }
 	    int success = damage - defenderToughness;
 	    if (success >= 16) {
-		damageCounter.wound4m++;
+		result.wound4m++;
 	    } else if (success >= 12) {
-		damageCounter.wound3++;
+		result.wound3++;
 	    } else if (success >= 8) {
-		damageCounter.wound2++;
-	    } else if (success >= 4) {
-		damageCounter.wound1++;
+		result.wound2++;
+	    } else if (success >= 4 || (success >= 0 && defenderShaken)) {
+		result.wound1++;
 	    } else if (success >= 0) {
-		damageCounter.shaken++;
+		result.shaken++;
 	    } else {
-		damageCounter.nothing++; 
+		result.nothing++; 
 	    }
 	}
-	result.setResult("Normal, body", damageCounter);
 	return result;
     }
 
