@@ -4,12 +4,12 @@ package org.sergut.diceroller.savageworlds;
  * A simple counter for several damage-related concepts in Savage Worlds.
  */
 public class SavageWorldsDamageCounter {
-    int nothing = 0; // Nothing happened
-    int shaken  = 0; // Shaken
-    int wound1  = 0; // 1 wound
-    int wound2  = 0; // 2 wounds
-    int wound3  = 0; // 3 wounds
-    int wound4m = 0; // 4 or more
+    public int nothing = 0; // Nothing happened
+    public int shaken  = 0; // Shaken
+    public int wound1  = 0; // 1 wound
+    public int wound2  = 0; // 2 wounds
+    public int wound3  = 0; // 3 wounds
+    public int wound4m = 0; // 4 or more
     
     @Override public String toString() {
 	return "Nothing:" + nothing + 

@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import org.sergut.diceroller.DiceRoller;
 import org.sergut.diceroller.IllegalDiceExpressionException;
+import org.sergut.diceroller.savageworlds.SavageWorldsDamageCounter;
 
 public class SavageWorldsFrame extends JFrame {
 
@@ -154,7 +155,7 @@ public class SavageWorldsFrame extends JFrame {
 	    int parry = getParry();
 	    int toughness = getToughness();
 	    DiceRoller diceRoller = new DiceRoller();
-	    DamageCounter damageCounter = new DamageCounter();
+	    SavageWorldsDamageCounter damageCounter = new SavageWorldsDamageCounter();
 	    for (int i = 0; i < maxRolls; ++i) {
 		String damageDiceCopy = new String(damageDice);
 		int attack = diceRoller.rollDice(attackDice);
@@ -191,7 +192,7 @@ public class SavageWorldsFrame extends JFrame {
 	}
     }
 
-    private void showResultsForWildCard(DamageCounter damageCounter, int maxRolls) {
+    private void showResultsForWildCard(SavageWorldsDamageCounter damageCounter, int maxRolls) {
 	int wound1Ratio = DiceRoller.getSimpleRate(damageCounter.wound1, maxRolls);
 	int wound2Ratio = DiceRoller.getSimpleRate(damageCounter.wound2, maxRolls);
 	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3, maxRolls);
@@ -206,7 +207,7 @@ public class SavageWorldsFrame extends JFrame {
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void showResultsForExtra(DamageCounter damageCounter, int maxRolls) {
+    private void showResultsForExtra(SavageWorldsDamageCounter damageCounter, int maxRolls) {
 	int killRatio = DiceRoller.getSimpleRate(damageCounter.getWounds(), maxRolls);
 	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, maxRolls);
 	String s = "Kill ratio: " + killRatio + "%  Shaken ratio: " + shakenRatio + "%";
@@ -261,30 +262,6 @@ public class SavageWorldsFrame extends JFrame {
 	    return Integer.parseInt(content);
     }
     
-    /**
-     * A simple counter for several damage-related concepts in Savage Worlds
-     */
-    private class DamageCounter {
-	int nothing = 0;
-	int shaken  = 0;
-	int wound1  = 0;
-	int wound2  = 0;
-	int wound3  = 0; 
-	int wound4m = 0; // 4 or more
-	@Override public String toString() {
-	    return "Nothing:" + nothing + 
-	    	", Shaken:" + shaken +
-	    	", 1 wound:" + wound1 +
-	    	", 2 wounds: " + wound2 +
-	    	", 3 wounds: " + wound3 +
-	    	", 4 wounds or more:" + wound4m;
-	}
-	// convenience
-	public int getWounds() {
-	    return wound1 + wound2 + wound3 + wound4m;
-	}
-    }
-
     /**
      * A panel to choose whether someone in an extra or a wild card
      */
