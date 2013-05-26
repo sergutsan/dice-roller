@@ -56,10 +56,8 @@ public class SavageWorldsFrame extends JFrame {
 
     private JButton calculateButton = new JButton("Calculate!");
 
-    private WildCardChoicePanel attackerWildCardPanel;
-    private WildCardChoicePanel defenderWildCardPanel;
-    //private boolean isAttackerWildCard = false;
-    //private boolean isDefenderWildCard = false;    
+    private WildCardChoicePanel attackerWildCardPanel = new WildCardChoicePanel("Attacker");
+    private WildCardChoicePanel defenderWildCardPanel = new WildCardChoicePanel("Defender");
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
@@ -101,7 +99,6 @@ public class SavageWorldsFrame extends JFrame {
 	toughnessPane.add(toughnessLabel);
 	toughnessPane.add(toughnessField);
 	enemyPane.add(toughnessPane);
-	defenderWildCardPanel = getWildCardRadioButtons("Defender"); 
 	enemyPane.add(defenderWildCardPanel);
 	result.setLayout(new GridLayout(0,1));
 	result.add(damagePane);
@@ -136,28 +133,28 @@ public class SavageWorldsFrame extends JFrame {
 	return result;
     }
 
-    private WildCardChoicePanel getWildCardRadioButtons(String title) {
-	final WildCardChoicePanel resultPane = new WildCardChoicePanel();
-	resultPane.setLayout(new FlowLayout());
-	JLabel label = new JLabel(title);
-	resultPane.add(label);
-	ButtonGroup buttonGroup = new ButtonGroup();
-	JRadioButton extraButton = new JRadioButton("Extra", true);
-	buttonGroup.add(extraButton);
-	resultPane.add(extraButton);
-	extraButton.addActionListener(new ActionListener() {
-	    @Override public void actionPerformed(ActionEvent e) {
-		resultPane.isWildCard = false;
-	    }});
-	JRadioButton wildCardButton = new JRadioButton("Wild Card", false);
-	buttonGroup.add(wildCardButton);
-	resultPane.add(wildCardButton);
-	wildCardButton.addActionListener(new ActionListener() {
-	    @Override public void actionPerformed(ActionEvent e) {
-		resultPane.isWildCard = true;
-	    }});
-	return resultPane;
-    }
+//    private WildCardChoicePanel getWildCardRadioButtons(String title) {
+//	final WildCardChoicePanel resultPane = new WildCardChoicePanel();
+//	resultPane.setLayout(new FlowLayout());
+//	JLabel label = new JLabel(title);
+//	resultPane.add(label);
+//	ButtonGroup buttonGroup = new ButtonGroup();
+//	JRadioButton extraButton = new JRadioButton("Extra", true);
+//	buttonGroup.add(extraButton);
+//	resultPane.add(extraButton);
+//	extraButton.addActionListener(new ActionListener() {
+//	    @Override public void actionPerformed(ActionEvent e) {
+//		resultPane.isWildCard = false;
+//	    }});
+//	JRadioButton wildCardButton = new JRadioButton("Wild Card", false);
+//	buttonGroup.add(wildCardButton);
+//	resultPane.add(wildCardButton);
+//	wildCardButton.addActionListener(new ActionListener() {
+//	    @Override public void actionPerformed(ActionEvent e) {
+//		resultPane.isWildCard = true;
+//	    }});
+//	return resultPane;
+//    }
 
     private void setButtonBehaviours() {
 	calculateButton.addActionListener(new ActionListener() {
@@ -306,10 +303,35 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     /**
-     * A panel with a boolean flag
+     * A panel to choose whether someone in an extra or a wild card
      */
     private class WildCardChoicePanel extends JPanel {
 	private static final long serialVersionUID = 111111L;
 	private boolean isWildCard = false;
+	
+	public WildCardChoicePanel(String title) {
+	    this.setLayout(new FlowLayout());
+	    JLabel label = new JLabel(title);
+	    this.add(label);
+	    ButtonGroup buttonGroup = new ButtonGroup();
+	    JRadioButton extraButton = new JRadioButton("Extra", true);
+	    buttonGroup.add(extraButton);
+	    this.add(extraButton);
+	    extraButton.addActionListener(new ActionListener() {
+		@Override public void actionPerformed(ActionEvent e) {
+		    isWildCard = false;
+		}});
+	    JRadioButton wildCardButton = new JRadioButton("Wild Card", false);
+	    buttonGroup.add(wildCardButton);
+	    this.add(wildCardButton);
+	    wildCardButton.addActionListener(new ActionListener() {
+		@Override public void actionPerformed(ActionEvent e) {
+		    isWildCard = true;
+		}});
+	}
+	
+	public boolean isWildCard() {
+	    return isWildCard;
+	}
     }
 }
