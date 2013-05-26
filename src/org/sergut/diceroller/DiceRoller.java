@@ -19,20 +19,20 @@ import org.sergut.diceroller.ui.DiceRollerFrame;
 
 public class DiceRoller {
 
-/* Expression
+/* General expression
+ * G := b[L]
+ * G := w[L]
+ * G := E
+ * 
+ * List of expressions
+ * L := E,L
+ * L := E
+ * 
+ * Expression
  * E := E+E
  * E := E-E
  * E := D
- * E := B
  * E := n
- * 
- * Best/worst expression
- * B := b[E,L]
- * B := w[E,L]
- * 
- * List
- * L := E,L
- * L := \
  * 
  * Dice Expression
  * D := ndnx
