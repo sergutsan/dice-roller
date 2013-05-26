@@ -57,9 +57,7 @@ public class DiceRoller {
      * Takes a string with roll20 syntax, parses it, 
      * rolls it, and returns the result.
      * 
-     * For now, we can only parse a normal addition of regular die, exploding die, and constants.
-     * 
-     * @param diceDescription a string like "2d10", "1d6!+1d8!", or "2d8!+1"
+     * param diceDescription a string like "2d10", "1d6!+1d8!", or "2d8!+1"
      * 
      * @return the result of the roll
      * 
