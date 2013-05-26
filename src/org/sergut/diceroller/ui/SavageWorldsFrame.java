@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -66,9 +67,8 @@ public class SavageWorldsFrame extends JFrame {
 	northPane.add(westPane);
 	northPane.add(eastPane);
 	JPanel southPane = getSouthPanel();	
-	this.setLayout(new GridLayout(0,1));
+	this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 	this.add(northPane);
-	this.pack();
 	this.add(southPane);
 	this.pack();
 	this.setTitle("Savage Worlds: Kill chances");
