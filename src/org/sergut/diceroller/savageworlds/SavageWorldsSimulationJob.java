@@ -19,5 +19,5 @@ public class SavageWorldsSimulationJob {
     public boolean includeWildAttack    = false;
     public boolean includeNonRapidAttack = true;
     public boolean includeRapidAttack    = false;
-    // TODO: build a fluent interface to build jobs
+    // TODO: implement a fluent interface to build jobs
 }
