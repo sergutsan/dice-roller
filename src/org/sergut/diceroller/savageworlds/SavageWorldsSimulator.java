@@ -16,7 +16,12 @@ public class SavageWorldsSimulator {
     private SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job, AimOption aimOpn, AttackOption attackOpn, DiceRoller diceRoller) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
-	    String actualAttackDice = new String(job.attackDice);
+	    String actualAttackDice;
+	    if (job.attackerWildCard) {
+		actualAttackDice = new String("b[" + job.attackDice + ",1d6!]");
+	    } else {
+		actualAttackDice = new String(job.attackDice);
+	    }
 	    String actualDamageDice = new String(job.damageDice);
 	    int attack = diceRoller.rollDice(actualAttackDice);
 	    switch (aimOpn) {

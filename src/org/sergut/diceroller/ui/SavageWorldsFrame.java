@@ -241,11 +241,8 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     private String collectAttackDice() {
-	String result = "b[" + (String) attackDiceCombobox.getSelectedItem() + "!";
-	if (attackerWildCardPanel.isWildCard()) {
-	    result += ",1d6!";
-	}
-	return result + "]";
+	String result = (String) attackDiceCombobox.getSelectedItem() + "!";
+	return result;
     }
 
     private String collectDamageDice() {
