@@ -128,6 +128,7 @@ public class SavageWorldsFrame extends JFrame {
 	//   - trademark weapon
 	//   - gang-up bonus ____
 	//   - magic bonus   ____
+	//   - other bonus   ____ e.g. berserk
 	return result;
     }
 
