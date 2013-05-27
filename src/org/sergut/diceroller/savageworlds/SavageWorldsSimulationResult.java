@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Stores the results for the different attack options
+ * Stores the results for the different attack options.
+ * 
+ * Basically, a glorified map. 
  */
 public class SavageWorldsSimulationResult {
     private Map<String, SavageWorldsDamageCounter> resultMap = new HashMap<String, SavageWorldsDamageCounter>();
