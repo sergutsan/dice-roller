@@ -172,4 +172,15 @@ public class SavageWorldsSimulator {
 	}
 	return attack;
     }
+    
+    private SavageWorldsSimulator() {}
+    
+    private static SavageWorldsSimulator INSTANCE = null;
+    
+    public static SavageWorldsSimulator getInstance() {
+	if (INSTANCE == null) {
+	    INSTANCE = new SavageWorldsSimulator();
+	}
+	return INSTANCE;
+    }
 }

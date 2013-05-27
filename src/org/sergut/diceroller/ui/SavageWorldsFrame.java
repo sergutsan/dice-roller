@@ -171,7 +171,7 @@ public class SavageWorldsFrame extends JFrame {
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard;
 	    job.maxIterations = getMaxIterations();
-	    SavageWorldsSimulationResult result = (new SavageWorldsSimulator()).simulate(job);
+	    SavageWorldsSimulationResult result = SavageWorldsSimulator.getInstance().simulate(job);
 	    SavageWorldsDamageCounter damageCounter = result.getResult("Normal, body");
 	    if (defenderWildCardPanel.isWildCard()) { 
 		showResultsForWildCard(damageCounter);

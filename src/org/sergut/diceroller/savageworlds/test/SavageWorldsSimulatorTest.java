@@ -54,7 +54,7 @@ public class SavageWorldsSimulatorTest {
 	    job.attackDice = invalidDice;
 	    job.maxIterations = 1;
 	    job.damageDice = "1d4";
-	    SavageWorldsSimulator simulator = new SavageWorldsSimulator();
+	    SavageWorldsSimulator simulator = SavageWorldsSimulator.getInstance();
 	    try { 
 		simulator.simulate(job);
 		fail("Expression " + invalidDice + " was not rejected as test-dice but should.");
@@ -77,6 +77,7 @@ public class SavageWorldsSimulatorTest {
 	job.defenderShaken = false;
 	job.maxIterations = 100000;
 	// simulate job, collect results
+	
 	// check results
 	returnRightResultInThisCase("1d10",  ">", "5",   maxRolls / 2, maxRolls);	
 	returnRightResultInThisCase("1d4+4", ">", "1d4", maxRolls,     maxRolls);	
