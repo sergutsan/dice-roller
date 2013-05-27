@@ -60,7 +60,7 @@ public class MontecarloSimulatorTest {
 	    				int expectedSuccess, 
 	    				int maxRolls) {
 	MontecarloSimulator simulator = MontecarloSimulator.getInstance();
-	int tolerance = maxRolls / 10; // 10%
+	int tolerance = maxRolls / 20; // 5%
 	DiceResult result = simulator.simulateDice(testDice, op, targetDice, maxRolls);
 	assertTrue(result.totalRolls == maxRolls);
 	assertTrue(Math.abs(result.successRolls - expectedSuccess) < tolerance);	
