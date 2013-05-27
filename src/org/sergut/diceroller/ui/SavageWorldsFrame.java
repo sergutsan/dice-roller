@@ -23,6 +23,7 @@ import org.sergut.diceroller.IllegalDiceExpressionException;
 import org.sergut.diceroller.savageworlds.SavageWorldsDamageCounter;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulationJob;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulationResult;
+import org.sergut.diceroller.savageworlds.SavageWorldsSimulator;
 
 public class SavageWorldsFrame extends JFrame {
 
@@ -160,20 +161,21 @@ public class SavageWorldsFrame extends JFrame {
 
     private void runSimulation() {
 	try {
-	    String attackDice = collectAttackDice();
-	    String damageDice = collectDamageDice();
-	    System.out.println("Simulating att:" + attackDice + ", dmg:" + damageDice);
-	    int maxRolls = getMaxIterations();
-	    int parry = getParry();
-	    int toughness = getToughness();
-	    boolean defenderShaken = defenderShakenPanel.isChecked();
-	    SavageWorldsSimulationJob simulation = new SavageWorldsSimulationJob(attackDice, damageDice, parry, toughness, defenderShaken, maxRolls);
-	    SavageWorldsSimulationResult result = simulation.simulate();
+	    SavageWorldsSimulationJob job = new SavageWorldsSimulationJob();
+	    job.attackDice = collectAttackDice();
+	    job.damageDice = collectDamageDice();
+	    job.attackerWildCard = attackerWildCardPanel.isWildCard();
+	    job.defenderParry = getParry();
+	    job.defenderToughness = getToughness();
+	    job.defenderShaken = defenderShakenPanel.isChecked();
+	    job.defenderWildCard = defenderWildCardPanel.isWildCard;
+	    job.maxIterations = getMaxIterations();
+	    SavageWorldsSimulationResult result = (new SavageWorldsSimulator()).simulate(job);
 	    SavageWorldsDamageCounter damageCounter = result.getResult("Normal, body");
 	    if (defenderWildCardPanel.isWildCard()) { 
-		showResultsForWildCard(damageCounter, maxRolls);
+		showResultsForWildCard(damageCounter);
 	    } else {
-		showResultsForExtra(damageCounter, maxRolls);
+		showResultsForExtra(damageCounter);
 	    }
 	} catch (IllegalDiceExpressionException ex) {
 	    String s = "Invalid expression: " + ex.getExpression();
@@ -182,12 +184,12 @@ public class SavageWorldsFrame extends JFrame {
 	}
     }
 
-    private void showResultsForWildCard(SavageWorldsDamageCounter damageCounter, int maxRolls) {
-	int wound1Ratio = DiceRoller.getSimpleRate(damageCounter.wound1, maxRolls);
-	int wound2Ratio = DiceRoller.getSimpleRate(damageCounter.wound2, maxRolls);
-	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3, maxRolls);
-	int wound4Ratio = DiceRoller.getSimpleRate(damageCounter.wound4m, maxRolls);
-	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, maxRolls);
+    private void showResultsForWildCard(SavageWorldsDamageCounter damageCounter) {
+	int wound1Ratio = DiceRoller.getSimpleRate(damageCounter.wound1, damageCounter.getTotalRolls());
+	int wound2Ratio = DiceRoller.getSimpleRate(damageCounter.wound2, damageCounter.getTotalRolls());
+	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3, damageCounter.getTotalRolls());
+	int wound4Ratio = DiceRoller.getSimpleRate(damageCounter.wound4m, damageCounter.getTotalRolls());
+	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, damageCounter.getTotalRolls());
 	String s = "Shaken  ratio: " + shakenRatio + "% \n"
 	    	+  "1 wound  ratio: " + wound1Ratio + "% \n" 
 	    	+  "2 wounds ratio: " + wound2Ratio + "% \n" 
@@ -197,15 +199,15 @@ public class SavageWorldsFrame extends JFrame {
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void showResultsForExtra(SavageWorldsDamageCounter damageCounter, int maxRolls) {
-	int killRatio = DiceRoller.getSimpleRate(damageCounter.getWounds(), maxRolls);
-	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, maxRolls);
+    private void showResultsForExtra(SavageWorldsDamageCounter damageCounter) {
+	int killRatio = DiceRoller.getSimpleRate(damageCounter.getWounds(), damageCounter.getTotalRolls());
+	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, damageCounter.getTotalRolls());
 	String s = "Kill ratio: " + killRatio + "%  Shaken ratio: " + shakenRatio + "%";
 	System.out.println(damageCounter);
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private int getParry() {
+   private int getParry() {
 	int result = parseTextFieldAsInteger(parryField);
 	return result;
     }

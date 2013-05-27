@@ -28,4 +28,15 @@ public class SavageWorldsDamageCounter {
     public int getWounds() {
 	return wound1 + wound2 + wound3 + wound4m;
     }
+    
+    /**
+     * Convenience method: add everything (should be the same as "total rolls")
+     *  
+     * @return the total number of rolls
+     */
+    public int getTotalRolls() {
+	return nothing + shaken + wound1 + wound2 + wound3 + wound4m;
+    }
+    
+    
 }
