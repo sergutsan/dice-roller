@@ -1,7 +1,7 @@
 package org.sergut.diceroller.savageworlds.test;
 
 
-public class TestSavageWorldsSimulator {
+public class SavageWorldsSimulatorTest {
 //    @Test
 //    public void throwsExceptionIfInvalidExpression() {
 //	String[] diceDescriptions = {
