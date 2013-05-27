@@ -63,24 +63,34 @@ public class SavageWorldsSimulatorTest {
 	    }
 	}
     }
-    //    
-    //    @Test
-    //    public void returnsRightResult() {
-    //	int maxRolls = 100000;
-    //	returnRightResultInThisCase("1d10",  ">", "5",   maxRolls / 2, maxRolls);	
-    //	returnRightResultInThisCase("1d4+4", ">", "1d4", maxRolls,     maxRolls);	
-    //	returnRightResultInThisCase("1d4+4", "<", "1d4", 0,            maxRolls);
-    //    }
-    //    
-    //    public void returnRightResultInThisCase(String testDice, 
-    //	    				String op, 
-    //	    				String targetDice, 
-    //	    				int expectedSuccess, 
-    //	    				int maxRolls) {
-    //	MontecarloSimulator simulator = MontecarloSimulator.getInstance();
-    //	int tolerance = maxRolls / 10; // 10%
-    //	DiceResult result = simulator.simulateDice(testDice, op, targetDice, maxRolls);
-    //	assertTrue(result.totalRolls == maxRolls);
-    //	assertTrue(Math.abs(result.successRolls - expectedSuccess) < tolerance);	
-    //    }
+
+    @Test
+    public void returnsRightResult1() {
+	// build job
+	SavageWorldsSimulationJob job = defaultJob.clone();
+	job.attackDice = "1d12";
+	job.damageDice = "1d12";
+	job.attackerWildCard = false;
+	job.defenderWildCard = true;
+	job.defenderParry = 7;
+	job.defenderToughness = 7;
+	job.defenderShaken = false;
+	job.maxIterations = 100000;
+	// simulate job, collect results
+	// check results
+	returnRightResultInThisCase("1d10",  ">", "5",   maxRolls / 2, maxRolls);	
+	returnRightResultInThisCase("1d4+4", ">", "1d4", maxRolls,     maxRolls);	
+	returnRightResultInThisCase("1d4+4", "<", "1d4", 0,            maxRolls);
+    }
+
+    public void returnRightResultInThisCase(String testDice, 
+	    String op, 
+	    String targetDice, 
+	    int expectedSuccess) {
+	SavageWorldsSimulator simulator = new SavageWorldsSimulator();
+	int tolerance = job.maxIterations / 20; // 5%
+	DiceResult result = simulator.simulateDice(testDice, op, targetDice, maxRolls);
+	assertTrue(result.totalRolls == maxRolls);
+	assertTrue(Math.abs(result.successRolls - expectedSuccess) < tolerance);	
+    }
 }
