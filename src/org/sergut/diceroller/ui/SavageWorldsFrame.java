@@ -255,7 +255,7 @@ public class SavageWorldsFrame extends JFrame {
     }
     
     /**
-     * A panel to choose whether someone in an extra or a wild card
+     * A panel to choose whether someone is an extra or a wild card
      */
     private class WildCardChoicePanel extends JPanel {
 	private static final long serialVersionUID = 111111L;
