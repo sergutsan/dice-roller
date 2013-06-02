@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sergut.diceroller.IllegalDiceExpressionException;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulationJob;
-import org.sergut.diceroller.savageworlds.SavageWorldsSimulationResult;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulator;
 
 
@@ -58,7 +57,7 @@ public class SavageWorldsSimulatorTest {
 	    job.damageDice = "1d4";
 	    SavageWorldsSimulator simulator = SavageWorldsSimulator.getInstance();
 	    try { 
-		simulator.simulate(job);
+		//simulator.simulate(job);
 		fail("Expression " + invalidDice + " was not rejected as test-dice but should.");
 	    } catch (IllegalDiceExpressionException e) {
 		// right behaviour, moving on...
@@ -93,7 +92,7 @@ public class SavageWorldsSimulatorTest {
      * @param p3  Probability of 3 wounds
      */
     private void checkResults(SavageWorldsSimulationJob job, double p0, double ps, double p1, double p2, double p3) {
-	SavageWorldsSimulationResult result = simulator.simulate(job);
+	// SavageWorldsSimulationResult result = simulator.simulate(job);
 	
     }
 

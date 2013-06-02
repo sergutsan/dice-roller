@@ -6,29 +6,31 @@ public class SavageWorldsSimulator {
 
     final static int RAPID_ATTACK_COUNT = 3;
     
-    public SavageWorldsSimulationResult simulate(SavageWorldsSimulationJob job) {
-	DiceRoller diceRoller = new DiceRoller();
-	SavageWorldsSimulationResult result = new SavageWorldsSimulationResult();
-	if (job.includeNonWildAttack) {
-	    if (job.includeBodyAttack) {
-		result.setResult("Normal, body", runSingleAttack(job, AimOption.BODY, AttackOption.NORMAL, diceRoller));
-	    }
-	    if (job.includeHeadAttack) {
-		result.setResult("Normal, head", runSingleAttack(job, AimOption.HEAD, AttackOption.NORMAL, diceRoller));
-	    }
-	}
-	if (job.includeWildAttack) {
-	    if (job.includeBodyAttack) {
-		result.setResult("Wild, body", runSingleAttack(job, AimOption.BODY, AttackOption.WILD, diceRoller));
-	    } 
-	    if (job.includeHeadAttack) { 
-		result.setResult("Wild, head", runSingleAttack(job, AimOption.HEAD, AttackOption.WILD, diceRoller));
-	    }
-	}
-	return result;
-    }
+    final DiceRoller diceRoller = new DiceRoller(); 
+
+//    @Deprecated
+//    public SavageWorldsSimulationResult simulate(SavageWorldsSimulationJob job) {
+//	SavageWorldsSimulationResult result = new SavageWorldsSimulationResult();
+//	if (job.includeNonWildAttack) {
+//	    if (job.includeBodyAttack) {
+//		result.setResult("Normal, body", runSingleAttack(job, AimOption.BODY, AttackOption.NORMAL));
+//	    }
+//	    if (job.includeHeadAttack) {
+//		result.setResult("Normal, head", runSingleAttack(job, AimOption.HEAD, AttackOption.NORMAL));
+//	    }
+//	}
+//	if (job.includeWildAttack) {
+//	    if (job.includeBodyAttack) {
+//		result.setResult("Wild, body", runSingleAttack(job, AimOption.BODY, AttackOption.WILD));
+//	    } 
+//	    if (job.includeHeadAttack) { 
+//		result.setResult("Wild, head", runSingleAttack(job, AimOption.HEAD, AttackOption.WILD));
+//	    }
+//	}
+//	return result;
+//    }
     
-    private SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job, AimOption aimOpn, AttackOption attackOpn, DiceRoller diceRoller) {
+    public SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
 	    String actualAttackDice;
@@ -39,15 +41,6 @@ public class SavageWorldsSimulator {
 	    }
 	    String actualDamageDice = new String(job.damageDice);
 	    int attack = diceRoller.rollDice(actualAttackDice);
-	    switch (aimOpn) {
-	    case BODY: break;
-	    case ARM:  attack -= 2; break;
-	    case HEAD: attack -= 4; break;
-	    }
-	    switch (attackOpn) {
-	    case NORMAL: break;
-	    case WILD:   attack += 2; break;
-	    }
 	    if (attack >= job.defenderParry + 4) {
 		actualDamageDice += "+1d6!";
 	    } else if (attack < job.defenderParry) {
@@ -55,15 +48,6 @@ public class SavageWorldsSimulator {
 		continue;
 	    }
 	    int damage = diceRoller.rollDice(actualDamageDice);
-	    switch (aimOpn) {
-	    case BODY: break;
-	    case ARM:  break;
-	    case HEAD: damage += 4; break;
-	    }
-	    switch (attackOpn) {
-	    case NORMAL: break;
-	    case WILD:   damage += 2; break;
-	    }
 	    int success = damage - job.defenderToughness;
 	    if (success >= 16) {
 		result.wound4m++;
@@ -82,7 +66,7 @@ public class SavageWorldsSimulator {
 	return result;
     }
 
-    private SavageWorldsDamageCounter runRapidAttack(SavageWorldsSimulationJob job, AimOption aimOpn, AttackOption attackOpn, DiceRoller diceRoller) {
+    public SavageWorldsDamageCounter runRapidAttack(SavageWorldsSimulationJob job) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
 	    String actualAttackDice;
@@ -90,15 +74,6 @@ public class SavageWorldsSimulator {
 	    int[] attack = new int[RAPID_ATTACK_COUNT];
 	    for (int j = 0; j < RAPID_ATTACK_COUNT; j++) {
 		attack[i] = diceRoller.rollDice(actualAttackDice);
-		switch (aimOpn) {
-		case BODY: break;
-		case ARM:  attack[j] -= 2; break;
-		case HEAD: attack[j] -= 4; break;
-		}
-		switch (attackOpn) {
-		case NORMAL: break;
-		case WILD:   attack[j] += 2; break;
-		}
 	    }
 	    int wildDieResult = diceRoller.rollDice("1d6!");
 	    attack = fixAttackWithWildDie(attack, wildDieResult);
@@ -114,15 +89,6 @@ public class SavageWorldsSimulator {
 		    continue;
 		}
 		int damage = diceRoller.rollDice(actualDamageDice);
-		switch (aimOpn) {
-		case BODY:              break;
-		case ARM:               break;
-		case HEAD: damage += 4; break;
-		}
-		switch (attackOpn) {
-		case NORMAL:              break;
-		case WILD:   damage += 2; break;
-		}
 		int success = damage - job.defenderToughness;
 		if (success >= 4) {
 		    defenderWounds += success / 4;

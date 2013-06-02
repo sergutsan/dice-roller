@@ -22,7 +22,6 @@ import org.sergut.diceroller.DiceRoller;
 import org.sergut.diceroller.IllegalDiceExpressionException;
 import org.sergut.diceroller.savageworlds.SavageWorldsDamageCounter;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulationJob;
-import org.sergut.diceroller.savageworlds.SavageWorldsSimulationResult;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulator;
 
 public class SavageWorldsFrame extends JFrame {
@@ -171,11 +170,9 @@ public class SavageWorldsFrame extends JFrame {
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard;
 	    job.maxIterations = getMaxIterations();
-	    SavageWorldsSimulationResult result = SavageWorldsSimulator.getInstance().simulate(job);
-	    SavageWorldsDamageCounter damageCounter = result.getResult("Normal, body");
+	    SavageWorldsDamageCounter damageCounter = SavageWorldsSimulator.getInstance().runSingleAttack(job);
 	    if (defenderWildCardPanel.isWildCard()) { 
 		showResultsForWildCard(damageCounter);
-		showResultsForWildCardBIG(result);
 	    } else {
 		showResultsForExtra(damageCounter);
 	    }
@@ -198,23 +195,6 @@ public class SavageWorldsFrame extends JFrame {
 	    	+  "3 wounds ratio: " + wound3Ratio + "% \n" 
 	    	+  "4+ wounds ratio: " + wound4Ratio + "% "; 
 	System.out.println(damageCounter);
-	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    // TODO: do this properly
-    private void showResultsForWildCardBIG(SavageWorldsSimulationResult simulation) {
-	String s = "              Shaken    1 wound   2 wounds  3 wounds  4+ wounds\n";
-	String[] cases = {"Normal, body", "Normal, head", "Wild, body  ", "Wild, head  "};
-	for (String next : cases) {
-	    SavageWorldsDamageCounter damageCounter = simulation.getResult(next.trim());
-	    int wound1 = DiceRoller.getSimpleRate(damageCounter.wound1, damageCounter.getTotalRolls());
-	    int wound2 = DiceRoller.getSimpleRate(damageCounter.wound2, damageCounter.getTotalRolls());
-	    int wound3 = DiceRoller.getSimpleRate(damageCounter.wound3, damageCounter.getTotalRolls());
-	    int wound4 = DiceRoller.getSimpleRate(damageCounter.wound4m, damageCounter.getTotalRolls());
-	    int shaken = DiceRoller.getSimpleRate(damageCounter.shaken, damageCounter.getTotalRolls());
-	    s += next + ": " + shaken + " / " + wound1 + " / " + wound2 + " / " + wound3 + " / " + wound4 + "\n";   
-	    System.out.println(damageCounter);
-	}
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
