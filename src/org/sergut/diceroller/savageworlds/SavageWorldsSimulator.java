@@ -3,6 +3,9 @@ package org.sergut.diceroller.savageworlds;
 import org.sergut.diceroller.DiceRoller;
 
 public class SavageWorldsSimulator {
+
+    final static int RAPID_ATTACK_COUNT = 3;
+    
     public SavageWorldsSimulationResult simulate(SavageWorldsSimulationJob job) {
 	DiceRoller diceRoller = new DiceRoller();
 	SavageWorldsSimulationResult result = new SavageWorldsSimulationResult();
@@ -84,9 +87,8 @@ public class SavageWorldsSimulator {
 	for (int i = 0; i < job.maxIterations; ++i) {
 	    String actualAttackDice;
 	    actualAttackDice = new String(job.attackDice + "-4");
-	    final int attackCount = 3;
-	    int[] attack = new int[attackCount];
-	    for (int j = 0; j < attackCount; j++) {
+	    int[] attack = new int[RAPID_ATTACK_COUNT];
+	    for (int j = 0; j < RAPID_ATTACK_COUNT; j++) {
 		attack[i] = diceRoller.rollDice(actualAttackDice);
 		switch (aimOpn) {
 		case BODY: break;
@@ -104,7 +106,7 @@ public class SavageWorldsSimulator {
 	    // (assuming no bennies to soak wounds as they fall!)
 	    boolean defenderShaken = job.defenderShaken;
 	    int defenderWounds = 0;
-	    for (int j = 0; j < attackCount; j++) {
+	    for (int j = 0; j < RAPID_ATTACK_COUNT; j++) {
 		String actualDamageDice = new String(job.damageDice);
 		if (attack[j] >= job.defenderParry + 4) {
 		    actualDamageDice += "+1d6!";
@@ -131,7 +133,7 @@ public class SavageWorldsSimulator {
 		    }
 		    defenderShaken = true;
 		} else {
-		    // NOP
+		    // NOP: damage is lower than toughness
 		}
 	    }
 	    if (defenderWounds >= 4) {
