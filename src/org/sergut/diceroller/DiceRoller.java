@@ -51,7 +51,7 @@ public class DiceRoller {
      * a cache saves around 95% of computation time (informal calculation) for a litle
      * price in memory. Not bad. ;-)
      */
-    private HashMap<String,ContainerNode> diceBagMap = new HashMap<String,ContainerNode>();  
+    private final HashMap<String,ContainerNode> diceBagMap = new HashMap<String,ContainerNode>();  
     
     /**
      * Takes a string with roll20 syntax, parses it, 
