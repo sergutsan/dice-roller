@@ -1,15 +1,17 @@
 package org.sergut.diceroller.savageworlds.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sergut.diceroller.IllegalDiceExpressionException;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulationJob;
+import org.sergut.diceroller.savageworlds.SavageWorldsSimulationResult;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulator;
 
 
 public class SavageWorldsSimulatorTest {
+    private static final SavageWorldsSimulator simulator = SavageWorldsSimulator.getInstance(); 
     private SavageWorldsSimulationJob defaultJob;
 
     @Before
@@ -79,19 +81,34 @@ public class SavageWorldsSimulatorTest {
 	// simulate job, collect results
 	
 	// check results
-	returnRightResultInThisCase("1d10",  ">", "5",   maxRolls / 2, maxRolls);	
-	returnRightResultInThisCase("1d4+4", ">", "1d4", maxRolls,     maxRolls);	
-	returnRightResultInThisCase("1d4+4", "<", "1d4", 0,            maxRolls);
+	checkResults(job, .1, .1, .1, .1, .1);
     }
 
-    public void returnRightResultInThisCase(String testDice, 
-	    String op, 
-	    String targetDice, 
-	    int expectedSuccess) {
-	SavageWorldsSimulator simulator = new SavageWorldsSimulator();
-	int tolerance = job.maxIterations / 20; // 5%
-	DiceResult result = simulator.simulateDice(testDice, op, targetDice, maxRolls);
-	assertTrue(result.totalRolls == maxRolls);
-	assertTrue(Math.abs(result.successRolls - expectedSuccess) < tolerance);	
+    /**
+     * @param job the job to simulate and check
+     * @param p0  Probability of nothing happens
+     * @param ps  Probability of shaken
+     * @param p1  Probability of 1 wound
+     * @param p2  Probability of 2 wounds
+     * @param p3  Probability of 3 wounds
+     */
+    private void checkResults(SavageWorldsSimulationJob job, double p0, double ps, double p1, double p2, double p3) {
+	SavageWorldsSimulationResult result = simulator.simulate(job);
+	
     }
+
+    /**
+     * Convenience: does not require to enter p0
+     * 
+     * @param job the job to simulate and check
+     * @param ps  Probability of shaken
+     * @param p1  Probability of 1 wound
+     * @param p2  Probability of 2 wounds
+     * @param p3  Probability of 3 wounds
+     */
+    private void checkResults(SavageWorldsSimulationJob job, double ps, double p1, double p2, double p3) {
+	double p0 = 1 - ps - p1 - p2 - p3;
+	checkResults(job, p0, ps, p1, p2, p3);
+    }
+
 }
