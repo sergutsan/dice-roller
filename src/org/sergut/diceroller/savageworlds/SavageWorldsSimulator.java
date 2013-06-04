@@ -122,6 +122,10 @@ public class SavageWorldsSimulator {
 	    result.attack += 2;
 	    result.damage += 2;
 	}
+	if (job.attackerBerserk) {
+	    result.attack += 2;
+	    result.damage += 2;
+	}
 	if (job.attackAim == AttackAim.ARM) {
 	    result.attack -= 2;
 	}

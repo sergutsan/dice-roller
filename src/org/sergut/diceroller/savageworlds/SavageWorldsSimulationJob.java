@@ -14,6 +14,7 @@ public class SavageWorldsSimulationJob {
     public String attackerWildDie       = "1d6!";
     public String attackerAdvanceDamage = "1d6!";
     public boolean attackerTrademarkWeapon = false;
+    public boolean attackerBerserk = false;
     public int defenderParry = -1;
     public int defenderToughness = -1;
     public boolean defenderShaken = false;
