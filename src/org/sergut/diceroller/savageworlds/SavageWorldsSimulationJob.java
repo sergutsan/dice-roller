@@ -1,42 +1,28 @@
 package org.sergut.diceroller.savageworlds;
 
 /**
- * The description of a simulation job for an attach in Savage Worlds
+ * The description of a simulation job for an attach in Savage Worlds. 
+ * 
+ * By default, nothing is defined: all is false or -1. The only exceptions
+ * are aim (default:BODY), iterations (default:10^5), attackerWildDie (default:1d6!),
+ * attackerAdvanceDamage (default:1d6!)
  */
 public class SavageWorldsSimulationJob {
     public String attackDice = null;
-    public String damageDice= null;
+    public String damageDice = null;
     public boolean attackerWildCard = false;
+    public String attackerWildDie       = "1d6!";
+    public String attackerAdvanceDamage = "1d6!";
     public int defenderParry = -1;
     public int defenderToughness = -1;
     public boolean defenderShaken = false;
     public boolean defenderWildCard = false;
-    public int maxIterations = -1;
-    public boolean includeBodyAttack = true;
-    public boolean includeArmAttack  = false;
-    public boolean includeHeadAttack = false;
-    public boolean includeNonWildAttack = true;
-    public boolean includeWildAttack    = false;
-    public boolean includeNonRapidAttack = true;
-    public boolean includeRapidAttack    = false;
+    public int maxIterations = 100000;
+    public AttackAim attackAim = AttackAim.BODY;
+    public boolean wildAttack = false;
+    public boolean rapidAttack = false;
     
-    public SavageWorldsSimulationJob() {
-	attackDice = null;
-	damageDice= null;
-	attackerWildCard = false;
-	defenderParry = -1;
-	defenderToughness = -1;
-	defenderShaken = false;
-	defenderWildCard = false;
-	includeBodyAttack = true;
-	includeArmAttack  = false;
-	includeHeadAttack = false;
-	includeNonWildAttack = true;
-	includeWildAttack    = false;
-	includeNonRapidAttack = true;
-	includeRapidAttack    = false;
-	maxIterations = 100000;
-    }
+    public SavageWorldsSimulationJob() {}
 
     // TODO: implement a fluent interface to build jobs
     public SavageWorldsSimulationJob clone() {
@@ -48,14 +34,10 @@ public class SavageWorldsSimulationJob {
 	result.defenderToughness = this.defenderToughness;
 	result.defenderShaken = this.defenderShaken;
 	result.defenderWildCard = this.defenderWildCard;
-	result.includeBodyAttack = this.includeBodyAttack;
-	result.includeArmAttack  = this.includeArmAttack;
-	result.includeHeadAttack = this.includeHeadAttack;
-	result.includeNonWildAttack = this.includeNonWildAttack;
-	result.includeWildAttack    = this.includeWildAttack;
-	result.includeNonRapidAttack = this.includeNonRapidAttack;
-	result.includeRapidAttack    = this.includeRapidAttack;
 	result.maxIterations = this.maxIterations;
+	result.attackAim = this.attackAim;
+	result.wildAttack = this.wildAttack;
+	result.rapidAttack = this.rapidAttack;
 	return result;
     }
 }
