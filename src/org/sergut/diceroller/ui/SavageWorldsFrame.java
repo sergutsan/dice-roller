@@ -131,13 +131,12 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(attackerBerserkPanel);
 	result.add(trademarkWeaponPanel);
 	// TODO: more options
-	//   - wild attack
 	//   - 2 weapons
 	//      - two-fisted
 	//      - ambidextrous
 	//   - gang-up bonus ____
 	//   - magic bonus   ____
-	//   - other bonus   ____ e.g. berserk
+	//   - other bonus   ____
 	return result;
     }
 
