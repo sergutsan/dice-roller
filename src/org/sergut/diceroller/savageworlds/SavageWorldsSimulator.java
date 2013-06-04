@@ -60,6 +60,91 @@ public class SavageWorldsSimulator {
 	return result;
     }
 
+    private SavageWorldsDamageCounter runDoubleAttack(SavageWorldsSimulationJob job, Modifier modifier) {
+	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
+	for (int i = 0; i < job.maxIterations; ++i) {
+	    String actualAttackDice = new String(job.attackDice);
+	    if (job.attackerWildCard) {
+		actualAttackDice = new String("b[" + job.attackDice + "," + job.attackerWildDie + "]");
+	    }
+	    String actualDamageDice = new String(job.damageDice);
+	    boolean defenderShaken = job.defenderShaken;
+	    int defenderWounds = 0;	    
+	    // First-hand attack
+	    boolean firstAttackHit = true;
+	    int firstAttack = diceRoller.rollDice(actualAttackDice);
+	    firstAttack += modifier.attack;
+	    if (!job.attackerTwoFisted) {
+		firstAttack -= 2;
+	    }
+	    if (firstAttack >= job.defenderParry + 4) {
+		actualDamageDice += "+" + job.attackerAdvanceDamage;
+	    } else if (firstAttack < job.defenderParry) {
+		firstAttackHit = false;
+	    }
+	    if (firstAttackHit) {
+		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
+		int success = damage - job.defenderToughness;
+		if (success >= 4) {
+		    defenderWounds += success / 4;
+		    defenderShaken = true;
+		} else if (success >= 0) {
+		    if (defenderShaken) {
+			defenderWounds++;
+		    }
+		    defenderShaken = true;
+		} else {
+		    // NOP: damage is lower than toughness
+		}
+	    }
+	    // Second-hand attack
+	    boolean secondAttackHit = true;
+	    int secondAttack = diceRoller.rollDice(actualAttackDice);
+	    secondAttack += modifier.attack;
+	    if (!job.attackerTwoFisted) {
+		secondAttack -= 2;
+	    }
+	    if (!job.attackerAmbidextrous) {
+		secondAttack -= 2;
+	    }
+	    if (secondAttack >= job.defenderParry + 4) {
+		actualDamageDice += "+" + job.attackerAdvanceDamage;
+	    } else if (secondAttack < job.defenderParry) {
+		secondAttackHit = false;
+	    }
+	    if (secondAttackHit) {
+		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
+		int success = damage - job.defenderToughness;
+		if (success >= 4) {
+		    defenderWounds += success / 4;
+		    defenderShaken = true;
+		} else if (success >= 0) {
+		    if (defenderShaken) {
+			defenderWounds++;
+		    }
+		    defenderShaken = true;
+		} else {
+		    // NOP: damage is lower than toughness
+		}
+	    }
+	    // Collect results of both attacks
+	    if (defenderWounds >= 4) {
+		result.wound4m++;
+	    } else if (defenderWounds == 3) {
+		result.wound3++;
+	    } else if (defenderWounds == 2) {
+		result.wound2++;
+	    } else if (defenderWounds == 1) {
+		result.wound1++;		
+	    } else if (!job.defenderShaken && defenderShaken && defenderWounds == 0) {
+		result.shaken++;
+	    } else {
+		result.nothing++;
+	    }
+	}
+	return result;
+    }
+
     public SavageWorldsDamageCounter runRapidAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
@@ -79,7 +164,20 @@ public class SavageWorldsSimulator {
 		String actualDamageDice = new String(job.damageDice);
 		if (attack[j] >= job.defenderParry + 4) {
 		    actualDamageDice += "+" + job.attackerAdvanceDamage;
-		} else if (attack[j] < job.defenderParry) {
+		} else if (attack[	    if (defenderWounds >= 4) {
+			result.wound4m++;
+		    } else if (defenderWounds == 3) {
+			result.wound3++;
+		    } else if (defenderWounds == 2) {
+			result.wound2++;
+		    } else if (defenderWounds == 1) {
+			result.wound1++;		
+		    } else if (!job.defenderShaken && defenderShaken && defenderWounds == 0) {
+			result.shaken++;
+		    } else {
+			result.nothing++;
+		    }
+j] < job.defenderParry) {
 		    continue;
 		}
 		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
