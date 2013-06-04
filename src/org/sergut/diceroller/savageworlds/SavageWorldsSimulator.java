@@ -4,50 +4,44 @@ import org.sergut.diceroller.DiceRoller;
 
 public class SavageWorldsSimulator {
 
+    /*
+     * FIXME: As the parser is not able to understand expressions like 
+     *   2 + b[1d12!,1d6!] we cannot just modify the dice expressions 
+     *   for attack and damage. So we add the modifiers in a small tuple
+     *   and imbricate that in the logic. Works OK, but not as elegant.  
+     */
+    
     final static int RAPID_ATTACK_COUNT = 3;
     
     final DiceRoller diceRoller = new DiceRoller(); 
 
-//    @Deprecated
-//    public SavageWorldsSimulationResult simulate(SavageWorldsSimulationJob job) {
-//	SavageWorldsSimulationResult result = new SavageWorldsSimulationResult();
-//	if (job.includeNonWildAttack) {
-//	    if (job.includeBodyAttack) {
-//		result.setResult("Normal, body", runSingleAttack(job, AimOption.BODY, AttackOption.NORMAL));
-//	    }
-//	    if (job.includeHeadAttack) {
-//		result.setResult("Normal, head", runSingleAttack(job, AimOption.HEAD, AttackOption.NORMAL));
-//	    }
-//	}
-//	if (job.includeWildAttack) {
-//	    if (job.includeBodyAttack) {
-//		result.setResult("Wild, body", runSingleAttack(job, AimOption.BODY, AttackOption.WILD));
-//	    } 
-//	    if (job.includeHeadAttack) { 
-//		result.setResult("Wild, head", runSingleAttack(job, AimOption.HEAD, AttackOption.WILD));
-//	    }
-//	}
-//	return result;
-//    }
+    public SavageWorldsDamageCounter simulate(SavageWorldsSimulationJob job) {
+	Modifier modifier = getModifier(job);
+	if (job.rapidAttack) {
+	    return runRapidAttack(job, modifier);
+	} else {
+	    return runSingleAttack(job, modifier);
+	}
+    }
     
-    public SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job) {
+    private SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
-	    String actualAttackDice;
+	    String actualAttackDice = new String(job.attackDice);
 	    if (job.attackerWildCard) {
-		actualAttackDice = new String("b[" + job.attackDice + ",1d6!]");
-	    } else {
-		actualAttackDice = new String(job.attackDice);
+		actualAttackDice = new String("b[" + job.attackDice + "," + job.attackerWildDie + "]");
 	    }
 	    String actualDamageDice = new String(job.damageDice);
 	    int attack = diceRoller.rollDice(actualAttackDice);
+	    attack += modifier.attack;
 	    if (attack >= job.defenderParry + 4) {
-		actualDamageDice += "+1d6!";
+		actualDamageDice += "+" + job.attackerAdvanceDamage;
 	    } else if (attack < job.defenderParry) {
 		result.nothing++;
 		continue;
 	    }
 	    int damage = diceRoller.rollDice(actualDamageDice);
+	    damage += modifier.damage;
 	    int success = damage - job.defenderToughness;
 	    if (success >= 16) {
 		result.wound4m++;
@@ -66,16 +60,16 @@ public class SavageWorldsSimulator {
 	return result;
     }
 
-    public SavageWorldsDamageCounter runRapidAttack(SavageWorldsSimulationJob job) {
+    public SavageWorldsDamageCounter runRapidAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
 	    String actualAttackDice;
 	    actualAttackDice = new String(job.attackDice + "-4");
 	    int[] attack = new int[RAPID_ATTACK_COUNT];
 	    for (int j = 0; j < RAPID_ATTACK_COUNT; j++) {
-		attack[i] = diceRoller.rollDice(actualAttackDice);
+		attack[i] = diceRoller.rollDice(actualAttackDice) + modifier.attack;
 	    }
-	    int wildDieResult = diceRoller.rollDice("1d6!");
+	    int wildDieResult = diceRoller.rollDice(job.attackerWildDie) + modifier.attack;
 	    attack = fixAttackWithWildDie(attack, wildDieResult);
 	    // Now let's see the damage of those three rapid attacks 
 	    // (assuming no bennies to soak wounds as they fall!)
@@ -84,11 +78,11 @@ public class SavageWorldsSimulator {
 	    for (int j = 0; j < RAPID_ATTACK_COUNT; j++) {
 		String actualDamageDice = new String(job.damageDice);
 		if (attack[j] >= job.defenderParry + 4) {
-		    actualDamageDice += "+1d6!";
+		    actualDamageDice += "+" + job.attackerAdvanceDamage;
 		} else if (attack[j] < job.defenderParry) {
 		    continue;
 		}
-		int damage = diceRoller.rollDice(actualDamageDice);
+		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
 		int success = damage - job.defenderToughness;
 		if (success >= 4) {
 		    defenderWounds += success / 4;
@@ -119,6 +113,22 @@ public class SavageWorldsSimulator {
 	return result;
     }
 
+    private Modifier getModifier(SavageWorldsSimulationJob job) {
+	Modifier result = new Modifier();
+	if (job.wildAttack) {
+	    result.attack += 2;
+	    result.damage += 2;
+	}
+	if (job.attackAim == AttackAim.ARM) {
+	    result.attack -= 2;
+	}
+	if (job.attackAim == AttackAim.HEAD) {
+	    result.attack -= 4;
+	    result.damage += 4;
+	}
+	return result;
+    }
+
     /*
      * If the wild die is higher than the lowest of the rapid attacks, use
      * the wild die instead. In case of a tie, substitute the earliest one
@@ -139,6 +149,11 @@ public class SavageWorldsSimulator {
 	    attack[minIdx] = wildDieResult;
 	}
 	return attack;
+    }
+    
+    private class Modifier {
+	public int attack = 0;
+	public int damage = 0;
     }
     
     private SavageWorldsSimulator() {}
