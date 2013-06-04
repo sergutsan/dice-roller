@@ -165,7 +165,12 @@ public class SavageWorldsFrame extends JFrame {
 	calculateButton.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		runSimulation();
+		try {
+		    runSimulation();
+		} catch (IllegalArgumentException ex) {
+		    String s = "Error: " + ex.getMessage();
+		    JOptionPane.showMessageDialog(null, s, "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	    }});
     }
 

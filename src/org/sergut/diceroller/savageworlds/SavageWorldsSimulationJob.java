@@ -15,6 +15,10 @@ public class SavageWorldsSimulationJob {
     public String attackerAdvanceDamage = "1d6!";
     public boolean attackerTrademarkWeapon = false;
     public boolean attackerBerserk = false;
+    public boolean wildAttack = false;
+    public boolean rapidAttack = false;
+    public boolean frenzyAttack = false;
+    public boolean doubleAttack = false;
     public boolean attackerTwoFisted = false;
     public boolean attackerAmbidextrous = false;
     public int defenderParry = -1;
@@ -23,8 +27,6 @@ public class SavageWorldsSimulationJob {
     public boolean defenderWildCard = false;
     public int maxIterations = 100000;
     public AttackAim attackAim = AttackAim.BODY;
-    public boolean wildAttack = false;
-    public boolean rapidAttack = false;
     
     public SavageWorldsSimulationJob() {}
 

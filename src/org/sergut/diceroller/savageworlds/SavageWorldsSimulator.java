@@ -16,14 +16,28 @@ public class SavageWorldsSimulator {
     final DiceRoller diceRoller = new DiceRoller(); 
 
     public SavageWorldsDamageCounter simulate(SavageWorldsSimulationJob job) {
+	checkConsistency(job);
 	Modifier modifier = getModifier(job);
 	if (job.rapidAttack) {
 	    return runRapidAttack(job, modifier);
+	} else if (job.doubleAttack) {
+	    return runDoubleAttack(job, modifier);
 	} else {
 	    return runSingleAttack(job, modifier);
 	}
     }
     
+    private void checkConsistency(SavageWorldsSimulationJob job) {
+	int multipleAttackOptionsCounter = 0;
+	if (job.rapidAttack)  multipleAttackOptionsCounter++;
+	if (job.doubleAttack) multipleAttackOptionsCounter++;
+	if (job.frenzyAttack) multipleAttackOptionsCounter++;
+	if (multipleAttackOptionsCounter > 1) {
+	    throw new IllegalArgumentException("Only of these options can be selected at " 
+		                   + "the same time: Double attack, Rapid Attack, Frenzy.");
+	}
+    }
+
     private SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
@@ -164,20 +178,7 @@ public class SavageWorldsSimulator {
 		String actualDamageDice = new String(job.damageDice);
 		if (attack[j] >= job.defenderParry + 4) {
 		    actualDamageDice += "+" + job.attackerAdvanceDamage;
-		} else if (attack[	    if (defenderWounds >= 4) {
-			result.wound4m++;
-		    } else if (defenderWounds == 3) {
-			result.wound3++;
-		    } else if (defenderWounds == 2) {
-			result.wound2++;
-		    } else if (defenderWounds == 1) {
-			result.wound1++;		
-		    } else if (!job.defenderShaken && defenderShaken && defenderWounds == 0) {
-			result.shaken++;
-		    } else {
-			result.nothing++;
-		    }
-j] < job.defenderParry) {
+		} else if (attack[j] < job.defenderParry) {
 		    continue;
 		}
 		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
