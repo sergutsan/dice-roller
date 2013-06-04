@@ -67,6 +67,9 @@ public class SavageWorldsFrame extends JFrame {
     private WildCardChoicePanel defenderWildCardPanel = new WildCardChoicePanel("Defender");
     
     private CheckPanel defenderShakenPanel = new CheckPanel("Defender already shaken?");
+    private CheckPanel wildAttackPanel = new CheckPanel("Wild Attack?");
+    private CheckPanel trademarkWeaponPanel = new CheckPanel("Trademark Weapon?");
+    private CheckPanel attackerBerserkPanel = new CheckPanel("Attacker Berserk?");
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
@@ -124,16 +127,14 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(attackDiePanel);
 	result.add(attackerAimPanel);
 	result.add(attackerWildCardPanel);
+	result.add(wildAttackPanel);
+	result.add(attackerBerserkPanel);
+	result.add(trademarkWeaponPanel);
 	// TODO: more options
-	//   - o Attack body
-	//     o Attack arm
-	//     o Attack head
 	//   - wild attack
 	//   - 2 weapons
 	//      - two-fisted
 	//      - ambidextrous
-	//   - trademark weapon
-	//   - berserk
 	//   - gang-up bonus ____
 	//   - magic bonus   ____
 	//   - other bonus   ____ e.g. berserk
@@ -180,6 +181,7 @@ public class SavageWorldsFrame extends JFrame {
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard();
 	    job.attackAim = attackerAimPanel.getAim();
+	    job.wildAttack = wildAttackPanel.isChecked();
 	    job.maxIterations = getMaxIterations();
 	    SavageWorldsDamageCounter damageCounter = SavageWorldsSimulator.getInstance().simulate(job);
 	    if (defenderWildCardPanel.isWildCard()) { 
