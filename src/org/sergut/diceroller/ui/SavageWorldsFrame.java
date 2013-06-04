@@ -176,6 +176,7 @@ public class SavageWorldsFrame extends JFrame {
 	    job.damageDice = collectDamageDice();
 	    job.attackerWildCard = attackerWildCardPanel.isWildCard();
 	    job.attackAim = attackerAimPanel.getAim();
+	    job.attackerTrademarkWeapon = trademarkWeaponPanel.isChecked();
 	    job.defenderParry = getParry();
 	    job.defenderToughness = getToughness();
 	    job.defenderShaken = defenderShakenPanel.isChecked();

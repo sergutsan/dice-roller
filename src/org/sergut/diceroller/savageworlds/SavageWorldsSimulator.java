@@ -115,6 +115,9 @@ public class SavageWorldsSimulator {
 
     private Modifier getModifier(SavageWorldsSimulationJob job) {
 	Modifier result = new Modifier();
+	if (job.attackerTrademarkWeapon) {
+	    result.attack += 1;
+	}
 	if (job.wildAttack) {
 	    result.attack += 2;
 	    result.damage += 2;
