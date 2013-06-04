@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import org.sergut.diceroller.DiceRoller;
 import org.sergut.diceroller.IllegalDiceExpressionException;
+import org.sergut.diceroller.savageworlds.AttackAim;
 import org.sergut.diceroller.savageworlds.SavageWorldsDamageCounter;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulationJob;
 import org.sergut.diceroller.savageworlds.SavageWorldsSimulator;
@@ -60,6 +61,8 @@ public class SavageWorldsFrame extends JFrame {
 
     private JButton calculateButton = new JButton("Calculate!");
 
+    private AttackAimPanel attackerAimPanel = new AttackAimPanel();
+    
     private WildCardChoicePanel attackerWildCardPanel = new WildCardChoicePanel("Attacker");
     private WildCardChoicePanel defenderWildCardPanel = new WildCardChoicePanel("Defender");
     
@@ -119,6 +122,7 @@ public class SavageWorldsFrame extends JFrame {
 	attackDiePanel.add(new JLabel("Attack die: "));
 	attackDiePanel.add(attackDiceCombobox);
 	result.add(attackDiePanel);
+	result.add(attackerAimPanel);
 	result.add(attackerWildCardPanel);
 	// TODO: more options
 	//   - o Attack body
@@ -170,12 +174,14 @@ public class SavageWorldsFrame extends JFrame {
 	    job.attackDice = collectAttackDice();
 	    job.damageDice = collectDamageDice();
 	    job.attackerWildCard = attackerWildCardPanel.isWildCard();
+	    job.attackAim = attackerAimPanel.getAim();
 	    job.defenderParry = getParry();
 	    job.defenderToughness = getToughness();
 	    job.defenderShaken = defenderShakenPanel.isChecked();
-	    job.defenderWildCard = defenderWildCardPanel.isWildCard;
+	    job.defenderWildCard = defenderWildCardPanel.isWildCard();
+	    job.attackAim = attackerAimPanel.getAim();
 	    job.maxIterations = getMaxIterations();
-	    SavageWorldsDamageCounter damageCounter = SavageWorldsSimulator.getInstance().runSingleAttack(job);
+	    SavageWorldsDamageCounter damageCounter = SavageWorldsSimulator.getInstance().simulate(job);
 	    if (defenderWildCardPanel.isWildCard()) { 
 		showResultsForWildCard(damageCounter);
 	    } else {
@@ -285,6 +291,46 @@ public class SavageWorldsFrame extends JFrame {
 	
 	public boolean isWildCard() {
 	    return isWildCard;
+	}
+    }
+
+    /**
+     * A panel to choose where to attack
+     */
+    private class AttackAimPanel extends JPanel {
+	private static final long serialVersionUID = 1111113L;
+	private AttackAim aim = AttackAim.BODY;
+	
+	public AttackAimPanel() {
+	    this.setLayout(new FlowLayout());
+	    JLabel label = new JLabel("Attacking: ");
+	    this.add(label);
+	    ButtonGroup buttonGroup = new ButtonGroup();
+	    JRadioButton bodyButton = new JRadioButton("Body", true);
+	    buttonGroup.add(bodyButton);
+	    this.add(bodyButton);
+	    bodyButton.addActionListener(new ActionListener() {
+		@Override public void actionPerformed(ActionEvent e) {
+		    aim = AttackAim.BODY;
+		}});
+	    JRadioButton armButton = new JRadioButton("Arm", false);
+	    buttonGroup.add(armButton);
+	    this.add(armButton);
+	    armButton.addActionListener(new ActionListener() {
+		@Override public void actionPerformed(ActionEvent e) {
+		    aim = AttackAim.ARM;
+		}});
+	    JRadioButton headButton = new JRadioButton("Head", false);
+	    buttonGroup.add(headButton);
+	    this.add(headButton);
+	    headButton.addActionListener(new ActionListener() {
+		@Override public void actionPerformed(ActionEvent e) {
+		    aim = AttackAim.HEAD;
+		}});
+	}
+
+	public AttackAim getAim() {
+	    return aim;
 	}
     }
     
