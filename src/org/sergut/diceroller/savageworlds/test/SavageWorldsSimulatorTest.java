@@ -22,13 +22,6 @@ public class SavageWorldsSimulatorTest {
 	defaultJob.defenderToughness = -1;
 	defaultJob.defenderShaken = false;
 	defaultJob.defenderWildCard = false;
-	defaultJob.includeBodyAttack = true;
-	defaultJob.includeArmAttack  = false;
-	defaultJob.includeHeadAttack = false;
-	defaultJob.includeNonWildAttack = true;
-	defaultJob.includeWildAttack    = false;
-	defaultJob.includeNonRapidAttack = true;
-	defaultJob.includeRapidAttack    = false;
 	defaultJob.maxIterations = 100000;
     }
 
