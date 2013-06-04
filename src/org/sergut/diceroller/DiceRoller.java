@@ -19,7 +19,10 @@ import org.sergut.diceroller.ui.DiceRollerFrame;
 
 public class DiceRoller {
 
-/* General expression
+/* FIXME: This syntax is not very useful... it should admit expressions like 2 + b[1d12!,1d6!]
+ *    and possibly something recursive like 1 + w[2 + b[1d12!,1d6!], 3+s12!]
+ * 
+ * General expression
  * G := b[L]
  * G := w[L]
  * G := E
