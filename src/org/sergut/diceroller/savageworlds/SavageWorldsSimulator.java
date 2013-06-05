@@ -30,6 +30,7 @@ public class SavageWorldsSimulator {
     
     private SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
+	int actualToughness = getToughness(job);
 	for (int i = 0; i < job.maxIterations; ++i) {
 	    String actualAttackDice = new String(job.attackDice);
 	    if (job.attackerWildCard) {
@@ -46,7 +47,7 @@ public class SavageWorldsSimulator {
 	    }
 	    int damage = diceRoller.rollDice(actualDamageDice);
 	    damage += modifier.damage;
-	    int success = damage - job.defenderToughness;
+	    int success = damage - actualToughness;
 	    if (success >= 16) {
 		result.wound4m++;
 	    } else if (success >= 12) {
@@ -66,6 +67,7 @@ public class SavageWorldsSimulator {
 
     private SavageWorldsDamageCounter runDoubleAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
+	int actualToughness = getToughness(job);
 	for (int i = 0; i < job.maxIterations; ++i) {
 	    String actualAttackDice = new String(job.attackDice);
 	    if (job.attackerWildCard) {
@@ -88,7 +90,7 @@ public class SavageWorldsSimulator {
 	    }
 	    if (firstAttackHit) {
 		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
-		int success = damage - job.defenderToughness;
+		int success = damage - actualToughness;
 		if (success >= 4) {
 		    defenderWounds += success / 4;
 		    defenderShaken = true;
@@ -118,7 +120,7 @@ public class SavageWorldsSimulator {
 	    }
 	    if (secondAttackHit) {
 		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
-		int success = damage - job.defenderToughness;
+		int success = damage - actualToughness;
 		if (success >= 4) {
 		    defenderWounds += success / 4;
 		    defenderShaken = true;
@@ -151,6 +153,7 @@ public class SavageWorldsSimulator {
 
     public SavageWorldsDamageCounter runRapidAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
+	int actualToughness = getToughness(job);
 	for (int i = 0; i < job.maxIterations; ++i) {
 	    String actualAttackDice;
 	    actualAttackDice = new String(job.attackDice + "-4");
@@ -172,7 +175,7 @@ public class SavageWorldsSimulator {
 		    continue;
 		}
 		int damage = diceRoller.rollDice(actualDamageDice) + modifier.damage;
-		int success = damage - job.defenderToughness;
+		int success = damage - actualToughness;
 		if (success >= 4) {
 		    defenderWounds += success / 4;
 		    defenderShaken = true;
@@ -201,6 +204,15 @@ public class SavageWorldsSimulator {
 	}
 	return result;
     }
+
+	private int getToughness(SavageWorldsSimulationJob job) {
+		switch (job.attackAim) {
+		case BODY:  return job.defenderToughnessBody;
+		case HEAD:  return job.defenderToughnessHead;
+		case ARM:   return job.defenderToughnessArm;
+    	default:    throw new IllegalArgumentException("Toughness is not defined.");
+    	}
+	}
 
 	private void checkConsistency(SavageWorldsSimulationJob job) {
 	int multipleAttackOptionsCounter = 0;

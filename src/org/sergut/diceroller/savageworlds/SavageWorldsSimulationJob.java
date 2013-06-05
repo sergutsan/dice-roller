@@ -22,7 +22,9 @@ public class SavageWorldsSimulationJob implements Cloneable {
     public boolean attackerTwoFisted = false;
     public boolean attackerAmbidextrous = false;
     public int defenderParry = -1;
-    public int defenderToughness = -1;
+    public int defenderToughnessBody = -1;
+    public int defenderToughnessArm = -1;
+    public int defenderToughnessHead = -1;
     public boolean defenderShaken = false;
     public boolean defenderWildCard = false;
     public boolean defenderAttackedWild = false;

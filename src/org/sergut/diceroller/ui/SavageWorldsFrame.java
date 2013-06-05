@@ -5,6 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -53,7 +56,9 @@ public class SavageWorldsFrame extends JFrame {
     private JLabel parryLabel = new JLabel("Parry / Diff.");
     private JTextField parryField = new JTextField(FIELD_LENGTH);
     private JLabel toughnessLabel = new JLabel("Toughness");
-    private JTextField toughnessField = new JTextField(FIELD_LENGTH);
+    private JTextField toughnessBodyField = new JTextField("Body");
+    private JTextField toughnessArmField  = new JTextField("Arm ");
+    private JTextField toughnessHeadField = new JTextField("Head");
 
     private static final int INITIAL_MAX_ROLLS = 1000000;
     private JLabel iterationsLabel = new JLabel("Rolls");
@@ -109,7 +114,10 @@ public class SavageWorldsFrame extends JFrame {
 	JPanel toughnessPane = new JPanel();
 	toughnessPane.setLayout(new FlowLayout());
 	toughnessPane.add(toughnessLabel);
-	toughnessPane.add(toughnessField);
+	linkToughnessTextBoxes();
+	toughnessPane.add(toughnessBodyField);
+	toughnessPane.add(toughnessArmField);
+	toughnessPane.add(toughnessHeadField);
 	enemyPane.add(toughnessPane);
 	enemyPane.add(defenderWildAttackPanel);
 	enemyPane.add(defenderWildCardPanel);
@@ -120,7 +128,17 @@ public class SavageWorldsFrame extends JFrame {
 	return result;
     }
     
-    private JPanel getWestPanel() {
+    private void linkToughnessTextBoxes() {
+    	toughnessBodyField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				String currentTxt = toughnessBodyField.getText();
+				toughnessArmField.setText(currentTxt);
+				toughnessHeadField.setText(currentTxt);
+			}});
+	}
+
+	private JPanel getWestPanel() {
 	JPanel result = new JPanel();
 	result.setLayout(new BoxLayout(result, BoxLayout.Y_AXIS));
 	JPanel attackDiePanel = new JPanel();
@@ -187,7 +205,10 @@ public class SavageWorldsFrame extends JFrame {
 	    job.wildAttack = attackerWildAttackPanel.isChecked();
 	    job.attackAim = attackerAimPanel.getAim();
 	    job.defenderParry = getParry();
-	    job.defenderToughness = getToughness();
+	    ToughnessTuple toughness = getToughness();
+	    job.defenderToughnessBody = toughness.body;
+	    job.defenderToughnessArm  = toughness.arm;
+	    job.defenderToughnessHead = toughness.head;
 	    job.defenderAttackedWild = defenderWildAttackPanel.isChecked();
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard();
@@ -233,9 +254,12 @@ public class SavageWorldsFrame extends JFrame {
 	return result;
     }
 
-    private int getToughness() {
-	int result = parseTextFieldAsInteger(toughnessField);
-	return result;
+    private ToughnessTuple getToughness() {
+    	ToughnessTuple result = new ToughnessTuple();
+    	result.body = parseTextFieldAsInteger(toughnessBodyField);
+    	result.head = parseTextFieldAsInteger(toughnessHeadField);
+    	result.arm  = parseTextFieldAsInteger(toughnessArmField);
+    	return result;
     }
 
     private int getMaxIterations() {
@@ -363,6 +387,11 @@ public class SavageWorldsFrame extends JFrame {
 	}
     }
     
+    private class ToughnessTuple {
+    	int body;
+    	int head;
+    	int arm;
+    }
     
     public static void main(String... args) {
 	SavageWorldsFrame frame = new SavageWorldsFrame();

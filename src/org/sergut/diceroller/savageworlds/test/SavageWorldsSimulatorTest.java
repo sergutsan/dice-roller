@@ -15,14 +15,6 @@ public class SavageWorldsSimulatorTest {
     @Before
     public void buildDefaultJob() {
 	defaultJob = new SavageWorldsSimulationJob();
-	defaultJob.attackDice = null;
-	defaultJob.damageDice= null;
-	defaultJob.attackerWildCard = false;
-	defaultJob.defenderParry = -1;
-	defaultJob.defenderToughness = -1;
-	defaultJob.defenderShaken = false;
-	defaultJob.defenderWildCard = false;
-	defaultJob.maxIterations = 100000;
     }
 
  //   @Test
@@ -67,7 +59,6 @@ public class SavageWorldsSimulatorTest {
 	job.attackerWildCard = false;
 	job.defenderWildCard = true;
 	job.defenderParry = 7;
-	job.defenderToughness = 7;
 	job.defenderShaken = false;
 	job.maxIterations = 100000;
 	// simulate job, collect results
