@@ -46,12 +46,14 @@ public class SavageWorldsFrame extends JFrame {
     private JLabel damageD8Label = new JLabel(" d8");
     private JLabel damageD10Label = new JLabel("d10");
     private JLabel damageD12Label = new JLabel("d12");
+    private JLabel damageBonusLabel = new JLabel(" +?");
 
     private JTextField damageD4Field = new JTextField(FIELD_LENGTH);
     private JTextField damageD6Field = new JTextField(FIELD_LENGTH);
     private JTextField damageD8Field = new JTextField(FIELD_LENGTH);
     private JTextField damageD10Field = new JTextField(FIELD_LENGTH);
     private JTextField damageD12Field = new JTextField(FIELD_LENGTH);
+    private JTextField damageBonusField = new JTextField(FIELD_LENGTH);
 
     private JLabel parryLabel = new JLabel("Parry / Diff.");
     private JTextField parryField = new JTextField(FIELD_LENGTH);
@@ -107,6 +109,7 @@ public class SavageWorldsFrame extends JFrame {
 	damagePane.add(packLabelAndTextField(damageD8Label, damageD8Field), BorderLayout.CENTER);
 	damagePane.add(packLabelAndTextField(damageD10Label, damageD10Field), BorderLayout.CENTER);
 	damagePane.add(packLabelAndTextField(damageD12Label, damageD12Field), BorderLayout.CENTER);
+	damagePane.add(packLabelAndTextField(damageBonusLabel, damageBonusField), BorderLayout.CENTER);
 	JPanel enemyPane = new JPanel();
 	enemyPane.setLayout(new GridLayout(0,1));
 	JPanel parryPane = new JPanel();
@@ -114,6 +117,7 @@ public class SavageWorldsFrame extends JFrame {
 	parryPane.add(parryLabel);
 	parryPane.add(parryField);
 	enemyPane.add(parryPane);
+	enemyPane.add(defenderWildAttackPanel);
 	JPanel toughnessPane = new JPanel();
 	toughnessPane.setLayout(new FlowLayout());
 	toughnessPane.add(toughnessLabel);
@@ -125,7 +129,6 @@ public class SavageWorldsFrame extends JFrame {
 	toughnessPane.add(toughnessHeadLabel);
 	toughnessPane.add(toughnessHeadField);
 	enemyPane.add(toughnessPane);
-	enemyPane.add(defenderWildAttackPanel);
 	enemyPane.add(defenderWildCardPanel);
 	enemyPane.add(defenderShakenPanel);
 	result.setLayout(new GridLayout(0,1));
@@ -238,11 +241,16 @@ public class SavageWorldsFrame extends JFrame {
 	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3, damageCounter.getTotalRolls());
 	int wound4Ratio = DiceRoller.getSimpleRate(damageCounter.wound4m, damageCounter.getTotalRolls());
 	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, damageCounter.getTotalRolls());
+	int woundRatio = wound1Ratio + wound2Ratio + wound3Ratio + wound4Ratio; 
+	int nothingRatio = 100 - wound1Ratio - wound2Ratio - wound3Ratio - wound4Ratio - shakenRatio; 
 	String s = "Shaken  ratio: " + shakenRatio + "% \n"
 	    	+  "1 wound  ratio: " + wound1Ratio + "% \n" 
 	    	+  "2 wounds ratio: " + wound2Ratio + "% \n" 
 	    	+  "3 wounds ratio: " + wound3Ratio + "% \n" 
-	    	+  "4+ wounds ratio: " + wound4Ratio + "% "; 
+	    	+  "4+ wounds ratio: " + wound4Ratio + "% \n"
+	    	+  "(nothing ratio: " + nothingRatio + "% \n"
+	    	+  "wounding ratio: " + woundRatio + "%)"
+	    	; 
 	System.out.println(damageCounter);
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -291,6 +299,8 @@ public class SavageWorldsFrame extends JFrame {
 	result += n + "d10!+";
 	n = parseTextFieldAsInteger(damageD12Field);
 	result += n + "d12!+";
+	n = parseTextFieldAsInteger(damageBonusField);
+	result += n + "+";
 	return result.substring(0, result.length()-1); // Remove trailing "+"
     }
 
