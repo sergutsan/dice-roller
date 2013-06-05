@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -32,6 +31,7 @@ public class SavageWorldsFrame extends JFrame {
 
     private static final long serialVersionUID = 12872389749812789L;
     
+    private static final int SHORT_FIELD_LENGTH = 2;
     private static final int FIELD_LENGTH = 4;
     
     // TODO: develop a general reusable way of creating labels and fields for dice
@@ -56,9 +56,12 @@ public class SavageWorldsFrame extends JFrame {
     private JLabel parryLabel = new JLabel("Parry / Diff.");
     private JTextField parryField = new JTextField(FIELD_LENGTH);
     private JLabel toughnessLabel = new JLabel("Toughness");
-    private JTextField toughnessBodyField = new JTextField("Body");
-    private JTextField toughnessArmField  = new JTextField("Arm ");
-    private JTextField toughnessHeadField = new JTextField("Head");
+    private JLabel toughnessBodyLabel = new JLabel("Body");
+    private JLabel toughnessArmLabel = new JLabel("Arm");
+    private JLabel toughnessHeadLabel = new JLabel("Head");
+    private JTextField toughnessBodyField = new JTextField(SHORT_FIELD_LENGTH);
+    private JTextField toughnessArmField  = new JTextField(SHORT_FIELD_LENGTH);
+    private JTextField toughnessHeadField = new JTextField(SHORT_FIELD_LENGTH);
 
     private static final int INITIAL_MAX_ROLLS = 1000000;
     private JLabel iterationsLabel = new JLabel("Rolls");
@@ -115,8 +118,11 @@ public class SavageWorldsFrame extends JFrame {
 	toughnessPane.setLayout(new FlowLayout());
 	toughnessPane.add(toughnessLabel);
 	linkToughnessTextBoxes();
+	toughnessPane.add(toughnessBodyLabel);
 	toughnessPane.add(toughnessBodyField);
+	toughnessPane.add(toughnessArmLabel);
 	toughnessPane.add(toughnessArmField);
+	toughnessPane.add(toughnessHeadLabel);
 	toughnessPane.add(toughnessHeadField);
 	enemyPane.add(toughnessPane);
 	enemyPane.add(defenderWildAttackPanel);
