@@ -25,6 +25,7 @@ public class SavageWorldsSimulationJob {
     public int defenderToughness = -1;
     public boolean defenderShaken = false;
     public boolean defenderWildCard = false;
+    public boolean defenderAttackedWild = false;
     public int maxIterations = 100000;
     public AttackAim attackAim = AttackAim.BODY;
     

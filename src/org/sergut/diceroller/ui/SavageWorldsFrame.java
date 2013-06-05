@@ -67,7 +67,8 @@ public class SavageWorldsFrame extends JFrame {
     private WildCardChoicePanel defenderWildCardPanel = new WildCardChoicePanel("Defender");
     
     private CheckPanel defenderShakenPanel = new CheckPanel("Defender already shaken?");
-    private CheckPanel wildAttackPanel = new CheckPanel("Wild Attack?");
+    private CheckPanel attackerWildAttackPanel = new CheckPanel("Wild Attack?");
+    private CheckPanel defenderWildAttackPanel = new CheckPanel("Wild-attacked? (-2 parry)");
     private CheckPanel trademarkWeaponPanel = new CheckPanel("Trademark Weapon?");
     private CheckPanel attackerBerserkPanel = new CheckPanel("Attacker Berserk?");
     
@@ -110,6 +111,7 @@ public class SavageWorldsFrame extends JFrame {
 	toughnessPane.add(toughnessLabel);
 	toughnessPane.add(toughnessField);
 	enemyPane.add(toughnessPane);
+	enemyPane.add(defenderWildAttackPanel);
 	enemyPane.add(defenderWildCardPanel);
 	enemyPane.add(defenderShakenPanel);
 	result.setLayout(new GridLayout(0,1));
@@ -127,7 +129,7 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(attackDiePanel);
 	result.add(attackerAimPanel);
 	result.add(attackerWildCardPanel);
-	result.add(wildAttackPanel);
+	result.add(attackerWildAttackPanel);
 	result.add(attackerBerserkPanel);
 	result.add(trademarkWeaponPanel);
 	// TODO: more options
@@ -182,12 +184,13 @@ public class SavageWorldsFrame extends JFrame {
 	    job.attackAim = attackerAimPanel.getAim();
 	    job.attackerTrademarkWeapon = trademarkWeaponPanel.isChecked();
 	    job.attackerBerserk = attackerBerserkPanel.isChecked();
+	    job.wildAttack = attackerWildAttackPanel.isChecked();
+	    job.attackAim = attackerAimPanel.getAim();
 	    job.defenderParry = getParry();
 	    job.defenderToughness = getToughness();
+	    job.defenderAttackedWild = defenderWildAttackPanel.isChecked();
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard();
-	    job.attackAim = attackerAimPanel.getAim();
-	    job.wildAttack = wildAttackPanel.isChecked();
 	    job.maxIterations = getMaxIterations();
 	    SavageWorldsDamageCounter damageCounter = SavageWorldsSimulator.getInstance().simulate(job);
 	    if (defenderWildCardPanel.isWildCard()) { 

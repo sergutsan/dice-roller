@@ -18,26 +18,16 @@ public class SavageWorldsSimulator {
     public SavageWorldsDamageCounter simulate(SavageWorldsSimulationJob job) {
 	checkConsistency(job);
 	Modifier modifier = getModifier(job);
+	SavageWorldsSimulationJob actualJob = modifyParryToughnessFrom(job);
 	if (job.rapidAttack) {
-	    return runRapidAttack(job, modifier);
+	    return runRapidAttack(actualJob, modifier);
 	} else if (job.doubleAttack) {
-	    return runDoubleAttack(job, modifier);
+	    return runDoubleAttack(actualJob, modifier);
 	} else {
-	    return runSingleAttack(job, modifier);
+	    return runSingleAttack(actualJob, modifier);
 	}
     }
     
-    private void checkConsistency(SavageWorldsSimulationJob job) {
-	int multipleAttackOptionsCounter = 0;
-	if (job.rapidAttack)  multipleAttackOptionsCounter++;
-	if (job.doubleAttack) multipleAttackOptionsCounter++;
-	if (job.frenzyAttack) multipleAttackOptionsCounter++;
-	if (multipleAttackOptionsCounter > 1) {
-	    throw new IllegalArgumentException("Only of these options can be selected at " 
-		                   + "the same time: Double attack, Rapid Attack, Frenzy.");
-	}
-    }
-
     private SavageWorldsDamageCounter runSingleAttack(SavageWorldsSimulationJob job, Modifier modifier) {
 	SavageWorldsDamageCounter result = new SavageWorldsDamageCounter();
 	for (int i = 0; i < job.maxIterations; ++i) {
@@ -211,6 +201,25 @@ public class SavageWorldsSimulator {
 	}
 	return result;
     }
+
+	private void checkConsistency(SavageWorldsSimulationJob job) {
+	int multipleAttackOptionsCounter = 0;
+	if (job.rapidAttack)  multipleAttackOptionsCounter++;
+	if (job.doubleAttack) multipleAttackOptionsCounter++;
+	if (job.frenzyAttack) multipleAttackOptionsCounter++;
+	if (multipleAttackOptionsCounter > 1) {
+	    throw new IllegalArgumentException("Only of these options can be selected at " 
+		                   + "the same time: Double attack, Rapid Attack, Frenzy.");
+	}
+    }
+
+    private SavageWorldsSimulationJob modifyParryToughnessFrom(SavageWorldsSimulationJob job) {
+    	SavageWorldsSimulationJob result = job.clone();
+    	if (job.defenderAttackedWild) {
+    		job.defenderParry -= 2;
+    	}
+		return result;
+	}
 
     private Modifier getModifier(SavageWorldsSimulationJob job) {
 	Modifier result = new Modifier();
