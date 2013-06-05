@@ -5,10 +5,11 @@ package org.sergut.diceroller.savageworlds;
  * 
  * By default, nothing is defined: all is false or -1. The only exceptions
  * are aim (default:BODY), iterations (default:10^5), attackerWildDie (default:1d6!),
- * attackerAdvanceDamage (default:1d6!)
+ * attackerAdvanceDamage (default:1d6!), attackerBonus (0)
  */
 public class SavageWorldsSimulationJob implements Cloneable {
     public String attackDice = null;
+    public int attackBonus = 0;
     public String damageDice = null;
     public boolean attackerWildCard = false;
     public String attackerWildDie       = "1d6!";

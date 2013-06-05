@@ -46,7 +46,8 @@ public class SavageWorldsFrame extends JFrame {
     private JLabel damageD8Label = new JLabel(" d8");
     private JLabel damageD10Label = new JLabel("d10");
     private JLabel damageD12Label = new JLabel("d12");
-    private JLabel damageBonusLabel = new JLabel(" +?");
+    private JLabel defenseBonusLabel = new JLabel(" +?");
+    private JLabel attackBonusLabel  = new JLabel(" +?");
 
     private JTextField damageD4Field = new JTextField(FIELD_LENGTH);
     private JTextField damageD6Field = new JTextField(FIELD_LENGTH);
@@ -54,6 +55,7 @@ public class SavageWorldsFrame extends JFrame {
     private JTextField damageD10Field = new JTextField(FIELD_LENGTH);
     private JTextField damageD12Field = new JTextField(FIELD_LENGTH);
     private JTextField damageBonusField = new JTextField(FIELD_LENGTH);
+    private JTextField attackBonusField = new JTextField(SHORT_FIELD_LENGTH);
 
     private JLabel parryLabel = new JLabel("Parry / Diff.");
     private JTextField parryField = new JTextField(FIELD_LENGTH);
@@ -109,7 +111,7 @@ public class SavageWorldsFrame extends JFrame {
 	damagePane.add(packLabelAndTextField(damageD8Label, damageD8Field), BorderLayout.CENTER);
 	damagePane.add(packLabelAndTextField(damageD10Label, damageD10Field), BorderLayout.CENTER);
 	damagePane.add(packLabelAndTextField(damageD12Label, damageD12Field), BorderLayout.CENTER);
-	damagePane.add(packLabelAndTextField(damageBonusLabel, damageBonusField), BorderLayout.CENTER);
+	damagePane.add(packLabelAndTextField(defenseBonusLabel, damageBonusField), BorderLayout.CENTER);
 	JPanel enemyPane = new JPanel();
 	enemyPane.setLayout(new GridLayout(0,1));
 	JPanel parryPane = new JPanel();
@@ -153,6 +155,7 @@ public class SavageWorldsFrame extends JFrame {
 	JPanel attackDiePanel = new JPanel();
 	attackDiePanel.add(new JLabel("Attack die: "));
 	attackDiePanel.add(attackDiceCombobox);
+	attackDiePanel.add(packLabelAndTextField(attackBonusLabel, attackBonusField));
 	result.add(attackDiePanel);
 	result.add(attackerAimPanel);
 	result.add(attackerWildCardPanel);
@@ -206,6 +209,7 @@ public class SavageWorldsFrame extends JFrame {
 	try {
 	    SavageWorldsSimulationJob job = new SavageWorldsSimulationJob();
 	    job.attackDice = collectAttackDice();
+	    job.attackBonus = collectAttackBonus();
 	    job.damageDice = collectDamageDice();
 	    job.attackerWildCard = attackerWildCardPanel.isWildCard();
 	    job.attackAim = attackerAimPanel.getAim();
@@ -235,7 +239,7 @@ public class SavageWorldsFrame extends JFrame {
 	}
     }
 
-    private void showResultsForWildCard(SavageWorldsDamageCounter damageCounter) {
+	private void showResultsForWildCard(SavageWorldsDamageCounter damageCounter) {
 	int wound1Ratio = DiceRoller.getSimpleRate(damageCounter.wound1, damageCounter.getTotalRolls());
 	int wound2Ratio = DiceRoller.getSimpleRate(damageCounter.wound2, damageCounter.getTotalRolls());
 	int wound3Ratio = DiceRoller.getSimpleRate(damageCounter.wound3, damageCounter.getTotalRolls());
@@ -285,6 +289,10 @@ public class SavageWorldsFrame extends JFrame {
 	String result = (String) attackDiceCombobox.getSelectedItem() + "!";
 	return result;
     }
+
+    private int collectAttackBonus() {
+		return parseTextFieldAsInteger(attackBonusField);
+	}
 
     private String collectDamageDice() {
 	String result = "";

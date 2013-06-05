@@ -259,6 +259,7 @@ public class SavageWorldsSimulator {
 	    result.attack -= 4;
 	    result.damage += 4;
 	}
+	result.attack += job.attackBonus;
 	return result;
     }
 
