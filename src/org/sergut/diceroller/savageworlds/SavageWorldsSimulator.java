@@ -214,11 +214,17 @@ public class SavageWorldsSimulator {
     }
 
     private SavageWorldsSimulationJob modifyParryToughnessFrom(SavageWorldsSimulationJob job) {
-    	SavageWorldsSimulationJob result = job.clone();
-    	if (job.defenderAttackedWild) {
-    		job.defenderParry -= 2;
-    	}
-		return result;
+    	SavageWorldsSimulationJob result;
+		try {
+			result = job.clone();
+	    	if (job.defenderAttackedWild) {
+	    		job.defenderParry -= 2;
+	    	}
+			return result;
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return job;
+		}
 	}
 
     private Modifier getModifier(SavageWorldsSimulationJob job) {

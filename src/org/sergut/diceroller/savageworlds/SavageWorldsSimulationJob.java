@@ -7,7 +7,7 @@ package org.sergut.diceroller.savageworlds;
  * are aim (default:BODY), iterations (default:10^5), attackerWildDie (default:1d6!),
  * attackerAdvanceDamage (default:1d6!)
  */
-public class SavageWorldsSimulationJob {
+public class SavageWorldsSimulationJob implements Cloneable {
     public String attackDice = null;
     public String damageDice = null;
     public boolean attackerWildCard = false;
@@ -31,20 +31,8 @@ public class SavageWorldsSimulationJob {
     
     public SavageWorldsSimulationJob() {}
 
-    // TODO: implement a fluent interface to build jobs
-    public SavageWorldsSimulationJob clone() {
-	SavageWorldsSimulationJob result = new SavageWorldsSimulationJob();
-	result.attackDice = this.attackDice;
-	result.damageDice = this.damageDice;
-	result.attackerWildCard = this.attackerWildCard;
-	result.defenderParry = this.defenderParry;
-	result.defenderToughness = this.defenderToughness;
-	result.defenderShaken = this.defenderShaken;
-	result.defenderWildCard = this.defenderWildCard;
-	result.maxIterations = this.maxIterations;
-	result.attackAim = this.attackAim;
-	result.wildAttack = this.wildAttack;
-	result.rapidAttack = this.rapidAttack;
-	return result;
+    // As everything is primitive or immutable (String), it is fine to use Object.clone().
+    public SavageWorldsSimulationJob clone() throws CloneNotSupportedException {
+    	return (SavageWorldsSimulationJob) super.clone();
     }
 }

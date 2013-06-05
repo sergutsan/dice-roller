@@ -26,7 +26,7 @@ public class SavageWorldsSimulatorTest {
     }
 
  //   @Test
-    public void throwsExceptionIfInvalidExpression() {
+    public void throwsExceptionIfInvalidExpression() throws CloneNotSupportedException {
 	String[] diceDescriptions = {
 		"2e10",   // invalid letter 'e'
 		"3r40",   // invalid letter 'r'
@@ -59,7 +59,7 @@ public class SavageWorldsSimulatorTest {
     }
 
     @Test
-    public void returnsRightResult1() {
+    public void returnsRightResult1() throws CloneNotSupportedException {
 	// build job
 	SavageWorldsSimulationJob job = defaultJob.clone();
 	job.attackDice = "1d12";
