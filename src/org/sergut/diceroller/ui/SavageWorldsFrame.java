@@ -39,7 +39,7 @@ public class SavageWorldsFrame extends JFrame {
     
     private final String[] attackDice = {"d4", "d6", "d8", "d10", "d12"};
 
-    private JComboBox attackDiceCombobox = new JComboBox(attackDice);
+    private JComboBox<String> attackDiceCombobox = new JComboBox<String>(attackDice);
 
     private JLabel damageD4Label = new JLabel(" d4");
     private JLabel damageD6Label = new JLabel(" d6");
