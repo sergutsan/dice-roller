@@ -38,8 +38,10 @@ public class SavageWorldsFrame extends JFrame {
     //   based on a text description, maybe partially based on roll20 syntax
     
     private final String[] attackDice = {"d4", "d6", "d8", "d10", "d12"};
-
+    private final String[] gangUpBonus = {"+0", "+1", "+2", "+3", "+4"};
+    
     private JComboBox attackDiceCombobox = new JComboBox(attackDice);
+    private JComboBox gangUpCombobox = new JComboBox(gangUpBonus);
 
     private JLabel damageD4Label = new JLabel(" d4");
     private JLabel damageD6Label = new JLabel(" d6");
@@ -157,6 +159,10 @@ public class SavageWorldsFrame extends JFrame {
 	attackDiePanel.add(attackDiceCombobox);
 	attackDiePanel.add(packLabelAndTextField(attackBonusLabel, attackBonusField));
 	result.add(attackDiePanel);
+	JPanel gangUpPanel = new JPanel();
+	gangUpPanel.add(new JLabel("Gang Up bonus: "));
+	gangUpPanel.add(gangUpCombobox);
+	result.add(gangUpPanel);
 	result.add(attackerAimPanel);
 	result.add(attackerWildCardPanel);
 	result.add(attackerWildAttackPanel);
@@ -291,7 +297,9 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     private int collectAttackBonus() {
-		return parseTextFieldAsInteger(attackBonusField);
+    	int result = parseTextFieldAsInteger(attackBonusField);
+    	result += Integer.parseInt(((String) gangUpCombobox.getSelectedItem()).substring(1)); // from string "+1" to int 1
+    	return result;
 	}
 
     private String collectDamageDice() {
