@@ -21,6 +21,10 @@ public class SavageWorldsSimulator {
 	SavageWorldsSimulationJob actualJob = modifyParryToughnessFrom(job);
 	if (job.rapidAttack) {
 	    return runRapidAttack(actualJob, modifier);
+	} else if (job.frenzyAttack) {
+		actualJob.attackerAmbidextrous = true;
+		actualJob.attackerTwoFisted    = false;
+	    return runDoubleAttack(actualJob, modifier);
 	} else if (job.doubleAttack) {
 	    return runDoubleAttack(actualJob, modifier);
 	} else {
@@ -253,10 +257,18 @@ public class SavageWorldsSimulator {
 	    result.damage += 2;
 	}
 	if (job.attackAim == AttackAim.ARM) {
+	    if (job.attackerFencer) {
+	    	result.attack -= 1;
+	    } else { 
 	    result.attack -= 2;
+	    }
 	}
 	if (job.attackAim == AttackAim.HEAD) {
+	    if (job.attackerFencer) {
+	    	result.attack -= 3;
+	    } else { 
 	    result.attack -= 4;
+	    }
 	    result.damage += 4;
 	}
 	result.attack += job.attackBonus;

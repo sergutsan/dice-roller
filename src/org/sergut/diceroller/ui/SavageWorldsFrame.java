@@ -84,7 +84,12 @@ public class SavageWorldsFrame extends JFrame {
     private CheckPanel attackerWildAttackPanel = new CheckPanel("Wild Attack?");
     private CheckPanel defenderWildAttackPanel = new CheckPanel("Wild-attacked? (-2 parry)");
     private CheckPanel trademarkWeaponPanel = new CheckPanel("Trademark Weapon?");
-    private CheckPanel attackerBerserkPanel = new CheckPanel("Attacker Berserk?");
+    private CheckPanel attackerFencerPanel = new CheckPanel("Fencer?");
+    private CheckPanel attackerBerserkPanel = new CheckPanel("In berserk state?");
+    private CheckPanel frenzyAttackPanel = new CheckPanel("Frenzy attack?");
+    private CheckPanel doubleAttackPanel = new CheckPanel("Double attack?");
+    private CheckPanel twoFistedPanel = new CheckPanel("Two-fisted?");
+    private CheckPanel ambidextrousPanel = new CheckPanel("Ambidextrous?");
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
@@ -166,13 +171,13 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(attackerAimPanel);
 	result.add(attackerWildCardPanel);
 	result.add(attackerWildAttackPanel);
-	result.add(attackerBerserkPanel);
 	result.add(trademarkWeaponPanel);
-	// TODO: more options
-	//   - 2 weapons
-	//      - two-fisted
-	//      - ambidextrous
-	//   - gang-up bonus ____
+	result.add(attackerFencerPanel);
+	result.add(frenzyAttackPanel);
+	result.add(doubleAttackPanel);
+	result.add(twoFistedPanel);
+	result.add(ambidextrousPanel);
+	result.add(attackerBerserkPanel);
 	//   - magic bonus   ____
 	//   - other bonus   ____
 	return result;
@@ -220,14 +225,19 @@ public class SavageWorldsFrame extends JFrame {
 	    job.attackerWildCard = attackerWildCardPanel.isWildCard();
 	    job.attackAim = attackerAimPanel.getAim();
 	    job.attackerTrademarkWeapon = trademarkWeaponPanel.isChecked();
+	    job.attackerFencer = attackerFencerPanel.isChecked();
 	    job.attackerBerserk = attackerBerserkPanel.isChecked();
 	    job.wildAttack = attackerWildAttackPanel.isChecked();
 	    job.attackAim = attackerAimPanel.getAim();
-	    job.defenderParry = getParry();
+	    job.doubleAttack = doubleAttackPanel.isChecked();
+	    job.attackerTwoFisted = twoFistedPanel.isChecked();
+	    job.attackerAmbidextrous = ambidextrousPanel.isChecked();
+	    job.frenzyAttack = frenzyAttackPanel.isChecked();
 	    ToughnessTuple toughness = getToughness();
 	    job.defenderToughnessBody = toughness.body;
 	    job.defenderToughnessArm  = toughness.arm;
 	    job.defenderToughnessHead = toughness.head;
+	    job.defenderParry = getParry();
 	    job.defenderAttackedWild = defenderWildAttackPanel.isChecked();
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard();
