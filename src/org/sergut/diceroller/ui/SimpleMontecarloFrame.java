@@ -34,7 +34,7 @@ public class SimpleMontecarloFrame extends JFrame {
 
     private final String[] operators = {">=", ">", "<=", "<", "="};
 
-    private JComboBox<String> operatorCombobox = new JComboBox<String>(operators);
+    private JComboBox operatorCombobox = new JComboBox(operators);
     
     public SimpleMontecarloFrame() {
 	JPanel dicePane = new JPanel();
