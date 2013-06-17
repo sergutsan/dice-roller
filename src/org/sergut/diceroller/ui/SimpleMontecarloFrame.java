@@ -90,7 +90,7 @@ public class SimpleMontecarloFrame extends JFrame {
 	    String operator = (String) operatorCombobox.getSelectedItem();
 	    MontecarloSimulator simulator = MontecarloSimulator.getInstance();
 	    DiceResult result = simulator.simulateDice(testDice, operator, goalDice, maxRolls);
-	    showResultsForExtra(result.successRolls, result.totalRolls);
+	    showResults(result.successRolls, result.totalRolls);
 	} catch (NumberFormatException ex) {
 	    String s = "There is an error with one of the numbers";
 	    ex.printStackTrace();
@@ -102,7 +102,7 @@ public class SimpleMontecarloFrame extends JFrame {
 	}
     }
 
-    private void showResultsForExtra(int success, int maxRolls) {
+    private void showResults(int success, int maxRolls) {
 	int ratio = DiceRoller.getSimpleRate(success, maxRolls);
 	String s = "Success ratio: " + ratio + "%";
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
