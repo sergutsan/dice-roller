@@ -108,4 +108,20 @@ public class SimpleMontecarloFrame extends JFrame {
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    public static void main(String... args) {
+	    MontecarloSimulator simulator = MontecarloSimulator.getInstance();
+	    int maxRolls = 100000;
+        String operator = ">=";
+        String[] dice = {"2d6!", "3d6!", "2d8!", "1d6!+1d8!", "1d8!+1d10!", "2d10!", "d8!+d12!"};
+        String[] difficulties = {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"};
+        for (String die : dice) {
+        	for (String difficulty : difficulties) {
+        	    DiceResult result = simulator.simulateDice(die, operator, difficulty, maxRolls);
+        	    int ratio = DiceRoller.getSimpleRate(result.successRolls, result.totalRolls);
+        	    System.out.println(die + " " + operator + " " + difficulty + ": " + ratio + "%");
+        	}
+        	System.out.println();
+        }
+    }
+    
 }
