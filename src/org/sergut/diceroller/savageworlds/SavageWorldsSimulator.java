@@ -230,7 +230,7 @@ public class SavageWorldsSimulator {
 		try {
 			result = job.clone();
 	    	if (job.defenderAttackedWild) {
-	    		job.defenderParry -= 2;
+	    		result.defenderParry -= 2;
 	    	}
 			return result;
 		} catch (CloneNotSupportedException e) {
