@@ -34,7 +34,7 @@ public class SimpleMontecarloFrame extends JFrame {
 
     private final String[] operators = {">=", ">", "<=", "<", "="};
 
-    private JComboBox<String> operatorCombobox = new JComboBox<String>(operators);
+    private JComboBox operatorCombobox = new JComboBox(operators);
     
     public SimpleMontecarloFrame() {
 	JPanel dicePane = new JPanel();
@@ -90,7 +90,7 @@ public class SimpleMontecarloFrame extends JFrame {
 	    String operator = (String) operatorCombobox.getSelectedItem();
 	    MontecarloSimulator simulator = MontecarloSimulator.getInstance();
 	    DiceResult result = simulator.simulateDice(testDice, operator, goalDice, maxRolls);
-	    showResultsForExtra(result.successRolls, result.totalRolls);
+	    showResults(result.successRolls, result.totalRolls);
 	} catch (NumberFormatException ex) {
 	    String s = "There is an error with one of the numbers";
 	    ex.printStackTrace();
@@ -102,10 +102,26 @@ public class SimpleMontecarloFrame extends JFrame {
 	}
     }
 
-    private void showResultsForExtra(int success, int maxRolls) {
+    private void showResults(int success, int maxRolls) {
 	int ratio = DiceRoller.getSimpleRate(success, maxRolls);
 	String s = "Success ratio: " + ratio + "%";
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public static void main(String... args) {
+	    MontecarloSimulator simulator = MontecarloSimulator.getInstance();
+	    int maxRolls = 100000;
+        String operator = ">=";
+        String[] dice = {"2d6!", "3d6!", "2d8!", "1d6!+1d8!", "1d8!+1d10!", "2d10!", "d8!+d12!"};
+        String[] difficulties = {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"};
+        for (String die : dice) {
+        	for (String difficulty : difficulties) {
+        	    DiceResult result = simulator.simulateDice(die, operator, difficulty, maxRolls);
+        	    int ratio = DiceRoller.getSimpleRate(result.successRolls, result.totalRolls);
+        	    System.out.println(die + " " + operator + " " + difficulty + ": " + ratio + "%");
+        	}
+        	System.out.println();
+        }
     }
     
 }

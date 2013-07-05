@@ -38,8 +38,10 @@ public class SavageWorldsFrame extends JFrame {
     //   based on a text description, maybe partially based on roll20 syntax
     
     private final String[] attackDice = {"d4", "d6", "d8", "d10", "d12"};
-
-    private JComboBox<String> attackDiceCombobox = new JComboBox<String>(attackDice);
+    private final String[] gangUpBonus = {"+0", "+1", "+2", "+3", "+4"};
+    
+    private JComboBox attackDiceCombobox = new JComboBox(attackDice);
+    private JComboBox gangUpCombobox = new JComboBox(gangUpBonus);
 
     private JLabel damageD4Label = new JLabel(" d4");
     private JLabel damageD6Label = new JLabel(" d6");
@@ -82,7 +84,12 @@ public class SavageWorldsFrame extends JFrame {
     private CheckPanel attackerWildAttackPanel = new CheckPanel("Wild Attack?");
     private CheckPanel defenderWildAttackPanel = new CheckPanel("Wild-attacked? (-2 parry)");
     private CheckPanel trademarkWeaponPanel = new CheckPanel("Trademark Weapon?");
-    private CheckPanel attackerBerserkPanel = new CheckPanel("Attacker Berserk?");
+    private CheckPanel attackerFencerPanel = new CheckPanel("Fencer?");
+    private CheckPanel attackerBerserkPanel = new CheckPanel("In berserk state?");
+    private CheckPanel frenzyAttackPanel = new CheckPanel("Frenzy attack?");
+    private CheckPanel doubleAttackPanel = new CheckPanel("Double attack?");
+    private CheckPanel twoFistedPanel = new CheckPanel("Two-fisted?");
+    private CheckPanel ambidextrousPanel = new CheckPanel("Ambidextrous?");
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
@@ -157,16 +164,20 @@ public class SavageWorldsFrame extends JFrame {
 	attackDiePanel.add(attackDiceCombobox);
 	attackDiePanel.add(packLabelAndTextField(attackBonusLabel, attackBonusField));
 	result.add(attackDiePanel);
+	JPanel gangUpPanel = new JPanel();
+	gangUpPanel.add(new JLabel("Gang Up bonus: "));
+	gangUpPanel.add(gangUpCombobox);
+	result.add(gangUpPanel);
 	result.add(attackerAimPanel);
 	result.add(attackerWildCardPanel);
 	result.add(attackerWildAttackPanel);
-	result.add(attackerBerserkPanel);
 	result.add(trademarkWeaponPanel);
-	// TODO: more options
-	//   - 2 weapons
-	//      - two-fisted
-	//      - ambidextrous
-	//   - gang-up bonus ____
+	result.add(attackerFencerPanel);
+	result.add(frenzyAttackPanel);
+	result.add(doubleAttackPanel);
+	result.add(twoFistedPanel);
+	result.add(ambidextrousPanel);
+	result.add(attackerBerserkPanel);
 	//   - magic bonus   ____
 	//   - other bonus   ____
 	return result;
@@ -214,14 +225,19 @@ public class SavageWorldsFrame extends JFrame {
 	    job.attackerWildCard = attackerWildCardPanel.isWildCard();
 	    job.attackAim = attackerAimPanel.getAim();
 	    job.attackerTrademarkWeapon = trademarkWeaponPanel.isChecked();
+	    job.attackerFencer = attackerFencerPanel.isChecked();
 	    job.attackerBerserk = attackerBerserkPanel.isChecked();
 	    job.wildAttack = attackerWildAttackPanel.isChecked();
 	    job.attackAim = attackerAimPanel.getAim();
-	    job.defenderParry = getParry();
+	    job.doubleAttack = doubleAttackPanel.isChecked();
+	    job.attackerTwoFisted = twoFistedPanel.isChecked();
+	    job.attackerAmbidextrous = ambidextrousPanel.isChecked();
+	    job.frenzyAttack = frenzyAttackPanel.isChecked();
 	    ToughnessTuple toughness = getToughness();
 	    job.defenderToughnessBody = toughness.body;
 	    job.defenderToughnessArm  = toughness.arm;
 	    job.defenderToughnessHead = toughness.head;
+	    job.defenderParry = getParry();
 	    job.defenderAttackedWild = defenderWildAttackPanel.isChecked();
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard();
@@ -291,7 +307,9 @@ public class SavageWorldsFrame extends JFrame {
     }
 
     private int collectAttackBonus() {
-		return parseTextFieldAsInteger(attackBonusField);
+    	int result = parseTextFieldAsInteger(attackBonusField);
+    	result += Integer.parseInt(((String) gangUpCombobox.getSelectedItem()).substring(1)); // from string "+1" to int 1
+    	return result;
 	}
 
     private String collectDamageDice() {

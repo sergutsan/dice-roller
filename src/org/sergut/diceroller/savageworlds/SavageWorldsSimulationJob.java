@@ -15,13 +15,14 @@ public class SavageWorldsSimulationJob implements Cloneable {
     public String attackerWildDie       = "1d6!";
     public String attackerAdvanceDamage = "1d6!";
     public boolean attackerTrademarkWeapon = false;
+    public boolean attackerFencer = false;
     public boolean attackerBerserk = false;
-    public boolean wildAttack = false;
-    public boolean rapidAttack = false;
-    public boolean frenzyAttack = false;
     public boolean doubleAttack = false;
     public boolean attackerTwoFisted = false;
     public boolean attackerAmbidextrous = false;
+    public boolean wildAttack = false;
+    public boolean rapidAttack = false;
+    public boolean frenzyAttack = false;
     public int defenderParry = -1;
     public int defenderToughnessBody = -1;
     public int defenderToughnessArm = -1;
