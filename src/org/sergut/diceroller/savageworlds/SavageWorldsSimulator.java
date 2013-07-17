@@ -163,7 +163,7 @@ public class SavageWorldsSimulator {
 	    actualAttackDice = new String(job.attackDice + "-4");
 	    int[] attack = new int[RAPID_ATTACK_COUNT];
 	    for (int j = 0; j < RAPID_ATTACK_COUNT; j++) {
-		attack[i] = diceRoller.rollDice(actualAttackDice) + modifier.attack;
+		attack[j] = diceRoller.rollDice(actualAttackDice) + modifier.attack;
 	    }
 	    int wildDieResult = diceRoller.rollDice(job.attackerWildDie) + modifier.attack;
 	    attack = fixAttackWithWildDie(attack, wildDieResult);
