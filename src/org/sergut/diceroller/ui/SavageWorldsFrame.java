@@ -87,6 +87,7 @@ public class SavageWorldsFrame extends JFrame {
     private CheckPanel attackerFencerPanel = new CheckPanel("Fencer?");
     private CheckPanel attackerBerserkPanel = new CheckPanel("In berserk state?");
     private CheckPanel frenzyAttackPanel = new CheckPanel("Frenzy attack?");
+    private CheckPanel rapidAttackPanel = new CheckPanel("Rapid attack?");
     private CheckPanel doubleAttackPanel = new CheckPanel("Double attack?");
     private CheckPanel twoFistedPanel = new CheckPanel("Two-fisted?");
     private CheckPanel ambidextrousPanel = new CheckPanel("Ambidextrous?");
@@ -174,6 +175,7 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(trademarkWeaponPanel);
 	result.add(attackerFencerPanel);
 	result.add(frenzyAttackPanel);
+	result.add(rapidAttackPanel);
 	result.add(doubleAttackPanel);
 	result.add(twoFistedPanel);
 	result.add(ambidextrousPanel);
@@ -233,6 +235,7 @@ public class SavageWorldsFrame extends JFrame {
 	    job.attackerTwoFisted = twoFistedPanel.isChecked();
 	    job.attackerAmbidextrous = ambidextrousPanel.isChecked();
 	    job.frenzyAttack = frenzyAttackPanel.isChecked();
+	    job.rapidAttack = rapidAttackPanel.isChecked();
 	    ToughnessTuple toughness = getToughness();
 	    job.defenderToughnessBody = toughness.body;
 	    job.defenderToughnessArm  = toughness.arm;
