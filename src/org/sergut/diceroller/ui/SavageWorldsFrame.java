@@ -3,6 +3,9 @@ package org.sergut.diceroller.ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -274,7 +277,12 @@ public class SavageWorldsFrame extends JFrame {
 	    	+  "(nothing ratio: " + nothingRatio + "% \n"
 	    	+  "wounding ratio: " + woundRatio + "%)"
 	    	; 
-	System.out.println(damageCounter);
+	String txt4clipboard = s + "\n\n" + nothingRatio + " / " + shakenRatio + " / " + woundRatio
+		+ " // " + wound1Ratio + " / " + wound2Ratio + " / " + wound3Ratio + " / " + wound4Ratio;
+	StringSelection stringSelection = new StringSelection (txt4clipboard);
+	Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+	clpbrd.setContents (stringSelection, null);
+	System.out.println(damageCounter); // logging, not that necessary at the moment
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
