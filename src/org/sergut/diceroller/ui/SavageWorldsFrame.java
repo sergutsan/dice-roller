@@ -40,7 +40,7 @@ public class SavageWorldsFrame extends JFrame {
     // TODO: develop a general reusable way of creating labels and fields for dice
     //   based on a text description, maybe partially based on roll20 syntax
     
-    private final String[] attackDice = {"d4", "d6", "d8", "d10", "d12"};
+    private final String[] attackDice = {"d12", "d10","d8", "d6", "d4"};
     private final String[] gangUpBonus = {"+0", "+1", "+2", "+3", "+4"};
     
     private JComboBox attackDiceCombobox = new JComboBox(attackDice);
