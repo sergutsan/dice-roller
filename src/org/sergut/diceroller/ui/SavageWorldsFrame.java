@@ -94,6 +94,7 @@ public class SavageWorldsFrame extends JFrame {
     private CheckPanel doubleAttackPanel = new CheckPanel("Double attack?");
     private CheckPanel twoFistedPanel = new CheckPanel("Two-fisted?");
     private CheckPanel ambidextrousPanel = new CheckPanel("Ambidextrous?");
+    private CheckPanel slayerPanel = new CheckPanel("Slayer?");
     
     public SavageWorldsFrame() {
 	setButtonBehaviours();
@@ -183,6 +184,7 @@ public class SavageWorldsFrame extends JFrame {
 	result.add(twoFistedPanel);
 	result.add(ambidextrousPanel);
 	result.add(attackerBerserkPanel);
+	result.add(slayerPanel);
 	//   - magic bonus   ____
 	//   - other bonus   ____
 	return result;
@@ -248,6 +250,9 @@ public class SavageWorldsFrame extends JFrame {
 	    job.defenderShaken = defenderShakenPanel.isChecked();
 	    job.defenderWildCard = defenderWildCardPanel.isWildCard();
 	    job.maxIterations = getMaxIterations();
+	    if (slayerPanel.isChecked()) {
+		job.attackerAdvanceDamage = "1d12!";
+	    }
 	    SavageWorldsDamageCounter damageCounter = SavageWorldsSimulator.getInstance().simulate(job);
 	    if (defenderWildCardPanel.isWildCard()) { 
 		showResultsForWildCard(damageCounter);
