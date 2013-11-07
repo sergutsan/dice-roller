@@ -294,7 +294,8 @@ public class SavageWorldsFrame extends JFrame {
     private void showResultsForExtra(SavageWorldsDamageCounter damageCounter) {
 	int killRatio = DiceRoller.getSimpleRate(damageCounter.getWounds(), damageCounter.getTotalRolls());
 	int shakenRatio = DiceRoller.getSimpleRate(damageCounter.shaken, damageCounter.getTotalRolls());
-	String s = "Kill ratio: " + killRatio + "%  Shaken ratio: " + shakenRatio + "%";
+	int nothingRatio = DiceRoller.getSimpleRate(damageCounter.nothing, damageCounter.getTotalRolls());
+	String s = "Kill: " + killRatio + "%  Shaken: " + shakenRatio + "%  Nothing: " + nothingRatio + "%";
 	System.out.println(damageCounter);
 	JOptionPane.showMessageDialog(this, s, "Result", JOptionPane.INFORMATION_MESSAGE);
     }
