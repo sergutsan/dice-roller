@@ -1,6 +1,5 @@
 package org.sergut.diceroller.bloodbowl.test;
 
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,6 +7,7 @@ import org.sergut.diceroller.bloodbowl.BlockDiceSimulator;
 import org.sergut.diceroller.bloodbowl.BlockFactors;
 import org.sergut.diceroller.bloodbowl.BlockResult;
 import static org.sergut.diceroller.bloodbowl.BlockResult.*;
+
 
 public class BlockDiceThrowerShould extends SimulatorTester {
 	
@@ -105,5 +105,6 @@ public class BlockDiceThrowerShould extends SimulatorTester {
 		int ratio = diceThrower.getRatio(TURNOVER, factors);
 		assertWithSomeError(ratio, 555);
 	}
+
 	
 }
