@@ -9,7 +9,7 @@ import org.sergut.diceroller.bloodbowl.BlockResult;
 import static org.sergut.diceroller.bloodbowl.BlockResult.*;
 
 
-public class BlockDiceThrowerShould extends SimulatorTester {
+public class BlockDiceThrowerShould extends SimulatorTest {
 	
 	private BlockFactors factors;
 	

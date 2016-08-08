@@ -1,6 +1,6 @@
 package org.sergut.diceroller.bloodbowl.test;
 
-public abstract class SimulatorTester {
+public abstract class SimulatorTest {
 	
 	protected void assertWithSomeError(int expected, int actual) {
 		assertWithSomeError(expected, actual , 10);

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.sergut.diceroller.bloodbowl.BlockFactors;
 import org.sergut.diceroller.bloodbowl.BloodBowlSimulator;
 
-public class BloodBowlSimulatorShould extends SimulatorTester {
+public class BloodBowlSimulatorShould extends SimulatorTest {
 
 	private BloodBowlSimulator simulator;
 	
