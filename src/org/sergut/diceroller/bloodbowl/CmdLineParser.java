@@ -15,7 +15,7 @@ public class CmdLineParser {
 			case "-def-block": result.defenderBlock   = true; break;
 			case "-def-dodge": result.defenderDodge   = true; break;
 			case "-def-stunty": result.defenderStunty = true; break;
-			case "-att-PO: ":
+			case "-att-PO":
 				result.attackerPillingOn = getPillingOn(args[i+1]);
 				i++;
 				break;
