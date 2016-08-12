@@ -51,5 +51,17 @@ public class BloodBowlSimulatorShould extends SimulatorTest {
 		assertWithSomeError(48, ratio);
 	}
 
+	@Test
+	public void returnSameRatioWhenDefenderStuntyWithArmorPlusOne() {
+		for (int armor = 5; armor < 12; armor++) {
+			factors.defenderArmor = armor - 1;
+			int ratioLowArmor = simulator.getCombinedCasualtyRatio(factors);
+			factors.defenderArmor  = armor;
+			factors.defenderStunty = true;
+			int ratioHighArmorStunty = simulator.getCombinedCasualtyRatio(factors);
+			assertWithSomeError(ratioLowArmor, ratioHighArmorStunty);			
+		}
+	}
+
 
 }

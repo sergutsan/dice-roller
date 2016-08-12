@@ -5,8 +5,8 @@ import org.sergut.diceroller.montecarlo.MontecarloSimulator;
 
 public class BloodBowlSimulator {
 
-	private static final int CASUALTY_THRESHOLD = 10;
-	private static final int ARMOR_AGAINST_CLAWS = 7;
+	public static final int CASUALTY_THRESHOLD = 10;
+	public static final int ARMOR_AGAINST_CLAWS = 7;
 	
 	private static final MontecarloSimulator SIMULATOR = new MontecarloSimulator();
 	
@@ -48,6 +48,9 @@ public class BloodBowlSimulator {
 		int armorGoal = factors.defenderArmor;
 		if (factors.attackerClaws) {
 			armorGoal = ARMOR_AGAINST_CLAWS;
+		}
+		if (factors.defenderStunty) {
+			armorGoal--;
 		}
 		if (factors.attackerMightyBlow) {
 			return casualtyRatioWithMightyBlow(armorGoal);
