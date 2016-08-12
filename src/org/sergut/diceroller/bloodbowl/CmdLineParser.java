@@ -42,7 +42,7 @@ public class CmdLineParser {
 		switch (arg) {
 		case "none": result = PillingOn.NONE; break;
 		case "conservative" : result = PillingOn.CONSERVATIVE; break;
-		case "aggresive": result = PillingOn.AGGRESIVE; break;
+		case "aggressive": result = PillingOn.AGGRESSIVE; break;
 		default: 
 			throw new IllegalArgumentException("Invalid argument: " + arg);
 		}
