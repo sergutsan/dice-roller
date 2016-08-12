@@ -3,9 +3,14 @@ package org.sergut.diceroller.bloodbowl;
 import org.sergut.diceroller.bloodbowl.block.BlockDiceSimulator;
 import org.sergut.diceroller.bloodbowl.block.BlockFactors;
 import org.sergut.diceroller.bloodbowl.block.BlockResult;
+import org.sergut.diceroller.bloodbowl.block.PillingOn;
+import org.sergut.diceroller.bloodbowl.casualty.AggressivePillingOnCasualtySimulator;
 import org.sergut.diceroller.bloodbowl.casualty.BasicCasualtySimulator;
 import org.sergut.diceroller.bloodbowl.casualty.CasualtySimulator;
+import org.sergut.diceroller.bloodbowl.casualty.ConservativePillingOnCasualtySimulator;
+import org.sergut.diceroller.bloodbowl.casualty.MightyBlowAggressivePillingOnCasualtySimulator;
 import org.sergut.diceroller.bloodbowl.casualty.MightyBlowCasualtySimulator;
+import org.sergut.diceroller.bloodbowl.casualty.MightyBlowConservativePillingOnCasualtySimulator;
 
 public class BloodBowlSimulator {
 
@@ -69,10 +74,16 @@ public class BloodBowlSimulator {
 	}
 	
 	private CasualtySimulator getCasualtySimulator(BlockFactors factors) {
-		if (factors.attackerMightyBlow) {
-			return new MightyBlowCasualtySimulator();
+		PillingOn pillingOn = factors.attackerPillingOn;
+		boolean mightyBlow  = factors.attackerMightyBlow;
+		
+		switch (pillingOn) {
+		case NONE:         return mightyBlow? new MightyBlowCasualtySimulator()                      : new BasicCasualtySimulator(); 
+		case CONSERVATIVE: return mightyBlow? new MightyBlowConservativePillingOnCasualtySimulator() : new ConservativePillingOnCasualtySimulator();
+		case AGGRESIVE:    return mightyBlow? new MightyBlowAggressivePillingOnCasualtySimulator()   : new AggressivePillingOnCasualtySimulator();
+		default:
+			throw new IllegalStateException("Invalid Pilling On value: " + factors.attackerPillingOn);
 		}
-		return new BasicCasualtySimulator();
 	}
 	
 	private String makePrettyRatio(int ratio) {
