@@ -1,5 +1,8 @@
 package org.sergut.diceroller.bloodbowl;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.sergut.diceroller.bloodbowl.block.BlockDiceSimulator;
 import org.sergut.diceroller.bloodbowl.block.BlockFactors;
 import org.sergut.diceroller.bloodbowl.block.BlockResult;
@@ -58,6 +61,19 @@ public class BloodBowlSimulator {
 	public static int multiplyRatios(int ratio1, int ratio2) {
 		int result = ratio1 * ratio2;
 		result /= 1000;
+		return result;
+	}
+	
+	/**
+	 * Takes N ratios (as ints in [0-1000] and returns the multiplied
+	 * ratio of the three (as another int in [0-1000].
+	 */
+	public static int multiplyRatios(int... ratios) {
+		int result = 1000;
+		for (int ratio : ratios) {
+			result *= ratio;
+			result /= 1000;
+		}
 		return result;
 	}
 	

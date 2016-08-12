@@ -1,5 +1,7 @@
 package org.sergut.diceroller.bloodbowl.test;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sergut.diceroller.bloodbowl.BloodBowlSimulator;
@@ -17,6 +19,18 @@ public class BloodBowlSimulatorShould extends SimulatorTest {
 		simulator = new BloodBowlSimulator();
 	}
 
+	@Test
+	public void return250whenMultiplying500and500() {
+		int actual = BloodBowlSimulator.multiplyRatios(500, 500);
+		assertEquals(250, actual);
+	}
+	
+	@Test
+	public void return125whenMultiplyingThree500s() {
+		int actual = BloodBowlSimulator.multiplyRatios(500, 500, 500);
+		assertEquals(125, actual);
+	}
+	
 	@Test
 	public void return333ForTurnoverForBasicBlock() {
 		int ratio = simulator.getTurnoverRatio(factors);
