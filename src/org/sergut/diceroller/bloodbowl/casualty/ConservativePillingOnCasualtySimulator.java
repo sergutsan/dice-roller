@@ -12,7 +12,7 @@ public class ConservativePillingOnCasualtySimulator extends CasualtySimulator {
 		
 		int noPillingOnUsedRatio = multiplyRatios(armorBreakRatio, casualtyRatio);
 		int pillingOnUsedRatio = multiplyRatios(armorBreakRatio, oppositeOf(casualtyRatio), casualtyRatio);
-		return multiplyRatios(noPillingOnUsedRatio, pillingOnUsedRatio);
+		return noPillingOnUsedRatio + pillingOnUsedRatio;
 	}
 
 }

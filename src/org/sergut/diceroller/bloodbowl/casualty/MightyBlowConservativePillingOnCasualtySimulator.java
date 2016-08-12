@@ -22,11 +22,11 @@ public class MightyBlowConservativePillingOnCasualtySimulator extends CasualtySi
 		int mightyBlowForArmorPillingOnForInjuryRatio = multiplyRatios(armorBreakExtraRatio, noCasualtyRatio, casualtyRatio);
 
 		return noMigthyBlowNoPillingOnRatio 
-				* mightyBlowForInjuryNoPillingOnRatio
-				* pillingOnForInjuryNoMightyBlowRatio
-				* pillingOnPlusMightyBlowForInjuryRatio
-				* mightyBlowForArmorNoPillinOnRatio
-				* mightyBlowForArmorPillingOnForInjuryRatio;
+				+ mightyBlowForInjuryNoPillingOnRatio
+				+ pillingOnForInjuryNoMightyBlowRatio
+				+ pillingOnPlusMightyBlowForInjuryRatio
+				+ mightyBlowForArmorNoPillinOnRatio
+				+ mightyBlowForArmorPillingOnForInjuryRatio;
 	}
 
 }
