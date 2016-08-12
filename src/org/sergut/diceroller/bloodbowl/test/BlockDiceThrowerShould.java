@@ -1,12 +1,14 @@
 package org.sergut.diceroller.bloodbowl.test;
 
+import static org.sergut.diceroller.bloodbowl.BlockResult.KNOCK_DOWN;
+import static org.sergut.diceroller.bloodbowl.BlockResult.NOBODY_DOWN;
+import static org.sergut.diceroller.bloodbowl.BlockResult.TURNOVER;
+
 import org.junit.Before;
 import org.junit.Test;
-
 import org.sergut.diceroller.bloodbowl.BlockDiceSimulator;
 import org.sergut.diceroller.bloodbowl.BlockFactors;
 import org.sergut.diceroller.bloodbowl.BlockResult;
-import static org.sergut.diceroller.bloodbowl.BlockResult.*;
 
 
 public class BlockDiceThrowerShould extends SimulatorTest {
