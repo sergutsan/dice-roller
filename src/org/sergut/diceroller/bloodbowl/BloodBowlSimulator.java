@@ -86,7 +86,7 @@ public class BloodBowlSimulator {
 		switch (pillingOn) {
 		case NONE:         return mightyBlow? new MightyBlowCasualtySimulator()                      : new BasicCasualtySimulator(); 
 		case CONSERVATIVE: return mightyBlow? new MightyBlowConservativePillingOnCasualtySimulator() : new ConservativePillingOnCasualtySimulator();
-		case AGGRESSIVE:    return mightyBlow? new MightyBlowAggressivePillingOnCasualtySimulator()   : new AggressivePillingOnCasualtySimulator();
+		case AGGRESSIVE:   return mightyBlow? new MightyBlowAggressivePillingOnCasualtySimulator()   : new AggressivePillingOnCasualtySimulator();
 		default:
 			throw new IllegalStateException("Invalid Pilling On value: " + factors.attackerPillingOn);
 		}
