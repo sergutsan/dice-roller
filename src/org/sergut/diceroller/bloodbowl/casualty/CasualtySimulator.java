@@ -18,4 +18,8 @@ public abstract class CasualtySimulator {
 		return 1000 * result.successRolls / result.totalRolls;
 	}
 	
+	protected int oppositeOf(int ratio) {
+		return 1000 - ratio;
+	}
+	
 }
