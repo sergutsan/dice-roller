@@ -7,7 +7,7 @@ public abstract class CasualtySimulator {
 
 	public abstract int getCasualtyRatio(int armorToBeat);
 
-	private static final MontecarloSimulator SIMULATOR = new MontecarloSimulator();
+	private static final MontecarloSimulator SIMULATOR = MontecarloSimulator.getInstance();
 	
 	protected int getRatioFrom2D6exceeding(int target) {
 		return getRatioFrom2D6(">=", target);

@@ -17,6 +17,8 @@ public class MontecarloSimulator {
 	return INSTANCE;
     }
 
+    private MontecarloSimulator() {} 
+    
     /**
      * Simulate n dice rolls and return an account of successes. 
      * 
