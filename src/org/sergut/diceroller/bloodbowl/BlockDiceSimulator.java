@@ -8,7 +8,7 @@ import org.sergut.diceroller.adt.dice.RegularDie;
 
 public class BlockDiceSimulator {
 
-	private static final Die DIE = new RegularDie(6); // no harm intended
+	private static final Die DIE = new RegularDie(6); // no harm intended ;-) 
 	
 	private int max_rolls = 100000;
 	

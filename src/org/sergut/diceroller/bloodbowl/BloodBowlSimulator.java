@@ -52,16 +52,16 @@ public class BloodBowlSimulator {
 		if (factors.attackerMightyBlow) {
 			return casualtyRatioWithMightyBlow(armorGoal);
 		}
-		int armorBreakRatio = getRatioFrom2D6(armorGoal);
-		int casualtyRatio = getRatioFrom2D6(CASUALTY_THRESHOLD);
+		int armorBreakRatio = getRatioFrom2D6exceeding(armorGoal);
+		int casualtyRatio = getRatioFrom2D6exceeding(CASUALTY_THRESHOLD);
 		return multiplyRatios(armorBreakRatio, casualtyRatio);
 	}
 
 	private int casualtyRatioWithMightyBlow(int armorGoal) {
-		int armorBreakRatio = getRatioFrom2D6(armorGoal);
+		int armorBreakRatio = getRatioFrom2D6exceeding(armorGoal);
 		int armorBreakExtraRatio = getRatioFrom2D6("=", armorGoal - 1);
 
-		int casualtyRatio = getRatioFrom2D6(CASUALTY_THRESHOLD);
+		int casualtyRatio = getRatioFrom2D6exceeding(CASUALTY_THRESHOLD);
 		int casualtyExtraRatio = getRatioFrom2D6("=", CASUALTY_THRESHOLD - 1);
 
 		int noMigthyBlowUsedRatio = multiplyRatios(armorBreakRatio, casualtyRatio);
@@ -70,7 +70,7 @@ public class BloodBowlSimulator {
 		return noMigthyBlowUsedRatio + mightyBlowUsedForArmorRatio + mightyBlowUsedForInjuryRatio;
 	}
 
-	private int getRatioFrom2D6(int target) {
+	private int getRatioFrom2D6exceeding(int target) {
 		return getRatioFrom2D6(">=", target);
 	}
 	

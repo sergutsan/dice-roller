@@ -1,7 +1,5 @@
 package org.sergut.diceroller.bloodbowl;
 
-import java.util.Comparator;
-
 public enum BlockResult implements Comparable<BlockResult>{
 	/* TURNOVER aims to include:
 	 * - "Attacker Down" 
