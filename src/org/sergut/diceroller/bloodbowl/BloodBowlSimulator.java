@@ -55,16 +55,6 @@ public class BloodBowlSimulator {
 	}
 
 	/**
-	 * Takes two ratios (as ints in [0-1000] and returns the multiplied
-	 * ratio of the three (as another int in [0-1000].
-	 */
-	public static int multiplyRatios(int ratio1, int ratio2) {
-		int result = ratio1 * ratio2;
-		result /= 1000;
-		return result;
-	}
-	
-	/**
 	 * Takes N ratios (as ints in [0-1000] and returns the multiplied
 	 * ratio of the three (as another int in [0-1000].
 	 */
