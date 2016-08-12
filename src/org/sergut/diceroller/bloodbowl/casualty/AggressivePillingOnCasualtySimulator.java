@@ -1,6 +1,6 @@
 package org.sergut.diceroller.bloodbowl.casualty;
 
-public class AggressivePillingOnCasualtySimulator implements CasualtySimulator {
+public class AggressivePillingOnCasualtySimulator extends CasualtySimulator {
 
 	@Override
 	public int getCasualtyRatio(int armorToBeat) {

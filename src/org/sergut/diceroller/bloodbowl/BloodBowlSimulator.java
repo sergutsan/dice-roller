@@ -3,15 +3,14 @@ package org.sergut.diceroller.bloodbowl;
 import org.sergut.diceroller.bloodbowl.block.BlockDiceSimulator;
 import org.sergut.diceroller.bloodbowl.block.BlockFactors;
 import org.sergut.diceroller.bloodbowl.block.BlockResult;
-import org.sergut.diceroller.montecarlo.DiceResult;
-import org.sergut.diceroller.montecarlo.MontecarloSimulator;
+import org.sergut.diceroller.bloodbowl.casualty.BasicCasualtySimulator;
+import org.sergut.diceroller.bloodbowl.casualty.CasualtySimulator;
+import org.sergut.diceroller.bloodbowl.casualty.MightyBlowCasualtySimulator;
 
 public class BloodBowlSimulator {
 
 	public static final int CASUALTY_THRESHOLD = 10;
 	public static final int ARMOR_AGAINST_CLAWS = 7;
-	
-	private static final MontecarloSimulator SIMULATOR = new MontecarloSimulator();
 	
 	public static void main(String[] args) {
 		BloodBowlSimulator simulator = new BloodBowlSimulator();
@@ -47,6 +46,16 @@ public class BloodBowlSimulator {
 		return multiplyRatios(knockDownRatio, casualtyRatio);
 	}
 
+	/**
+	 * Takes two ratios (as ints in [0-1000] and returns the multiplied
+	 * ratio of the three (as another int in [0-1000].
+	 */
+	public static int multiplyRatios(int ratio1, int ratio2) {
+		int result = ratio1 * ratio2;
+		result /= 1000;
+		return result;
+	}
+	
 	private int getStrictCasualtyRatio(BlockFactors factors) {
 		int armorGoal = factors.defenderArmor;
 		if (factors.attackerClaws) {
@@ -55,46 +64,17 @@ public class BloodBowlSimulator {
 		if (factors.defenderStunty) {
 			armorGoal--;
 		}
+		CasualtySimulator simulator = getCasualtySimulator(factors);
+		return simulator.getCasualtyRatio(armorGoal);
+	}
+	
+	private CasualtySimulator getCasualtySimulator(BlockFactors factors) {
 		if (factors.attackerMightyBlow) {
-			return casualtyRatioWithMightyBlow(armorGoal);
+			return new MightyBlowCasualtySimulator();
 		}
-		int armorBreakRatio = getRatioFrom2D6exceeding(armorGoal);
-		int casualtyRatio = getRatioFrom2D6exceeding(CASUALTY_THRESHOLD);
-		return multiplyRatios(armorBreakRatio, casualtyRatio);
-	}
-
-	private int casualtyRatioWithMightyBlow(int armorGoal) {
-		int armorBreakRatio = getRatioFrom2D6exceeding(armorGoal);
-		int armorBreakExtraRatio = getRatioFrom2D6("=", armorGoal - 1);
-
-		int casualtyRatio = getRatioFrom2D6exceeding(CASUALTY_THRESHOLD);
-		int casualtyExtraRatio = getRatioFrom2D6("=", CASUALTY_THRESHOLD - 1);
-
-		int noMigthyBlowUsedRatio = multiplyRatios(armorBreakRatio, casualtyRatio);
-		int mightyBlowUsedForArmorRatio  = multiplyRatios(armorBreakExtraRatio, casualtyRatio);
-		int mightyBlowUsedForInjuryRatio = multiplyRatios(armorBreakRatio, casualtyExtraRatio);
-		return noMigthyBlowUsedRatio + mightyBlowUsedForArmorRatio + mightyBlowUsedForInjuryRatio;
-	}
-
-	private int getRatioFrom2D6exceeding(int target) {
-		return getRatioFrom2D6(">=", target);
+		return new BasicCasualtySimulator();
 	}
 	
-	private int getRatioFrom2D6(String operator, int target) {
-		DiceResult result = SIMULATOR.simulateDice("2D6", operator, "" + target, 100000);
-		return 1000 * result.successRolls / result.totalRolls;
-	}
-	
-	/**
-	 * Takes two ratios (as ints in [0-1000] and returns the multiplied
-	 * ratio of the three (as another int in [0-1000].
-	 */
-	public int multiplyRatios(int ratio1, int ratio2) {
-		int result = ratio1 * ratio2;
-		result /= 1000;
-		return result;
-	}
-
 	private String makePrettyRatio(int ratio) {
 		int integerPart = ratio / 10;
 		int decimalPart = ratio - 10 * integerPart;
