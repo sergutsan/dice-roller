@@ -1,5 +1,8 @@
 package org.sergut.diceroller.bloodbowl;
 
+import org.sergut.diceroller.bloodbowl.block.BlockDiceSimulator;
+import org.sergut.diceroller.bloodbowl.block.BlockFactors;
+import org.sergut.diceroller.bloodbowl.block.BlockResult;
 import org.sergut.diceroller.montecarlo.DiceResult;
 import org.sergut.diceroller.montecarlo.MontecarloSimulator;
 

@@ -1,11 +1,11 @@
 package org.sergut.diceroller.bloodbowl.test;
 
 import static org.junit.Assert.*;
-import static org.sergut.diceroller.bloodbowl.BlockResult.*;
+import static org.sergut.diceroller.bloodbowl.block.BlockResult.*;
 
 import org.junit.Test;
-import org.sergut.diceroller.bloodbowl.BlockResult;
-import org.sergut.diceroller.bloodbowl.BlockResultBester;
+import org.sergut.diceroller.bloodbowl.block.BlockResult;
+import org.sergut.diceroller.bloodbowl.block.BlockResultBester;
 
 
 public class BlockResultBesterShould {

@@ -1,6 +1,4 @@
-package org.sergut.diceroller.bloodbowl;
-
-enum PillingOn { NONE, CONSERVATIVE, AGGRESIVE };
+package org.sergut.diceroller.bloodbowl.block;
 
 public class BlockFactors {
 	// Default case: two Human Linemen

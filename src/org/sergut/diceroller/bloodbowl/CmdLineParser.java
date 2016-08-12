@@ -1,5 +1,8 @@
 package org.sergut.diceroller.bloodbowl;
 
+import org.sergut.diceroller.bloodbowl.block.BlockFactors;
+import org.sergut.diceroller.bloodbowl.block.PillingOn;
+
 public class CmdLineParser {
 	public static BlockFactors getFactorsFromCmdLine(String[] args) {
 		BlockFactors result = new BlockFactors();

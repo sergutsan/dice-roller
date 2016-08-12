@@ -2,8 +2,8 @@ package org.sergut.diceroller.bloodbowl.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sergut.diceroller.bloodbowl.BlockFactors;
 import org.sergut.diceroller.bloodbowl.BloodBowlSimulator;
+import org.sergut.diceroller.bloodbowl.block.BlockFactors;
 
 public class BloodBowlSimulatorShould extends SimulatorTest {
 

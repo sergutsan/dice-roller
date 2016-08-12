@@ -1,4 +1,4 @@
-package org.sergut.diceroller.bloodbowl;
+package org.sergut.diceroller.bloodbowl.block;
 
 public enum BlockResult implements Comparable<BlockResult>{
 	/* TURNOVER aims to include:

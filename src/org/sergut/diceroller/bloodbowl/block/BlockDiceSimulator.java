@@ -1,4 +1,4 @@
-package org.sergut.diceroller.bloodbowl;
+package org.sergut.diceroller.bloodbowl.block;
 
 import java.util.ArrayList;
 import java.util.List;

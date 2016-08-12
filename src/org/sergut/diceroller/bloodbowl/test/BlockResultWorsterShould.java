@@ -1,14 +1,14 @@
 package org.sergut.diceroller.bloodbowl.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.sergut.diceroller.bloodbowl.BlockResult.KNOCK_DOWN;
-import static org.sergut.diceroller.bloodbowl.BlockResult.NOBODY_DOWN;
-import static org.sergut.diceroller.bloodbowl.BlockResult.TURNOVER;
+import static org.sergut.diceroller.bloodbowl.block.BlockResult.KNOCK_DOWN;
+import static org.sergut.diceroller.bloodbowl.block.BlockResult.NOBODY_DOWN;
+import static org.sergut.diceroller.bloodbowl.block.BlockResult.TURNOVER;
 
 import org.junit.Test;
-import org.sergut.diceroller.bloodbowl.BlockResult;
-import org.sergut.diceroller.bloodbowl.BlockResultChooser;
-import org.sergut.diceroller.bloodbowl.BlockResultWorster;
+import org.sergut.diceroller.bloodbowl.block.BlockResult;
+import org.sergut.diceroller.bloodbowl.block.BlockResultChooser;
+import org.sergut.diceroller.bloodbowl.block.BlockResultWorster;
 
 
 public class BlockResultWorsterShould {
