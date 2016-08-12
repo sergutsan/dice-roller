@@ -19,6 +19,9 @@ public abstract class CasualtySimulator {
 	}
 	
 	protected int oppositeOf(int ratio) {
+		if (ratio > 1000 || ratio < 0) 
+			throw new IllegalArgumentException("Ratio must be in [0-100] but received: " + ratio);
+
 		return 1000 - ratio;
 	}
 	
