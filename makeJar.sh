@@ -1,2 +1,3 @@
 #!/bin/sh
-jar mcfv manifest-headers diceroller.jar -C bin .
+mvn clean install
+jar mcfv manifest-headers diceroller.jar -C target/classes/ .
